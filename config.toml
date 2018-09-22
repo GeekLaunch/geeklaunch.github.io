@@ -1,0 +1,5 @@
+baseURL = "https://geeklaunch.net"
+languageCode = "en-us"
+title = "GeekLaunch"
+disableKinds = ["taxonomy", "taxonomyTerm"]
+theme = "geeklaunch"
