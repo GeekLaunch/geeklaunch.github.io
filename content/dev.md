@@ -1,34 +1,30 @@
 ---
-title: "Web Development Services - GeekLaunch"
+title: "Web & Software Development"
 date: 2018-09-22T14:38:50-05:00
 draft: false
 ---
 
 <header>
-    <h1>Web Development</h1>
-    <p>Need a website? Get a quote today!</p>
+    <h1>Web & Software Development</h1>
 </header>
 <section>
     <h2>Web development?</h2>
     <p>I have experience with a number of web development technologies and beyond, including:</p>
     <ul>
-        <li>Frontend</li>
+        <li>Front-end</li>
         <ul>
-            <li>HTML</li>
-            <li>CSS</li>
+            <li>HTML/CSS/JavaScript</li>
             <li>Sass/SCSS</li>
-            <li>JavaScript</li>
+            <li>TypeScript</li>
             <li>Angular</li>
             <li>React</li>
-            <li>TypeScript</li>
         </ul>
         <li>Server-side</li>
         <ul>
             <li>PHP</li>
             <li>Microsoft SQL</li>
             <li>MySQL</li>
-            <li>MariaDB</li>
-            <li>Apache</li>
+            <li>Node.js</li>
         </ul>
         <li>Applications/misc programming</li>
         <ul>
@@ -37,6 +33,7 @@ draft: false
             <li>Python 3</li>
             <li>Rust</li>
             <li>Solidity (Ethereum blockchain)</li>
+            <li>Assembly</li>
         </ul>
         <li>Other technologies</li>
         <ul>
@@ -44,7 +41,6 @@ draft: false
             <li>LaTeX</li>
             <li>Hugo</li>
             <li>Git</li>
-            <li>Subversion</li>
             <li>JIRA</li>
         </ul>
     </ul>
@@ -53,5 +49,5 @@ draft: false
 </section>
 <section>
     <h2>What next?</h2>
-    <p><button class="protect" title="Business inquiries only!" data-mask="Contact me"></button> and we&#39;ll come up with a game plan fit to your web technology needs!</p>
+    <p><button class="protect" title="Business inquiries only!" data-mask="Contact me"></button> and we'll come up with a game plan fit to your technology needs!</p>
 </section>
