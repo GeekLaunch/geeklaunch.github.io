@@ -1,3 +1,3 @@
 [submodule "themes/geeklaunch"]
 	path = themes/geeklaunch
-	url = git@github.com:encody/geeklaunch-hugo-theme.git
+	url = https://github.com/encody/geeklaunch-hugo-theme.git

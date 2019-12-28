@@ -8,10 +8,9 @@ draft: false
     <h1>Web & Software Development</h1>
 </header>
 <section>
-    <h2>Web development?</h2>
-    <p>I have experience with a number of web development technologies and beyond, including:</p>
-    <ul>
-        <li>Front-end</li>
+    <p>I'm experienced with many technologies and programming languages, including:</p>
+    <details>
+        <summary>Front-end</summary>
         <ul>
             <li>HTML/CSS/JavaScript</li>
             <li>Sass/SCSS</li>
@@ -19,23 +18,31 @@ draft: false
             <li>Angular</li>
             <li>React</li>
         </ul>
-        <li>Server-side</li>
+    </details>
+    <details>
+        <summary>Server-side</summary>
         <ul>
             <li>PHP</li>
             <li>Microsoft SQL</li>
             <li>MySQL</li>
             <li>Node.js</li>
         </ul>
-        <li>Applications/misc programming</li>
+    </details>
+    <details>
+        <summary>Applications/misc programming</summary>
         <ul>
             <li>C</li>
+            <li>C++</li>
+            <li>C#</li>
             <li>Java</li>
             <li>Python 3</li>
             <li>Rust</li>
             <li>Solidity (Ethereum blockchain)</li>
             <li>Assembly</li>
         </ul>
-        <li>Other technologies</li>
+    </details>
+    <details>
+        <summary>Other technologies</summary>
         <ul>
             <li>Linux</li>
             <li>LaTeX</li>
@@ -43,11 +50,11 @@ draft: false
             <li>Git</li>
             <li>JIRA</li>
         </ul>
-    </ul>
-    <p>I use Hugo to maintain this website, for which I wrote the theme and layouts by hand, from scratch.</p>
-    <p>You can see some of my work on <a href="https://github.com/encody">GitHub</a>.</p>
+    </details>
+    <p>I use <a href="https://gohugo.io/">Hugo</a> to maintain this website.</p>
+    <p>Some of my work is on <a href="https://github.com/encody">GitHub</a>.</p>
 </section>
 <section>
     <h2>What next?</h2>
-    <p><button class="protect" title="Business inquiries only!" data-mask="Contact me"></button> and we'll come up with a game plan fit to your technology needs!</p>
+    <p><button class="protect" title="Business inquiries only!" data-mask="Contact me"></button> and we'll talk!</p>
 </section>
