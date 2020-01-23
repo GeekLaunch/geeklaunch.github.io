@@ -3,3 +3,10 @@ languageCode = "en-us"
 title = "GeekLaunch"
 disableKinds = ["taxonomy", "taxonomyTerm"]
 theme = "geeklaunch"
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[markup]
+  [markup.highlight]
+    noClasses = false
