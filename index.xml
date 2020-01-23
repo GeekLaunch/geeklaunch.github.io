@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web &amp; Software Development Tutorials on GeekLaunch</title>
+    <link>https://geeklaunch.net/</link>
+    <description>Recent content in Web &amp; Software Development Tutorials on GeekLaunch</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 22 Jan 2020 23:03:42 -0600</lastBuildDate>
+    
+	<atom:link href="https://geeklaunch.net/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>What does my RSA public key actually mean?</title>
+      <link>https://geeklaunch.net/blog/what-does-my-rsa-public-key-actually-mean/</link>
+      <pubDate>Wed, 22 Jan 2020 23:03:42 -0600</pubDate>
+      
+      <guid>https://geeklaunch.net/blog/what-does-my-rsa-public-key-actually-mean/</guid>
+      <description>-----BEGIN PUBLIC KEY-----MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco721Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ+zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWbYdg14nl+ZQLC0H6n+v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICwUUKTuKWBu/WJo/NjKWDGQQL4A2RfZW6u3DLc/BHlQzHgL9Ac3hM6n/aN1IcR0UpR4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6ClrEYA/DsuKMmbf2/hX//fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5KoEqCpW/LXT/Yrh/INKY9yQ7vruE/q417mJfbqfOmRitsgX4xm6IzWOb+D862Vr8yGt931gYvRBSyh2rjLJ/EkmQHMDQN/YbtnG7MlG6jpXehWkO+3XBDiDhfVqIO3fbXk2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij+IvUrmZQbDlS/p3WTGRt6yCtdLlbGPC6YZD+WLk58/9a/EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXniTbKw8sfeyccOKQgWbMAo8ECAwEAAQ==-----END PUBLIC KEY-----That’s an RSA public key that I just generated using the commands:
+$ openssl genrsa -out priv.pem 4096Generating RSA private key, 4096 bit long modulus (2 primes)..........................................................................................................................................................................................................................................................................++++................................................++++e is 65537 (0x010001)$ openssl rsa -in ./priv.pem -pubout -out pub.pemwriting RSA key$ cat pub.pemBut, what the heck is this?</description>
+    </item>
+    
+    <item>
+      <title>Web &amp; Software Development</title>
+      <link>https://geeklaunch.net/dev/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://geeklaunch.net/dev/</guid>
+      <description>I&#39;m experienced with many technologies and programming languages, including:
+Front-endHTML/CSS/JavaScriptSass/SCSSTypeScriptAngularReactServer-sidePHPMicrosoft SQLMySQLNode.jsApplications/misc programmingCC++C#JavaPython 3RustSolidity (Ethereum blockchain)AssemblyOther technologiesLinuxLaTeXHugoGitJIRAI use Hugo to maintain this website.
+Some of my work is on GitHub.</description>
+    </item>
+    
+  </channel>
+</rss>
