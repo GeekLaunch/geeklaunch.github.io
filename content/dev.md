@@ -55,8 +55,8 @@ title: "Web & Software Development"
   <p>
     <button class="protect" title="Business inquiries only!" data-mask="Contact me"></button> and we'll talk!</p>
   <p>
-    <a href="https://www.codementor.io/freelance-developers/javascript?utm_source=certified_badge&amp;referral=encody-779299ruir" rel="nofollow noreferrer">
-      <img src="https://assets.codementor.io/cmx-dev-badge.svg" alt="">
+    <a href="https://www.codementor.io/@encody?refer=badge">
+      <img src="https://www.codementor.io/m-badges/encody/find-me-on-cm-g.svg" alt="Codementor badge">
     </a>
   </p>
 </section>
