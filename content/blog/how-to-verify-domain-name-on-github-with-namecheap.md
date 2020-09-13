@@ -2,7 +2,7 @@
 title: "How to Verify a Domain Name on GitHub with Namecheap"
 date: 2020-01-27T17:10:36-06:00
 description: "Let's take a closer look at DNS records and verify a domain on GitHub"
-figure: "verified-github-domain.png"
+figure: "./verified-github-domain.png"
 figcaption: "The domain geeklaunch.net verified on GitHub"
 ---
 
@@ -12,8 +12,8 @@ If you're new to domain name wrangling and DNS might as well stand for [Desoxyri
 
 Make sure you have these things before we get started:
 
-* An organization on GitHub
-* A domain name you'd like to associate with that organization
+- An organization on GitHub
+- A domain name you'd like to associate with that organization
 
 You must have access to the DNS records for the domain name. In this post, we'll be going through the steps with the domain registrar [Namecheap](https://www.namecheap.com/).
 
@@ -41,15 +41,15 @@ Log in to your domain name registrar and find the domain that you want to verify
 
 ![Adding a new DNS record in Namecheap](./04-namecheap-add-new-dns-record.png)
 
-GitHub gave us two pieces of information that we need to add to our DNS configuration. One is the name (or host) for the TXT record. It looks something like this: <code>_github-challenge-*&lt;organization>*.*&lt;domain>*.*&lt;tld>*.</code>. The second part is a code for us to put in the value field of the TXT record.
+GitHub gave us two pieces of information that we need to add to our DNS configuration. One is the name (or host) for the TXT record. It looks something like this: <code>\_github-challenge-_&lt;organization>_._&lt;domain>_._&lt;tld>_.</code>. The second part is a code for us to put in the value field of the TXT record.
 
-Notice that the name for the TXT record *already contains* our domain name at the end (and followed by another `.` to make it a [fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name)), so we don't need to paste the whole thing into the host field. Instead, just use the <code>_github-challenge-*&lt;organization>*.</code> part.
+Notice that the name for the TXT record _already contains_ our domain name at the end (and followed by another `.` to make it a [fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name)), so we don't need to paste the whole thing into the host field. Instead, just use the <code>\_github-challenge-_&lt;organization>_.</code> part.
 
 ![The new TXT records entered into the Namecheap administration console](./05-namecheap-txt-record-save.png)
 
 This change can take some time to propagate, but often you will see the records update in a matter of minutes, depending on which DNS servers you're using.
 
-If you're using a Linux operating system or if you have WSL installed on Windows, you can check the status of the DNS records using this command: <code>dig _github-challenge-*&lt;organization>*.*&lt;domain>*.*&lt;tld>* TXT</code>. This will grab all of the TXT records for that host.
+If you're using a Linux operating system or if you have WSL installed on Windows, you can check the status of the DNS records using this command: <code>dig \_github-challenge-_&lt;organization>_._&lt;domain>_._&lt;tld>_ TXT</code>. This will grab all of the TXT records for that host.
 
 ![Running the dig command](./06-dig-dns-txt-record.png)
 

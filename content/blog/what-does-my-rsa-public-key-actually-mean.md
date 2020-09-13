@@ -2,7 +2,7 @@
 title: "What does my RSA public key actually mean?"
 date: 2020-01-22T23:03:42-06:00
 description: "An overview of the PKCS8 public key format"
-figure: "rsa-private-key-generation.png"
+figure: "./rsa-private-key-generation.png"
 figcaption: "Generation of an RSA private key"
 ---
 
@@ -38,7 +38,7 @@ $ cat pub.pem
 
 But, what the heck is this?
 
-It’s the public key part of an [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) key pair, which is an [asymmetric encryption algorithm](https://www.cloudflare.com/learning/ssl/what-is-asymmetric-encryption/).
+It’s the public key part of an [RSA](<https://en.wikipedia.org/wiki/RSA_(cryptosystem)>) key pair, which is an [asymmetric encryption algorithm](https://www.cloudflare.com/learning/ssl/what-is-asymmetric-encryption/).
 
 If you’ve been working with computers for a while, you may recognize the stuff between `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----` as being [base-64 encoded](https://en.wikipedia.org/wiki/Base64). Simply put, it’s binary data that’s been encoded into easily printable ASCII characters.
 
@@ -99,7 +99,7 @@ f0 10 75 73 65 72 40 65  78 61 6d 70 6c 65 2e 63  |..user@example.c|
 6f 6d f1 0b 6d 79 5f 75  73 65 72 6e 61 6d 65     |om..my_username|
 ```
 
-The idea is that the first byte (or bytes, depending on the format) represent a **tag**. In the basic example above, the byte `f0` means email, and the byte `f1` means username. The next byte(s) indicates the **length** of the information. So, `f0 10` means that we’re expecting a 16 byte long email next. So, we read the next 16 bytes `75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d` and that should be an email **value**. If we decode those bytes as ASCII, what do we get? `user@example.com`. *Voilà!* Now rinse and repeat for the next bytes: a `f1` username… that is `0b 10` bytes long… `6d 79 5f 75 73 65 72 6e 61 6d 65`&mdash;`my_username`!
+The idea is that the first byte (or bytes, depending on the format) represent a **tag**. In the basic example above, the byte `f0` means email, and the byte `f1` means username. The next byte(s) indicates the **length** of the information. So, `f0 10` means that we’re expecting a 16 byte long email next. So, we read the next 16 bytes `75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d` and that should be an email **value**. If we decode those bytes as ASCII, what do we get? `user@example.com`. _Voilà!_ Now rinse and repeat for the next bytes: a `f1` username… that is `0b 10` bytes long… `6d 79 5f 75 73 65 72 6e 61 6d 65`&mdash;`my_username`!
 
 ASN.1 (Abstract Syntax Notation One) is a notation for describing data structures. It can represent integers, strings, sequences, booleans, etc. [There are lots of different ASN.1 encoding rules](https://en.wikipedia.org/wiki/Abstract_Syntax_Notation_One#Encodings), but we’re interested in the ones for binary, specifically, the [Distinguished Encoding Rules (DER)](https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-der-encoding-of-asn-1-types).
 
@@ -140,7 +140,7 @@ Thus, we can determine that the algorithm identifier in the public key that we�
 
 The next value in our public key is `NULL`, which means that the algorithm requires no parameters.
 
-Now we can move into the actual contents of the public key, that `BIT STRING` field. It contains an ASN.1 sequence which contains two integer values: a modulus and an exponent. *These two fields make up the public key.*
+Now we can move into the actual contents of the public key, that `BIT STRING` field. It contains an ASN.1 sequence which contains two integer values: a modulus and an exponent. _These two fields make up the public key._
 
 A note before I finish this up: before this particular format (which is called PKCS8) was used, PKCS1 was (and still is) common. The PKCS1 format is simply the contents of the `BIT STRING` from the PKCS8 format&mdash;the sequence containing the modulus and the exponent. See [RFC 8017](https://tools.ietf.org/html/rfc8017#appendix-A.1.1), which contains the definition:
 
@@ -156,7 +156,7 @@ That’s all I have for now. I hope you learned something from reading this post
 
 On top of all the different sites I linked in this post, I’d like to credit the following sources I used while doing research for this post:
 
-* [Carmichael Function: A Complete Guide — Number theory](https://medium.com/curiositypapers/carmichael-function-a-complete-guide-number-theory-7fa675e9e7ed)
-* [What are x509 certificates? RFC? ASN.1? DER?](https://cryptologie.net/article/262/what-are-x509-certificates-rfc-asn1-der/)
-* [How to store/retrieve RSA public/private key](https://stackoverflow.com/questions/1193529/how-to-store-retrieve-rsa-public-private-key/13104466#13104466)
-* [node-rsa/src/formats/pkcs8.js](https://github.com/rzcoder/node-rsa/blob/master/src/formats/pkcs8.js)
+- [Carmichael Function: A Complete Guide — Number theory](https://medium.com/curiositypapers/carmichael-function-a-complete-guide-number-theory-7fa675e9e7ed)
+- [What are x509 certificates? RFC? ASN.1? DER?](https://cryptologie.net/article/262/what-are-x509-certificates-rfc-asn1-der/)
+- [How to store/retrieve RSA public/private key](https://stackoverflow.com/questions/1193529/how-to-store-retrieve-rsa-public-private-key/13104466#13104466)
+- [node-rsa/src/formats/pkcs8.js](https://github.com/rzcoder/node-rsa/blob/master/src/formats/pkcs8.js)
