@@ -10,8 +10,8 @@
         <meta name="title" content="What does my RSA public key actually mean? - GeekLaunch">
         <meta name="twitter:card" content="summary_large_image">
         
-        <meta name="twitter:image" content="rsa-private-key-generation.png">
-        <meta property="og:image" content="rsa-private-key-generation.png">
+        <meta name="twitter:image" content="./rsa-private-key-generation.png">
+        <meta property="og:image" content="./rsa-private-key-generation.png">
         
         <meta name="twitter:label1" value="Reading time">
         <meta name="twitter:data1" value="8 min read">
@@ -37,21 +37,24 @@
 
 
 <header>
-    <h1>What does my RSA public key actually mean?</h1>
-    
-    <p>An overview of the PKCS8 public key format</p>
-    
+  <h1>What does my RSA public key actually mean?</h1>
+  
+  <p>An overview of the PKCS8 public key format</p>
+  
 </header>
 <article>
+  
+  <figure>
     
-    <figure>
-        
-        <img role="presentation" src="rsa-private-key-generation.png" alt="Generation of an RSA private key">
-        <figcaption>Generation of an RSA private key</figcaption>
-        
-    </figure>
+    <img
+      role="presentation"
+      src="./rsa-private-key-generation.png"
+      alt="Generation of an RSA private key"
+    />
+    <figcaption>Generation of an RSA private key</figcaption>
     
-    <div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">-----BEGIN PUBLIC KEY-----
+  </figure>
+   <div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH
 79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72
 1Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ+zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWb
@@ -161,12 +164,8 @@ c1 02 03 01 00 01                                 |......|
 
 </article>
 
-<p class="posted-date">
-    Posted 2020-01-22
-</p>
-
-
-        </main>
+<p class="posted-date">Posted 2020-01-22</p>
+         </main>
         <footer>
             <button id="theme-btn">theme</button>
         </footer>
