@@ -7,7 +7,40 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Copyright 2022 Jacob Lindahl</copyright>
-    <lastBuildDate>Sun, 13 Sep 2020 14:14:24 -0500</lastBuildDate><atom:link href="https://geeklaunch.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://geeklaunch.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to speed up your code 224,444,739% using graphs</title>
+      <link>https://geeklaunch.net/blog/how-to-speed-up-your-code-using-graphs/</link>
+      <pubDate>Sat, 06 Aug 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://geeklaunch.net/blog/how-to-speed-up-your-code-using-graphs/</guid>
+      <description>(This article got a shout-out in Matt Parker&amp;rsquo;s follow-up video. Did you know I also make YouTube videos?)
+Matt Parker of Stand Up Maths recently uploaded a video entitled &amp;ldquo;Can you find: five five-letter words with twenty-five unique letters?,&amp;rdquo; which I highly recommend you watch to understand the point of this post, the problem we&amp;rsquo;re trying to solve, and the algorithm we&amp;rsquo;ll be optimizing.
+In the video, he mentions that the Python code he wrote to solve the &amp;ldquo;five five-letter words with twenty-five unique letters&amp;rdquo; problem (or the &amp;ldquo;5-5-25&amp;rdquo; problem, for short) took 2,760,670.</description>
+    </item>
+    
+    <item>
+      <title>The State of Web3 in 2022</title>
+      <link>https://geeklaunch.net/blog/the-state-of-web3-in-2022/</link>
+      <pubDate>Wed, 22 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://geeklaunch.net/blog/the-state-of-web3-in-2022/</guid>
+      <description>There are a lot of issues that web3 needs to address, and fast.
+I recently attended CoinDesk Consensus 2022, and I talked to a lot of people there. The goal of this document is to answer the most common questions and address the most common themes that arose from these conversations.
+Innovation transcends regulation The crypto ecosystem flails around a lot, and even as someone who works within the industry, sometimes it&amp;rsquo;s difficult to see where it&amp;rsquo;s going as a whole: the web3 world quickly transitioned from its L1 launch and ICO heyday, to the NFT craze, to the liquidity farming frenzy.</description>
+    </item>
+    
+    <item>
+      <title>Storage Locations in Ethereum vs. NEAR</title>
+      <link>https://geeklaunch.net/blog/storage-locations-in-ethereum-vs-near/</link>
+      <pubDate>Tue, 21 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://geeklaunch.net/blog/storage-locations-in-ethereum-vs-near/</guid>
+      <description>The keywords memory, storage, calldata are a big pain point for new Solidity developers—just look at the sheer number of questions that have been asked and articles that have been written 1 2 3 4 about the topic, not to mention the multiple, different, sections (and here, and here) the Solidity documentation dedicates to the topic.
+Storage locations in Solidity are no joke!
+I hope to accomplish two things in this write-up:</description>
+    </item>
+    
     <item>
       <title>Introducing the Compulang Podcast</title>
       <link>https://geeklaunch.net/blog/introducing-compulang-podcast/</link>
@@ -37,7 +70,7 @@ An organization on GitHub A domain name you&amp;rsquo;d like to associate with t
       <pubDate>Wed, 22 Jan 2020 23:03:42 -0600</pubDate>
       
       <guid>https://geeklaunch.net/blog/what-does-my-rsa-public-key-actually-mean/</guid>
-      <description>-----BEGIN PUBLIC KEY----- MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH 79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72 1Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ+zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWb Ydg14nl+ZQLC0H6n+v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICw UUKTuKWBu/WJo/NjKWDGQQL4A2RfZW6u3DLc/BHlQzHgL9Ac3hM6n/aN1IcR0UpR 4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6Cl rEYA/DsuKMmbf2/hX//fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5K oEqCpW/LXT/Yrh/INKY9yQ7vruE/q417mJfbqfOmRitsgX4xm6IzWOb+D862Vr8y Gt931gYvRBSyh2rjLJ/EkmQHMDQN/YbtnG7MlG6jpXehWkO+3XBDiDhfVqIO3fbX k2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij+IvUrmZQbDlS/p3WT GRt6yCtdLlbGPC6YZD+WLk58/9a/EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXn iTbKw8sfeyccOKQgWbMAo8ECAwEAAQ== -----END PUBLIC KEY----- That’s an RSA public key that I just generated using the commands:
+      <description>-----BEGIN PUBLIC KEY----- MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH 79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72 1Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ+zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWb Ydg14nl+ZQLC0H6n+v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICw UUKTuKWBu/WJo/NjKWDGQQL4A2RfZW6u3DLc/BHlQzHgL9Ac3hM6n/aN1IcR0UpR 4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6Cl rEYA/DsuKMmbf2/hX//fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5K oEqCpW/LXT/Yrh/INKY9yQ7vruE/q417mJfbqfOmRitsgX4xm6IzWOb+D862Vr8y Gt931gYvRBSyh2rjLJ/EkmQHMDQN/YbtnG7MlG6jpXehWkO+3XBDiDhfVqIO3fbX k2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij+IvUrmZQbDlS/p3WT GRt6yCtdLlbGPC6YZD+WLk58/9a/EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXn iTbKw8sfeyccOKQgWbMAo8ECAwEAAQ== -----END PUBLIC KEY----- That&amp;rsquo;s an RSA public key that I just generated using the commands:
 $ openssl genrsa -out priv.pem 4096 Generating RSA private key, 4096 bit long modulus (2 primes) ..........................................................................................................................................................................................................................................................................++++ ................................................++++ e is 65537 (0x010001) $ openssl rsa -in ./priv.pem -pubout -out pub.pem writing RSA key $ cat pub.pem But, what the heck is this?</description>
     </item>
     
