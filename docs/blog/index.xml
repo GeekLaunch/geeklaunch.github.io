@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on GeekLaunch</title>
+    <link>https://geeklaunch.net/blog/</link>
+    <description>Recent content in Blog on GeekLaunch</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright 2022 Jacob Lindahl</copyright>
+    <lastBuildDate>Sun, 13 Sep 2020 14:14:24 -0500</lastBuildDate><atom:link href="https://geeklaunch.net/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introducing the Compulang Podcast</title>
+      <link>https://geeklaunch.net/blog/introducing-compulang-podcast/</link>
+      <pubDate>Sun, 13 Sep 2020 14:14:24 -0500</pubDate>
+      
+      <guid>https://geeklaunch.net/blog/introducing-compulang-podcast/</guid>
+      <description>Check out the new Compulang podcast from GeekLaunch on Anchor and Spotify.
+I&amp;rsquo;ll be covering the latest, greatest, and weirdest of tech and international news. There will also be a video version uploaded to the GeekLaunch YouTube channel with extra visuals.
+I&amp;rsquo;ve been wanting to start a podcast for quite a while now, and I finally had the impetus, inspiration, and time to do it. Right now the plan is to release one episode per week, sometime over the weekend.</description>
+    </item>
+    
+    <item>
+      <title>How to Verify a Domain Name on GitHub with Namecheap</title>
+      <link>https://geeklaunch.net/blog/how-to-verify-domain-name-on-github-with-namecheap/</link>
+      <pubDate>Mon, 27 Jan 2020 17:10:36 -0600</pubDate>
+      
+      <guid>https://geeklaunch.net/blog/how-to-verify-domain-name-on-github-with-namecheap/</guid>
+      <description>Wouldn&amp;rsquo;t it be awesome to see that little &amp;ldquo;Verified&amp;rdquo; badge next to your GitHub organization&amp;rsquo;s name? (See what I&amp;rsquo;m talking about here.)
+If you&amp;rsquo;re new to domain name wrangling and DNS might as well stand for Desoxyribonukleinsäure, this is a perfect place to start.
+Make sure you have these things before we get started:
+An organization on GitHub A domain name you&amp;rsquo;d like to associate with that organization You must have access to the DNS records for the domain name.</description>
+    </item>
+    
+    <item>
+      <title>What does my RSA public key actually mean?</title>
+      <link>https://geeklaunch.net/blog/what-does-my-rsa-public-key-actually-mean/</link>
+      <pubDate>Wed, 22 Jan 2020 23:03:42 -0600</pubDate>
+      
+      <guid>https://geeklaunch.net/blog/what-does-my-rsa-public-key-actually-mean/</guid>
+      <description>-----BEGIN PUBLIC KEY----- MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH 79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72 1Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ+zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWb Ydg14nl+ZQLC0H6n+v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICw UUKTuKWBu/WJo/NjKWDGQQL4A2RfZW6u3DLc/BHlQzHgL9Ac3hM6n/aN1IcR0UpR 4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6Cl rEYA/DsuKMmbf2/hX//fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5K oEqCpW/LXT/Yrh/INKY9yQ7vruE/q417mJfbqfOmRitsgX4xm6IzWOb+D862Vr8y Gt931gYvRBSyh2rjLJ/EkmQHMDQN/YbtnG7MlG6jpXehWkO+3XBDiDhfVqIO3fbX k2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij+IvUrmZQbDlS/p3WT GRt6yCtdLlbGPC6YZD+WLk58/9a/EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXn iTbKw8sfeyccOKQgWbMAo8ECAwEAAQ== -----END PUBLIC KEY----- That’s an RSA public key that I just generated using the commands:
+$ openssl genrsa -out priv.pem 4096 Generating RSA private key, 4096 bit long modulus (2 primes) ..........................................................................................................................................................................................................................................................................++++ ................................................++++ e is 65537 (0x010001) $ openssl rsa -in ./priv.pem -pubout -out pub.pem writing RSA key $ cat pub.pem But, what the heck is this?</description>
+    </item>
+    
+  </channel>
+</rss>

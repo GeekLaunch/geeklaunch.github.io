@@ -1,13 +1,65 @@
 baseURL = "https://geeklaunch.net"
-languageCode = "en-us"
-title = "GeekLaunch"
+copyright = "© Copyright 2022 Jacob Lindahl"
 disableKinds = ["taxonomy", "taxonomyTerm"]
-theme = "geeklaunch"
-ignoreFiles = [ "\\.psd$" ]
+ignoreFiles = ["\\.psd$"]
+languageCode = "en-us"
+publishDir = "docs"
+theme = "holy"
+title = "GeekLaunch"
+
+[params]
+copyright = "© Copyright 2022 Jacob Lindahl"
 
 [markup.goldmark.renderer]
 unsafe = true
 
 [markup]
-  [markup.highlight]
-    noClasses = false
+[markup.highlight]
+noClasses = false
+
+[menu]
+
+[[menu.main]]
+identifier = "about"
+name = "About"
+url = "/about/"
+weight = 10
+
+[[menu.main]]
+identifier = "youtube"
+name = "YouTube"
+url = "https://www.youtube.com/c/GeekLaunch?sub_confirmation=1"
+weight = 20
+
+[[menu.main]]
+identifier = "contact"
+name = "Contact"
+url = "https://weareindy.com/app/shared/forms/634577ccb25f8365f4aa7f42/zw1Icw3aBtCI90eLSzQVkpZiigUEBLHeaNKmJobnx4kTaPYMixQM3gDZMCFDsSHC/"
+weight = 30
+
+[privacy]
+
+[privacy.vimeo]
+disabled = false
+simple = true
+
+[privacy.twitter]
+disabled = false
+enableDNT = true
+simple = true
+
+[privacy.instagram]
+disabled = false
+simple = true
+
+[privacy.youtube]
+disabled = false
+privacyEnhanced = true
+
+[services]
+
+[services.instagram]
+disableInlineCSS = true
+
+[services.twitter]
+disableInlineCSS = true

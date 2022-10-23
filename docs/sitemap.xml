@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://geeklaunch.net/blog/</loc>
+    <lastmod>2020-09-13T14:14:24-05:00</lastmod>
+  </url><url>
+    <loc>https://geeklaunch.net/blog/introducing-compulang-podcast/</loc>
+    <lastmod>2020-09-13T14:14:24-05:00</lastmod>
+  </url><url>
+    <loc>https://geeklaunch.net/</loc>
+    <lastmod>2020-09-13T14:14:24-05:00</lastmod>
+  </url><url>
+    <loc>https://geeklaunch.net/blog/how-to-verify-domain-name-on-github-with-namecheap/</loc>
+    <lastmod>2020-01-27T17:10:36-06:00</lastmod>
+  </url><url>
+    <loc>https://geeklaunch.net/blog/what-does-my-rsa-public-key-actually-mean/</loc>
+    <lastmod>2020-01-22T23:03:42-06:00</lastmod>
+  </url><url>
+    <loc>https://geeklaunch.net/about/</loc>
+  </url>
+</urlset>

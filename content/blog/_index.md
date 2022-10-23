@@ -1,4 +1,3 @@
 ---
-title: "Blog"
-layout: "blog-index"
+title: 'Blog'
 ---

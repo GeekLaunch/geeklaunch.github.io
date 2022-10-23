@@ -1,10 +1,8 @@
 ---
-title: "Introducing the Compulang Podcast"
+title: 'Introducing the Compulang Podcast'
 date: 2020-09-13T14:14:24-05:00
 draft: false
-description: "Grab the latest tech news sound bytes from the new podcast by GeekLaunch"
-figure: "./compulang-figure.png"
-figcaption: "I enjoy image editing. That doesn't mean I'm good at it."
+description: 'Grab the latest tech news sound bytes from the new podcast by GeekLaunch'
 ---
 
 <iframe src="https://anchor.fm/compulang/embed" height="230px" width="100%" frameborder="0" scrolling="no"></iframe>
