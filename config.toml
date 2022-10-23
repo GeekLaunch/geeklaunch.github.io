@@ -13,10 +13,6 @@ copyright = "© Copyright 2022 Jacob Lindahl"
 [markup.goldmark.renderer]
 unsafe = true
 
-[markup]
-[markup.highlight]
-noClasses = false
-
 [menu]
 
 [[menu.main]]
