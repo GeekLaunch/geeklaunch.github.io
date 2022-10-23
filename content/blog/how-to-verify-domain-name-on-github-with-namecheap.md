@@ -64,3 +64,5 @@ You should be greeted with the following success screen:
 ![Successfully verified domain on GitHub](./08-github-domain-verified.png)
 
 Congratulations! Your organization's domain is now verified on GitHub.
+
+{{% bio %}}

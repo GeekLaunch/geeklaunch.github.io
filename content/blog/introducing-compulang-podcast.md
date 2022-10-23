@@ -20,3 +20,5 @@ This will also be a fun venture for me into finally getting around to learning t
 All of this to say, I'm starting a podcast and I'd love for you to give it a listen.
 
 Cheers!
+
+{{% bio %}}

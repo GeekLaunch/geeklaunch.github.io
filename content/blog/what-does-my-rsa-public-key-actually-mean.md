@@ -1,9 +1,9 @@
 ---
-title: "What does my RSA public key actually mean?"
+title: 'What does my RSA public key actually mean?'
 date: 2020-01-22T23:03:42-06:00
-description: "An overview of the PKCS8 public key format"
-figure: "./rsa-private-key-generation.png"
-figcaption: "Generation of an RSA private key"
+description: 'An overview of the PKCS8 public key format'
+figure: './rsa-private-key-generation.png'
+figcaption: 'Generation of an RSA private key'
 ---
 
 ```text
@@ -23,7 +23,7 @@ iTbKw8sfeyccOKQgWbMAo8ECAwEAAQ==
 -----END PUBLIC KEY-----
 ```
 
-That’s an RSA public key that I just generated using the commands:
+That's an RSA public key that I just generated using the commands:
 
 ```text
 $ openssl genrsa -out priv.pem 4096
@@ -38,9 +38,9 @@ $ cat pub.pem
 
 But, what the heck is this?
 
-It’s the public key part of an [RSA](<https://en.wikipedia.org/wiki/RSA_(cryptosystem)>) key pair, which is an [asymmetric encryption algorithm](https://www.cloudflare.com/learning/ssl/what-is-asymmetric-encryption/).
+It's the public key part of an [RSA](<https://en.wikipedia.org/wiki/RSA_(cryptosystem)>) key pair, which is an [asymmetric encryption algorithm](https://www.cloudflare.com/learning/ssl/what-is-asymmetric-encryption/).
 
-If you’ve been working with computers for a while, you may recognize the stuff between `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----` as being [base-64 encoded](https://en.wikipedia.org/wiki/Base64). Simply put, it’s binary data that’s been encoded into easily printable ASCII characters.
+If you've been working with computers for a while, you may recognize the stuff between `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----` as being [base-64 encoded](https://en.wikipedia.org/wiki/Base64). Simply put, it's binary data that's been encoded into easily printable ASCII characters.
 
 We can easily decode this into its original binary form using the following command:
 
@@ -84,7 +84,7 @@ d1 8f 76 4e 21 8d d5 d9  7a c4 25 03 85 dd 95 e7  |..vN!...z.%.....|
 c1 02 03 01 00 01                                 |......|
 ```
 
-This information is base-64 encoded because it’s not human-readable in its original form. What is this form, you ask? It’s a standard TLV-style binary data structure representing ASN.1 data, to be precise.
+This information is base-64 encoded because it's not human-readable in its original form. What is this form, you ask? It's a standard TLV-style binary data structure representing ASN.1 data, to be precise.
 
 TLV (Tag-Length-Value) is a popular strategy for annotating binary data files. Imagine we want to encode some user data in a binary file. It might look something like this:
 
@@ -99,13 +99,13 @@ f0 10 75 73 65 72 40 65  78 61 6d 70 6c 65 2e 63  |..user@example.c|
 6f 6d f1 0b 6d 79 5f 75  73 65 72 6e 61 6d 65     |om..my_username|
 ```
 
-The idea is that the first byte (or bytes, depending on the format) represent a **tag**. In the basic example above, the byte `f0` means email, and the byte `f1` means username. The next byte(s) indicates the **length** of the information. So, `f0 10` means that we’re expecting a 16 byte long email next. So, we read the next 16 bytes `75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d` and that should be an email **value**. If we decode those bytes as ASCII, what do we get? `user@example.com`. _Voilà!_ Now rinse and repeat for the next bytes: a `f1` username… that is `0b 10` bytes long… `6d 79 5f 75 73 65 72 6e 61 6d 65`&mdash;`my_username`!
+The idea is that the first byte (or bytes, depending on the format) represent a **tag**. In the basic example above, the byte `f0` means email, and the byte `f1` means username. The next byte(s) indicates the **length** of the information. So, `f0 10` means that we're expecting a 16 byte long email next. So, we read the next 16 bytes `75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d` and that should be an email **value**. If we decode those bytes as ASCII, what do we get? `user@example.com`. _Voilà!_ Now rinse and repeat for the next bytes: a `f1` username… that is `0b 10` bytes long… `6d 79 5f 75 73 65 72 6e 61 6d 65`&mdash;`my_username`!
 
-ASN.1 (Abstract Syntax Notation One) is a notation for describing data structures. It can represent integers, strings, sequences, booleans, etc. [There are lots of different ASN.1 encoding rules](https://en.wikipedia.org/wiki/Abstract_Syntax_Notation_One#Encodings), but we’re interested in the ones for binary, specifically, the [Distinguished Encoding Rules (DER)](https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-der-encoding-of-asn-1-types).
+ASN.1 (Abstract Syntax Notation One) is a notation for describing data structures. It can represent integers, strings, sequences, booleans, etc. [There are lots of different ASN.1 encoding rules](https://en.wikipedia.org/wiki/Abstract_Syntax_Notation_One#Encodings), but we're interested in the ones for binary, specifically, the [Distinguished Encoding Rules (DER)](https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-der-encoding-of-asn-1-types).
 
 In ASN.1 DER, `30` (the first byte in our public key hexdump) is the tag for a sequence. The next byte, `82`, actually says that the length of this field is specified in the following two bytes (ASN.1 DER specifies rules to allow for field lengths to be longer than those that would only fit in one byte). Thus, the length of our sequence is actually `02 22`, or 546 bytes. You can look up many of the tags for ASN.1 DER at [this link](https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-der-encoding-of-asn-1-types).
 
-If we know that this public key is ASN.1 data, let’s not do all the work ourselves and just stick it into a [handy-dandy online parser](https://lapo.it/asn1js/#MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco721Wu_fXlCoZzI61Zz_Q7JPJdIzeaQ-zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWbYdg14nl-ZQLC0H6n-v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICwUUKTuKWBu_WJo_NjKWDGQQL4A2RfZW6u3DLc_BHlQzHgL9Ac3hM6n_aN1IcR0UpR4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6ClrEYA_DsuKMmbf2_hX__fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5KoEqCpW_LXT_Yrh_INKY9yQ7vruE_q417mJfbqfOmRitsgX4xm6IzWOb-D862Vr8yGt931gYvRBSyh2rjLJ_EkmQHMDQN_YbtnG7MlG6jpXehWkO-3XBDiDhfVqIO3fbXk2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij-IvUrmZQbDlS_p3WTGRt6yCtdLlbGPC6YZD-WLk58_9a_EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXniTbKw8sfeyccOKQgWbMAo8ECAwEAAQ). **Don’t do this with sensitive data!!**
+If we know that this public key is ASN.1 data, let's not do all the work ourselves and just stick it into a [handy-dandy online parser](https://lapo.it/asn1js/#MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco721Wu_fXlCoZzI61Zz_Q7JPJdIzeaQ-zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWbYdg14nl-ZQLC0H6n-v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICwUUKTuKWBu_WJo_NjKWDGQQL4A2RfZW6u3DLc_BHlQzHgL9Ac3hM6n_aN1IcR0UpR4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6ClrEYA_DsuKMmbf2_hX__fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5KoEqCpW_LXT_Yrh_INKY9yQ7vruE_q417mJfbqfOmRitsgX4xm6IzWOb-D862Vr8yGt931gYvRBSyh2rjLJ_EkmQHMDQN_YbtnG7MlG6jpXehWkO-3XBDiDhfVqIO3fbXk2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij-IvUrmZQbDlS_p3WTGRt6yCtdLlbGPC6YZD-WLk58_9a_EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXniTbKw8sfeyccOKQgWbMAo8ECAwEAAQ). **Don't do this with sensitive data!!**
 
 This parser tells us our data looks something like this:
 
@@ -120,7 +120,7 @@ SEQUENCE (2 elem)
       INTEGER 65537
 ```
 
-To understand what’s actually going on here, we need to look at [RFC 5280](https://tools.ietf.org/html/rfc5280#page-117), which defines the syntax for X.509 v3 certificates in ASN.1 DER notation:
+To understand what's actually going on here, we need to look at [RFC 5280](https://tools.ietf.org/html/rfc5280#page-117), which defines the syntax for X.509 v3 certificates in ASN.1 DER notation:
 
 ```text
 SubjectPublicKeyInfo  ::=  SEQUENCE  {
@@ -128,7 +128,7 @@ SubjectPublicKeyInfo  ::=  SEQUENCE  {
      subjectPublicKey     BIT STRING  }
 ```
 
-This tells us the first bit of information that we need to parse what’s going on here. We have two fields: an algorithm, and a public key. The type of the algorithm field `AlgorithmIdentifier` is defined in the same RFC, later on:
+This tells us the first bit of information that we need to parse what's going on here. We have two fields: an algorithm, and a public key. The type of the algorithm field `AlgorithmIdentifier` is defined in the same RFC, later on:
 
 ```text
 AlgorithmIdentifier  ::=  SEQUENCE  {
@@ -136,7 +136,7 @@ AlgorithmIdentifier  ::=  SEQUENCE  {
      parameters              ANY DEFINED BY algorithm OPTIONAL  }
 ```
 
-Thus, we can determine that the algorithm identifier in the public key that we’ve been using is `1.2.840.113549.1.1.1`, which happens to be the well-known object identifier (OID) for RSA.
+Thus, we can determine that the algorithm identifier in the public key that we've been using is `1.2.840.113549.1.1.1`, which happens to be the well-known object identifier (OID) for RSA.
 
 The next value in our public key is `NULL`, which means that the algorithm requires no parameters.
 
@@ -150,13 +150,15 @@ RSAPublicKey ::= SEQUENCE  {
      publicExponent    INTEGER   -- e  }
 ```
 
-That’s all I have for now. I hope you learned something from reading this post; I certainly enjoyed writing it!
+That's all I have for now. I hope you learned something from reading this post; I certainly enjoyed writing it!
 
 ---
 
-On top of all the different sites I linked in this post, I’d like to credit the following sources I used while doing research for this post:
+On top of all the different sites I linked in this post, I'd like to credit the following sources I used while doing research for this post:
 
 - [Carmichael Function: A Complete Guide — Number theory](https://medium.com/curiositypapers/carmichael-function-a-complete-guide-number-theory-7fa675e9e7ed)
 - [What are x509 certificates? RFC? ASN.1? DER?](https://cryptologie.net/article/262/what-are-x509-certificates-rfc-asn1-der/)
 - [How to store/retrieve RSA public/private key](https://stackoverflow.com/questions/1193529/how-to-store-retrieve-rsa-public-private-key/13104466#13104466)
 - [node-rsa/src/formats/pkcs8.js](https://github.com/rzcoder/node-rsa/blob/master/src/formats/pkcs8.js)
+
+{{% bio %}}
