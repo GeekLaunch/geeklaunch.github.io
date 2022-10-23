@@ -53,7 +53,7 @@ Let's be the exception.
 
 ### We don't need another smart contract DSL
 
-This is pretty simple: every single L1 doesn't need its own custom programming language. It is not reasonable for a dapp platform to maintain an entire language (including its ecosystem: IDE support, documentation, build tools, community, security…) on top of an entire Internet protocol (which requires an entire ecosystem of its own).
+This is pretty simple: every single L1 doesn't need its own custom programming language. It is not reasonable for a dapp platform to maintain an entire language (including its ecosystem: IDE support, documentation, build tools, community, security&hellip;) on top of an entire Internet protocol (which requires an entire ecosystem of its own).
 
 I am a graduate student studying programming languages, and after examining the language design of a few different smart contract DSLs, I can say with a reasonable degree of confidence that language design is best left to the language designers.
 

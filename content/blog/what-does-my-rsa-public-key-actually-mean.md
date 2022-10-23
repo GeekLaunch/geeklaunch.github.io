@@ -99,7 +99,7 @@ f0 10 75 73 65 72 40 65  78 61 6d 70 6c 65 2e 63  |..user@example.c|
 6f 6d f1 0b 6d 79 5f 75  73 65 72 6e 61 6d 65     |om..my_username|
 ```
 
-The idea is that the first byte (or bytes, depending on the format) represent a **tag**. In the basic example above, the byte `f0` means email, and the byte `f1` means username. The next byte(s) indicates the **length** of the information. So, `f0 10` means that we're expecting a 16 byte long email next. So, we read the next 16 bytes `75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d` and that should be an email **value**. If we decode those bytes as ASCII, what do we get? `user@example.com`. _Voilà!_ Now rinse and repeat for the next bytes: a `f1` username… that is `0b 10` bytes long… `6d 79 5f 75 73 65 72 6e 61 6d 65`&mdash;`my_username`!
+The idea is that the first byte (or bytes, depending on the format) represent a **tag**. In the basic example above, the byte `f0` means email, and the byte `f1` means username. The next byte(s) indicates the **length** of the information. So, `f0 10` means that we're expecting a 16 byte long email next. So, we read the next 16 bytes `75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d` and that should be an email **value**. If we decode those bytes as ASCII, what do we get? `user@example.com`. _Voilà!_ Now rinse and repeat for the next bytes: a `f1` username&hellip; that is `0b 10` bytes long&hellip; `6d 79 5f 75 73 65 72 6e 61 6d 65`&mdash;`my_username`!
 
 ASN.1 (Abstract Syntax Notation One) is a notation for describing data structures. It can represent integers, strings, sequences, booleans, etc. [There are lots of different ASN.1 encoding rules](https://en.wikipedia.org/wiki/Abstract_Syntax_Notation_One#Encodings), but we're interested in the ones for binary, specifically, the [Distinguished Encoding Rules (DER)](https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-der-encoding-of-asn-1-types).
 
@@ -156,7 +156,7 @@ That's all I have for now. I hope you learned something from reading this post; 
 
 On top of all the different sites I linked in this post, I'd like to credit the following sources I used while doing research for this post:
 
-- [Carmichael Function: A Complete Guide — Number theory](https://medium.com/curiositypapers/carmichael-function-a-complete-guide-number-theory-7fa675e9e7ed)
+- [Carmichael Function: A Complete Guide&mdash;Number theory](https://medium.com/curiositypapers/carmichael-function-a-complete-guide-number-theory-7fa675e9e7ed)
 - [What are x509 certificates? RFC? ASN.1? DER?](https://cryptologie.net/article/262/what-are-x509-certificates-rfc-asn1-der/)
 - [How to store/retrieve RSA public/private key](https://stackoverflow.com/questions/1193529/how-to-store-retrieve-rsa-public-private-key/13104466#13104466)
 - [node-rsa/src/formats/pkcs8.js](https://github.com/rzcoder/node-rsa/blob/master/src/formats/pkcs8.js)

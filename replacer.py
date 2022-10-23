@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-import fileinput
+import sys
 import re
 
 
 def rep(s: str):
-  s = line
   s = re.sub(r' — ', "&mdash;", s)
   s = re.sub(r'—', "&mdash;", s)
   s = re.sub(r'–', "-", s)
@@ -15,5 +14,4 @@ def rep(s: str):
   return s
 
 
-for line in fileinput.input():
-  print(rep(line))
+print(rep(sys.stdin.read()))
