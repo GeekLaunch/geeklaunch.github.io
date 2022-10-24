@@ -79,7 +79,7 @@ In a vacuum, this algorithm would still be O(n<sup>5</sup>), but due to the natu
 
 The algorithm is complete and correct at this point, but we can still speed it up with some shortcuts.
 
-Let's add [an field to each node in our graph](https://github.com/encody/jotto-problem/blob/master/src/main.rs#L122) that tells us the length of the longest possible path after this node. If our search needs 3 more words and it encounters a node that says its longest path only contains 1 more node, our search can skip that node early.
+Let's add [a field to each node in our graph](https://github.com/encody/jotto-problem/blob/master/src/main.rs#L122) that tells us the length of the longest possible path after this node. If our search needs 3 more words and it encounters a node that says its longest path only contains 1 more node, our search can skip that node early.
 
 We can also maintain [a set of word combinations](https://github.com/encody/jotto-problem/blob/master/src/main.rs#L20-L34) that we have already tried and failed to use in a solution.
 
@@ -111,11 +111,11 @@ Not bad for a laptop!
 
 Try it for yourself:
 
-- Install [Rust](https://www.rust-lang.org/tools/install)
-- Download the [English word list](https://github.com/dwyl/english-words)
-- Download the [source code](https://github.com/encody/jotto-problem)
-- Update [the `PATH` variable in main.rs](https://github.com/encody/jotto-problem/blob/master/src/main.rs#L4) to the location where you saved the word list
-- Run `./build-and-run.sh` in your terminal
+- Install [Rust](https://www.rust-lang.org/tools/install).
+- Download the [English word list](https://github.com/dwyl/english-words).
+- Download the [source code](https://github.com/encody/jotto-problem).
+- Update [the `PATH` variable in main.rs](https://github.com/encody/jotto-problem/blob/master/src/main.rs#L4) to the location where you saved the word list.
+- Run `./build-and-run.sh` in your terminal.
 
 ## References
 

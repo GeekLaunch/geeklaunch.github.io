@@ -15,33 +15,23 @@ I&rsquo;ve been wanting to start a podcast for quite a while now, and I finally 
     
 
     <link href="https://unpkg.com/@master/normal.css" rel="stylesheet">
-    <script src="https://unpkg.com/@master/style@1.5.0"></script>
-    <script src="https://unpkg.com/@master/styles@1.13.0"></script>
-    <script src="https://unpkg.com/master-styles-group"></script>
+    <script src="https://unpkg.com/@master/css"></script>
     <script src="https://unpkg.com/themes.js"></script>
-    <script>window.themes = window.themes || new window.Themes()</script>
+    <script>new window.Themes()</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-DMBPKLBF8X');
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-DMBPKLBF8X', { 'anonymize_ip': false });
+}
 </script>
-<style>
-hr {
-  margin: 1.5rem 40%;
-  height: 0.1rem;
-  background: rgb(var(--fade-22));
-}
 
-.dark hr {
-  background: rgb(var(--fade-64));
-}
-</style>
 </head>
-<body class="bg:fade-84@dark font:fade-16@dark">
-    <nav class="w:full h:90 fixed bg:fade-84/.95@dark bg:white z:1000">
+<body class="bg:fade-16@dark font:fade-86@dark">
+    <nav class="w:full fixed@sm bg:fade-16/.95@dark bg:white z:1000">
     <div class="
         h:full
         w:full
@@ -49,13 +39,22 @@ hr {
         mx:auto
         px:32
         d:flex
+        flex-direction:column
+        flex-direction:row@sm
         align-items:center
     ">
-        <div>
-            <a href="/" class="mr-3 font:extralight">GeekLaunch</a>
-        </div>
+        <a href="/" class="block mr:3 p:8 filter:brightness(1.5):hover ~filter|0.1s">
+            <img class="w:40" src="/img/geeklaunch.png" title="GeekLaunch" alt="GeekLaunch logo">
+        </a>
 
-        <div class="ml:auto">
+        <div class="
+            ml:auto@sm
+            w:full
+            d:flex
+            flex-wrap:wrap
+            justify-content:space-between
+            justify-content:flex-end@sm
+        ">
             
             
             
@@ -65,7 +64,11 @@ hr {
                 font:fade
                 font:fade-10:hover
                 font:fade-30.active
-                px:8
+                font:fade-80@dark
+                font:fade-96:hover@dark
+                font:fade-90.active@dark
+                p:12
+                p:18@sm
                 transition:150ms;ease-in
                 
             " href="/about/" title="">About</a>
@@ -76,7 +79,26 @@ hr {
                 font:fade
                 font:fade-10:hover
                 font:fade-30.active
-                px:8
+                font:fade-80@dark
+                font:fade-96:hover@dark
+                font:fade-90.active@dark
+                p:12
+                p:18@sm
+                transition:150ms;ease-in
+                
+            " href="/blog/" title="">Posts</a>
+            
+            
+            <a class="
+                font:semibold
+                font:fade
+                font:fade-10:hover
+                font:fade-30.active
+                font:fade-80@dark
+                font:fade-96:hover@dark
+                font:fade-90.active@dark
+                p:12
+                p:18@sm
                 transition:150ms;ease-in
                 
             " href="https://www.youtube.com/c/GeekLaunch?sub_confirmation=1" title="">YouTube</a>
@@ -87,7 +109,11 @@ hr {
                 font:fade
                 font:fade-10:hover
                 font:fade-30.active
-                px:8
+                font:fade-80@dark
+                font:fade-96:hover@dark
+                font:fade-90.active@dark
+                p:12
+                p:18@sm
                 transition:150ms;ease-in
                 
             " href="https://weareindy.com/app/shared/forms/634577ccb25f8365f4aa7f42/zw1Icw3aBtCI90eLSzQVkpZiigUEBLHeaNKmJobnx4kTaPYMixQM3gDZMCFDsSHC/" title="">Contact</a>
@@ -95,7 +121,7 @@ hr {
         </div>
     </div>
 </nav>
-<div class="d:flex flex:column@<=sm pt:90 px:24 jc:center gap:44 word-break:break-word">
+<div class="d:flex flex:column@<=sm pt:90@sm px:24 jc:center gap:44 word-break:break-word">
         <div class="max-w:700 w:full box:content-box">
 <article class="box:border-box pt:32">
     <header class="mb:32">
@@ -104,41 +130,49 @@ hr {
             <time>Sep 13, 2020</time>
             </div>
     </header><div class="
-    _:where(a):hover{text-decoration-color:fade}
-    _:where(a){text-decoration:2;underline;fade-10;_text-decoration-color:fade-70@dark}
-    _:where(blockquote){bl:5;solid;fade-76/.1;_bl:5;solid;fade-34/.1@dark}
-    _:where(code){font:90%;_v:middle}
-    _:where(code:not(.highlight_*,pre_*)){p:2;6;_r:4}
-    _:where(del){text-decoration:1;line-through;fade-68;_text-decoration-color:red-64@dark}
-    _:where(figcaption){text:14;_p:10;20;0;_width:fit;_mx:auto;_font:fade-56;_font:fade-57@dark}
-    _:where(h1){font:40;_font:extrabold}
-    _:where(h1,h2,h3)+:where(h1,h2,h3){mt:.5em}
-    _:where(h1,h2,h3,h4,h5,h6){mt:2em}
-    _:where(h2){mb:1em;_font:32}
-    _:where(h3){font:24}
-    _:where(h4){font:20}
-    _:where(h5){font:16}
-    _:where(h6){font:14}
-    _:where(li)::marker{font:fade-44;_font:fade-68@dark}
-    _:where(li){pl:.375em}
-    _:where(mark){text-decoration:1;underline;#fce016;_bg:transparent;_text-decoration-color:rgb(252;224;22/.5)@dark}
-    _:where(p,li){font:fade-76;_font:16;_line-height:1.65;_font:fade-34@dark}
-    _:where(p,pre,blockquote,figure,ul,ol,table){my:1.125em}
-    >:first-child{mt:0!}
-    _:where(pre){p:20;_r:8;_overflow:auto}
-    _:where(pre,code:not(.highlight_*)){bg:fade-2;_bg:fade-92!@dark}
-    _:where(strong,b,a,code:not(.highlight_*),mark,del){font:fade-92;_font:fade-12@dark}
-    _:where(table){width:full;_border-spacing:0}
-    _:where(td){v:baseline}
-    _:where(td,th):first-child{pl:0}
-    _:where(td,th):last-child{pr:0}
-    _:where(td,th){bb:1;solid;fade-92/.06;_p:6;_b:fade-4/.04@dark}
-    _:where(th){font:fade-78;_font:14;_text:left;_font:fade-12@dark}
-    _:where(th,p_code,li_code,a,mark){font:semibold;_font:medium@dark}
-    _:where(ul){list-style-type:disc}
-    _:where(ul,ol,blockquote){pl:1.5em}
-    _:where(video,img){max-width:full}
-    _:where(a,mark){text-underline-offset:3}
+    {text-decoration-color:fade-60}_:where(a):hover
+    {text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_:where(a)
+    {text-decoration-color:fade-30;color:fade-90}_:where(a)@dark
+    {bl:5|solid;f:fade-34/.1}_:where(blockquote)
+    {f:fade-76/.1}_:where(blockquote)@dark
+    {font:90%;v:middle}_:where(code)
+    {p:2;6;r:4}_:where(code:not(.highlight_*,pre_*))
+    {text-decoration:1;line-through;fade-68}_:where(del)
+    {text-decoration-color:red-64}_:where(del)@dark
+    {text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
+    {font:fade-57}_:where(figcaption)@dark
+    {font:40;font:extrabold}_:where(h1)
+    {mt:.5em}_:where(h1,h2,h3)+:where(h1,h2,h3)
+    {mt:2em}_:where(h1,h2,h3,h4,h5,h6)
+    {mb:1em;font:32}_:where(h2)
+    {font:24}_:where(h3)
+    {font:20}_:where(h4)
+    {font:16}_:where(h5)
+    {font:14}_:where(h6)
+    {font:fade-44}_:where(li)::marker
+    {font:fade-68}_:where(li)::marker@dark
+    {pl:.375em}_:where(li)
+    {text-decoration:underline;#fce016;bg:transparent;text-decoration-color:rgb(252;224;22/.5)@dark}_:where(mark)
+    {font:fade-36;font:16;line-height:1.65}_:where(p,li,details)
+    {font:fade-80}_:where(p,li,details)@dark
+    {my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
+    {mt:0!}>:first-child
+    {p:20;r:8;overflow:auto}_:where(pre)
+    {bg:rgba(11,18,23,0.9)!;font:fade-90}_:where(pre)
+    {width:full;border-spacing:0}_:where(table)
+    {v:baseline}_:where(td)
+    {pl:0}_:where(td,th):first-child
+    {pr:0}_:where(td,th):last-child
+    {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
+    {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
+    {font:semibold;font:medium@dark}_:where(th,p_code,li_code,a,mark)
+    {list-style-type:disc}_:where(ul)
+    {pl:1.5em}_:where(ul,ol,blockquote)
+    {max-width:full}_:where(video,img)
+    {text-underline-offset:3}_:where(a,mark)
+    {height:0.1rem;bg:fade-80;mx:40%;my:1.5rem}_:where(hr)
+    {bg:fade-40}_:where(hr)@dark
+    {cursor:pointer}_:where(details>summary)
 "><iframe src="https://anchor.fm/compulang/embed" height="230px" width="100%" frameborder="0" scrolling="no"></iframe>
 <p>Check out the new Compulang podcast from GeekLaunch on <a href="https://anchor.fm/compulang">Anchor</a> and <a href="https://open.spotify.com/show/1dbAiohaRGky49dv6mdgbH?si=caffaVkVSj66eAozAlqDzA">Spotify</a>.</p>
 <p>I&rsquo;ll be covering the latest, greatest, and weirdest of tech and international news. There will also be a video version uploaded to the <a href="https://youtube.com/GeekLaunch?sub_confirmation=1">GeekLaunch YouTube channel</a> with extra visuals.</p>
@@ -152,11 +186,14 @@ hr {
     href="https://www.blockchainacceleration.org/">Blockchain Acceleration Foundation</a>, and a graduate
   student at the <a href="https://www.titech.ac.jp/">Tokyo Institute of Technology</a>.</p>
 <p>Connect with me <a href="https://twitter.com/sudo_build">on Twitter</a>.</p>
-</div></article>
+</div>
+</article>
 <footer class="py:24">
-    <div class="f:fade-30 f:14 mb:8">© Copyright 2022 Jacob Lindahl</div>
-    <div class="f:fade-60 f:12">Theme <a class="f:bold" href="https://github.com/serkodev/holy" _target="_blank">Holy</a></div>
-</footer></div>
+    <div class="f:fade-50 f:fade-60@dark f:14 mb:8">© Copyright 2022 Jacob Lindahl</div>
+    <div class="f:fade-80 f:fade-40@dark f:12">Theme <a class="f:bold" href="https://github.com/serkodev/holy"
+            _target="_blank">Holy</a></div>
+</footer>
+</div>
     </div>
 </body>
 

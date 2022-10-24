@@ -1,0 +1,49 @@
+<nav class="w:full fixed@sm bg:fade-16/.95@dark bg:white z:1000">
+    <div class="
+        h:full
+        w:full
+        max-w:1200
+        mx:auto
+        px:32
+        d:flex
+        flex-direction:column
+        flex-direction:row@sm
+        align-items:center
+    ">
+        <a href="/" class="block mr:3 p:8 filter:brightness(1.5):hover ~filter|0.1s">
+            <img class="w:40" src="{{ .Site.Params.logo }}" title="{{ .Site.Title }}" alt="{{ .Site.Title }} logo">
+        </a>
+
+        <div class="
+            ml:auto@sm
+            w:full
+            d:flex
+            flex-wrap:wrap
+            justify-content:space-between
+            justify-content:flex-end@sm
+        ">
+            {{ $currentPage := . }}
+            {{ $active := "" }}
+            {{ range .Site.Menus.main }}
+            {{ if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}
+            {{ $active = "active" }}
+            {{ end }}
+            <a class="
+                font:semibold
+                font:fade
+                font:fade-10:hover
+                font:fade-30.active
+                font:fade-80@dark
+                font:fade-96:hover@dark
+                font:fade-90.active@dark
+                p:12
+                p:18@sm
+                transition:150ms;ease-in
+                {{ $active }}
+            " href="{{ .URL }}" title="{{ .Title }}">
+                {{- .Name -}}
+            </a>
+            {{ end }}
+        </div>
+    </div>
+</nav>

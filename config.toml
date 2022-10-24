@@ -1,6 +1,7 @@
 baseURL = "https://geeklaunch.net"
 copyright = "© Copyright 2022 Jacob Lindahl"
 disableKinds = ["taxonomy", "taxonomyTerm"]
+googleAnalytics = "G-DMBPKLBF8X"
 ignoreFiles = ["\\.psd$"]
 languageCode = "en-us"
 publishDir = "docs"
@@ -9,9 +10,14 @@ title = "GeekLaunch"
 
 [params]
 copyright = "© Copyright 2022 Jacob Lindahl"
+logo = "/img/geeklaunch.png"
 
 [markup.goldmark.renderer]
 unsafe = true
+
+[markup]
+[markup.highlight]
+style = 'base16-snazzy'
 
 [menu]
 
@@ -20,6 +26,12 @@ identifier = "about"
 name = "About"
 url = "/about/"
 weight = 10
+
+[[menu.main]]
+identifier = "blog"
+name = "Posts"
+url = "/blog/"
+weight = 15
 
 [[menu.main]]
 identifier = "youtube"
