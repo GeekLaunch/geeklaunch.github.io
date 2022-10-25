@@ -16,7 +16,7 @@ I am active as a professional tech mentor, having tutored over 100 individuals o
     <link href="https://unpkg.com/@master/normal.css" rel="stylesheet">
     <script src="https://unpkg.com/@master/css"></script>
     <script src="https://unpkg.com/themes.js"></script>
-    <script>new window.Themes()</script>
+    <script>window.themes = new window.Themes()</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
 <script>
 var doNotTrack = false;
@@ -28,6 +28,19 @@ if (!doNotTrack) {
 }
 </script>
 
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :target:before {
+    content: "";
+    display: block;
+    height: 100px;
+    margin: -100px 0 0;
+  }
+
+</style>
 </head>
 <body class="bg:fade-16@dark font:fade-86@dark">
     <nav class="w:full fixed@sm bg:fade-16/.95@dark bg:white z:1000">
@@ -124,9 +137,42 @@ if (!doNotTrack) {
         <div class="max-w:700 w:full box:content-box">
 <article class="box:border-box pt:32">
     <header class="mb:32">
-        <div class="font:40 font:extrabold">About</div>
+        <a class="font:40 font:extrabold" href="https://geeklaunch.net/about/">About</a>
         <div class="mt:16 f:fade-60"></div>
-    </header><div class="
+    </header>
+
+    
+    <details class="
+        ml:12_ul
+        bl:2
+        bl:fade-86
+        bl:fade-40@dark
+        mb:24
+        py:4
+        pl:12
+        lh:1.5
+        {content:'‣';pr:.3em;color:fade-70}_li::before
+        {color:fade-50}_li::before@dark
+        {text-underline-offset:3;font:medium;text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_a
+        {text-decoration-color:fade-30;color:fade-80}_a@dark
+        {text-decoration-color:fade-60;color:fade-10}_a:hover
+        {text-decoration-color:fade-60;color:fade-90}_a:hover@dark
+    ">
+        <summary class="
+            cursor:pointer
+            font-weight:semibold
+            color:fade-40
+            color:fade-80@dark
+            color:fade-70::marker
+            color:fade-50::marker@dark
+        ">Contents</summary>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-next">What next?</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="
     {text-decoration-color:fade-60}_:where(a):hover
     {text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_:where(a)
     {text-decoration-color:fade-30;color:fade-90}_:where(a)@dark
@@ -162,7 +208,7 @@ if (!doNotTrack) {
     {pr:0}_:where(td,th):last-child
     {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
     {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
-    {font:semibold;font:medium@dark}_:where(th,p_code,li_code,a,mark)
+    {font:semibold}_:where(th,p_code,li_code,a,mark)
     {list-style-type:disc}_:where(ul)
     {pl:1.5em}_:where(ul,ol,blockquote)
     {max-width:full}_:where(video,img)

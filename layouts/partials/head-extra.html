@@ -1,1 +1,14 @@
 {{ template "_internal/google_analytics.html" . }}
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :target:before {
+    content: "";
+    display: block;
+    height: 100px;
+    margin: -100px 0 0;
+  }
+
+</style>

@@ -19,7 +19,7 @@ Let's improve on this. [My solution](https://github.com/encody/jotto-problem)&he
 - is about four times longer than Parker's,
 - uses "recursion" and "graphs" _(ooh, fancy words)_ and some other fun optimizations that will probably remind you of your CS classes.
 
-### Anagram de-duplicating
+## Anagram de-duplicating
 
 Parker mentioned this in his video. What we actually care about in this problem is finding the largest set of mutually-disjoint sets of letters that can be arranged into an English word. (The algorithm for finding such sets is similar to the [maximum disjoint set problem](https://en.wikipedia.org/wiki/Maximum_disjoint_set), and thus, so is the algorithm for solving the 5-5-25 problem.)
 
@@ -27,7 +27,7 @@ So, for the purposes of this problem, "beard" = "bread" = "bared".
 
 For the remainder of this post, "word" shall refer to one of these unordered sets of letters.
 
-### Bit packing
+## Bit packing
 
 We could store a word as a hash set, array, or vector of characters, or a string construct, but there is an even more efficient medium: unsigned, 32-bit integers. Or rather, a _single_, unsigned, 32-bit integer.
 
@@ -55,7 +55,7 @@ Then we'll check new words against the bitmask to see if they're allowed to join
     ("bread" | "chunk") & "witch" == 0 ? ❌
     ("bread" | "chunk") & "imply" == 0 ? ✅
 
-### Graphs
+## Graphs
 
 How do we decide which words to try to add to our solution? If we try _every single word_, we end up with a brute-force solution that takes a long time ([Θ(n⁵)](https://en.wikipedia.org/wiki/Big_O_notation#Use_in_computer_science)) to complete. Let's try to be a little more clever about which words we try to add to our solution.
 
@@ -75,7 +75,7 @@ Our algorithm will traverse the graph and build a solution by recursively visiti
 
 In a vacuum, this algorithm would still be O(n<sup>5</sup>), but due to the nature of the data and the way we're constructing the graph (it's pretty sparse&mdash;using the test data, there is no path in the graph that contains more than 15 nodes), traversals should be O(n<sup>2</sup>) in practice.
 
-### Short circuits
+## Short circuits
 
 The algorithm is complete and correct at this point, but we can still speed it up with some shortcuts.
 
@@ -83,7 +83,7 @@ Let's add [a field to each node in our graph](https://github.com/encody/jotto-pr
 
 We can also maintain [a set of word combinations](https://github.com/encody/jotto-problem/blob/master/src/main.rs#L20-L34) that we have already tried and failed to use in a solution.
 
-### Compiler Options
+## Compiler Options
 
 Since we only care about the runtime of this program, we can have the compiler optimize the heck out of it:
 

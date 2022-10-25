@@ -9,7 +9,7 @@ There are a lot of issues that web3 needs to address, and fast.
 
 I recently attended CoinDesk Consensus 2022, and I talked to a _lot_ of people there. The goal of this document is to answer the most common questions and address the most common themes that arose from these conversations.
 
-### Innovation transcends regulation
+## Innovation transcends regulation
 
 The crypto ecosystem flails around a lot, and even as someone who works within the industry, sometimes it's difficult to see where it's going as a whole: the web3 world quickly transitioned from its L1 launch and ICO heyday, to the NFT craze, to the liquidity farming frenzy. Arguably, we still haven't really seen the end of the "L1 launch heyday"; it's simply been eclipsed in popularity by the latest over-hyped trend.
 
@@ -31,7 +31,7 @@ I'm not trying to make an overly political statement here. Well, not beyond this
 
 One of the foundations of crypto&mdash;consensus mechanisms&mdash;exists to prevent malicious actors from having their way with the future of the network. These are technologies that make crypto resilient to invasive regulation and malicious doings.
 
-### Web3 leaves outsiders behind
+## Web3 leaves outsiders behind
 
 Crypto is a bubble&mdash;but I don't mean [that kind of bubble](https://en.wikipedia.org/wiki/Cryptocurrency_bubble). (Keep in mind, I'm writing this in the middle of a bear market!)
 
@@ -51,7 +51,7 @@ Web3 is an obviously Internet-y community, and as any participant in an Internet
 
 Let's be the exception.
 
-### We don't need another smart contract DSL
+## We don't need another smart contract DSL
 
 This is pretty simple: every single L1 doesn't need its own custom programming language. It is not reasonable for a dapp platform to maintain an entire language (including its ecosystem: IDE support, documentation, build tools, community, security&hellip;) on top of an entire Internet protocol (which requires an entire ecosystem of its own).
 
@@ -61,7 +61,7 @@ Many programming languages have virtual machines that are lightweight and (relat
 
 There is no need to implement yet another language for your new L1.
 
-### WebAssembly may be the future
+## WebAssembly may be the future
 
 Despite the name *Web*Assembly, [WASM is useful in many more contexts than simply front-end web](https://webassembly.org/docs/non-web/), and may be the future in applications, mobile, front-end, server, and blockchain.
 
@@ -73,7 +73,7 @@ WASM has good cross-platform support: applications can reuse common WASM compone
 
 The WebAssembly ecosystem is growing rapidly. My advice: look into it sooner rather than later. (This probably means you should [learn Rust](https://doc.rust-lang.org/stable/book/). Rust is my favorite programming language. Okay. I'm biased.)
 
-### A "blockchain" project is not a better project
+## A "blockchain" project is not a better project
 
 This feels like a tired old slogan, but it still bears repeating.
 
@@ -87,7 +87,7 @@ There's a lot of hype in crypto space. It's tempting to take advantage of the hy
 
 But to those with integrity, understand that blockchain technology is not the silver bullet that will thrust your startup to success. Blockchain actually has an extremely limited use-case, one which for _the vast majority of businesses_ is better accomplished by a regular old (centralized) database. Do your customers the favor of choosing the best infrastructure for them, and not the fun, weird tech that will end up costing you in the future.
 
-### Web3 is revolutionizing Internet infrastructure
+## Web3 is revolutionizing Internet infrastructure
 
 Dapps built on blockchain technology have taken the world by storm, but the protocol layer is affecting the network stack downwards as well as upwards.
 
@@ -96,7 +96,7 @@ I encountered two interesting projects for the first time over the past week. (N
 1. [Syntropy](https://www.syntropynet.com/) uses a decentralized system to incentivize ISPs to reroute network packets more efficiently, like an alternative to[ BGP](https://en.wikipedia.org/wiki/Border_Gateway_Protocol).
 1. [Data Vortex](https://www.datavortex.com/) is developing switch architecture that routes packets more efficiently, as well as a custom protocol that replaces Ethernet for blazing-fast transfers.
 
-### Does [insert protocol here] have a chance to take over as the de-facto dapp platform?
+## Does [insert protocol here] have a chance to take over as the de-facto dapp platform?
 
 Not really.
 

@@ -17,7 +17,7 @@ In the video, he mentions that the Python code he wrote to solve the &ldquo;five
     <link href="https://unpkg.com/@master/normal.css" rel="stylesheet">
     <script src="https://unpkg.com/@master/css"></script>
     <script src="https://unpkg.com/themes.js"></script>
-    <script>new window.Themes()</script>
+    <script>window.themes = new window.Themes()</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
 <script>
 var doNotTrack = false;
@@ -29,6 +29,19 @@ if (!doNotTrack) {
 }
 </script>
 
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :target:before {
+    content: "";
+    display: block;
+    height: 100px;
+    margin: -100px 0 0;
+  }
+
+</style>
 </head>
 <body class="bg:fade-16@dark font:fade-86@dark">
     <nav class="w:full fixed@sm bg:fade-16/.95@dark bg:white z:1000">
@@ -125,11 +138,50 @@ if (!doNotTrack) {
         <div class="max-w:700 w:full box:content-box">
 <article class="box:border-box pt:32">
     <header class="mb:32">
-        <div class="font:40 font:extrabold">How to speed up your code 224,444,739% using graphs</div>
+        <a class="font:40 font:extrabold" href="https://geeklaunch.net/blog/how-to-speed-up-your-code-using-graphs/">How to speed up your code 224,444,739% using graphs</a>
         <div class="mt:16 f:fade-60">
             <time>Aug 6, 2022</time>
             </div>
-    </header><div class="
+    </header>
+
+    
+    <details class="
+        ml:12_ul
+        bl:2
+        bl:fade-86
+        bl:fade-40@dark
+        mb:24
+        py:4
+        pl:12
+        lh:1.5
+        {content:'‣';pr:.3em;color:fade-70}_li::before
+        {color:fade-50}_li::before@dark
+        {text-underline-offset:3;font:medium;text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_a
+        {text-decoration-color:fade-30;color:fade-80}_a@dark
+        {text-decoration-color:fade-60;color:fade-10}_a:hover
+        {text-decoration-color:fade-60;color:fade-90}_a:hover@dark
+    ">
+        <summary class="
+            cursor:pointer
+            font-weight:semibold
+            color:fade-40
+            color:fade-80@dark
+            color:fade-70::marker
+            color:fade-50::marker@dark
+        ">Contents</summary>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#anagram-de-duplicating">Anagram de-duplicating</a></li>
+    <li><a href="#bit-packing">Bit packing</a></li>
+    <li><a href="#graphs">Graphs</a></li>
+    <li><a href="#short-circuits">Short circuits</a></li>
+    <li><a href="#compiler-options">Compiler Options</a></li>
+    <li><a href="#final-product">Final Product</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </details>
+    <div class="
     {text-decoration-color:fade-60}_:where(a):hover
     {text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_:where(a)
     {text-decoration-color:fade-30;color:fade-90}_:where(a)@dark
@@ -165,7 +217,7 @@ if (!doNotTrack) {
     {pr:0}_:where(td,th):last-child
     {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
     {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
-    {font:semibold;font:medium@dark}_:where(th,p_code,li_code,a,mark)
+    {font:semibold}_:where(th,p_code,li_code,a,mark)
     {list-style-type:disc}_:where(ul)
     {pl:1.5em}_:where(ul,ol,blockquote)
     {max-width:full}_:where(video,img)
@@ -187,11 +239,11 @@ if (!doNotTrack) {
 <li>is about four times longer than Parker&rsquo;s,</li>
 <li>uses &ldquo;recursion&rdquo; and &ldquo;graphs&rdquo; <em>(ooh, fancy words)</em> and some other fun optimizations that will probably remind you of your CS classes.</li>
 </ul>
-<h3 id="anagram-de-duplicating">Anagram de-duplicating</h3>
+<h2 id="anagram-de-duplicating">Anagram de-duplicating</h2>
 <p>Parker mentioned this in his video. What we actually care about in this problem is finding the largest set of mutually-disjoint sets of letters that can be arranged into an English word. (The algorithm for finding such sets is similar to the <a href="https://en.wikipedia.org/wiki/Maximum_disjoint_set">maximum disjoint set problem</a>, and thus, so is the algorithm for solving the 5-5-25 problem.)</p>
 <p>So, for the purposes of this problem, &ldquo;beard&rdquo; = &ldquo;bread&rdquo; = &ldquo;bared&rdquo;.</p>
 <p>For the remainder of this post, &ldquo;word&rdquo; shall refer to one of these unordered sets of letters.</p>
-<h3 id="bit-packing">Bit packing</h3>
+<h2 id="bit-packing">Bit packing</h2>
 <p>We could store a word as a hash set, array, or vector of characters, or a string construct, but there is an even more efficient medium: unsigned, 32-bit integers. Or rather, a <em>single</em>, unsigned, 32-bit integer.</p>
 <p>Let&rsquo;s think of our integer as a list of 32 on-off switches. We can assign each letter of the alphabet to a switch (a = 0, b = 1, …), and encode a word by switching on the bits corresponding to the letters in the word. We&rsquo;ll have 6 bits left over, since the alphabet only contains 26 letters.</p>
 <pre><code>&quot;bread&quot; = 0b100000000000011011 = 131099
@@ -211,7 +263,7 @@ if (!doNotTrack) {
 <pre><code>(&quot;bread&quot; | &quot;chunk&quot;) &amp; &quot;witch&quot; == 0 ? ❌
 (&quot;bread&quot; | &quot;chunk&quot;) &amp; &quot;imply&quot; == 0 ? ✅
 </code></pre>
-<h3 id="graphs">Graphs</h3>
+<h2 id="graphs">Graphs</h2>
 <p>How do we decide which words to try to add to our solution? If we try <em>every single word</em>, we end up with a brute-force solution that takes a long time (<a href="https://en.wikipedia.org/wiki/Big_O_notation#Use_in_computer_science">Θ(n⁵)</a>) to complete. Let&rsquo;s try to be a little more clever about which words we try to add to our solution.</p>
 <p>To do this, we&rsquo;ll create a <a href="https://en.wikipedia.org/wiki/Graph_(abstract_data_type)">graph</a>. Specifically, we&rsquo;ll be creating a <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">directed acyclic graph</a>. Each node in the graph will be a word. Edges will point from a word (A) to a later word (B) when the words (A) and (B) are disjoint. Our words have a well-defined ordering (since they are just numbers), so a &ldquo;later word&rdquo; is a word whose 32-bit integer encoding represents a higher number.</p>
 <pre><code>Node            Encoding        Edges
@@ -225,11 +277,11 @@ if (!doNotTrack) {
 <p>We only need to have edges pointing to later disjoint words (and not to <em>all</em> disjoint words) because the order of the words in the solution doesn&rsquo;t matter. If a solution contains word (A) and word (B), our algorithm will discover the solution regardless of which word it encounters first. Having only the single edge from (A) to (B) and not also vice-versa means that the algorithm can still discover the solution containing both (A) and (B) when it encounters (A), but when it traverses (B), it excludes (A) from future (duplicate) traversals.</p>
 <p>Our algorithm will traverse the graph and build a solution by recursively visiting the edges of a node in the current solution candidate and returning the longest disjoint sub-solution.</p>
 <p>In a vacuum, this algorithm would still be O(n<sup>5</sup>), but due to the nature of the data and the way we&rsquo;re constructing the graph (it&rsquo;s pretty sparse—using the test data, there is no path in the graph that contains more than 15 nodes), traversals should be O(n<sup>2</sup>) in practice.</p>
-<h3 id="short-circuits">Short circuits</h3>
+<h2 id="short-circuits">Short circuits</h2>
 <p>The algorithm is complete and correct at this point, but we can still speed it up with some shortcuts.</p>
 <p>Let&rsquo;s add <a href="https://github.com/encody/jotto-problem/blob/master/src/main.rs#L122">a field to each node in our graph</a> that tells us the length of the longest possible path after this node. If our search needs 3 more words and it encounters a node that says its longest path only contains 1 more node, our search can skip that node early.</p>
 <p>We can also maintain <a href="https://github.com/encody/jotto-problem/blob/master/src/main.rs#L20-L34">a set of word combinations</a> that we have already tried and failed to use in a solution.</p>
-<h3 id="compiler-options">Compiler Options</h3>
+<h2 id="compiler-options">Compiler Options</h2>
 <p>Since we only care about the runtime of this program, we can have the compiler optimize the heck out of it:</p>
 <div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[profile.release]
 </span></span><span style="display:flex;"><span>lto = <span style="color:#ff6ac1">true</span>
