@@ -1,7 +1,7 @@
 ---
 title: 'Fathomable Rust Macros'
 date: 2022-10-25
-draft: true
+draft: false
 description: 'A breakdown of the inner workings and authorship of macros in Rust'
 ---
 
@@ -35,10 +35,10 @@ Might be "tokenized" into:
 
 (Note that this is a completely imaginary example.)
 
-It is at this point that the Rust compiler evaluates macros. Remember, a macro takes a stream of tokens as input, and also outputs a stream of tokens. This has some major implications:
+It is at this point in the compilation process that the Rust compiler evaluates macros. Remember, a macro takes a stream of tokens as input, and also outputs a stream of tokens. This has some major implications:
 
 - Rust macros can add new code: add a trait implementation, create a new struct, write a new function, etc.
-- Rust macros cannot interact with the logic in the code (e.g. see whether type A implements trait B, call function X), because the logic has not actually been constructed yet.
+- Rust macros cannot interact with the logic in the code (e.g. see whether a type implements a trait, call a function declared in the source, etc.), because the logic has not actually been constructed yet.
 
 ---
 
@@ -71,10 +71,10 @@ This macro could be invoked like:
 ```rust
 my_macro!(foo, 45);
 my_macro!(bar => "hello");
-my_macro!(quux => 9 * 8);
+my_macro!(baz => 9 * 8);
 ```
 
-### Nested macros & recursion
+### Nested macros and recursion
 
 One of the most popular Rust crates, [`serde_json`](https://crates.io/crates/serde_json), includes a declarative macro [`json!()`](https://docs.rs/serde_json/latest/serde_json/macro.json.html), which allows you to write JSON-like syntax in your Rust code. It returns a [`serde_json::Value`](https://docs.rs/serde_json/latest/serde_json/enum.Value.html).
 
@@ -136,6 +136,13 @@ Because it is a potentially infinite operation, the macro recursion has a [maxim
 ## Procedural macros
 
 Procedural macros are written using normal Rust code (not a unique syntax), which is compiled, and then run by the compiler when invoked. For this reason, procedural macros are also sometimes called "compiler plugins."
+
+Because crates = compilation units, in order for a procedural macro to be compiled before its execution, procedural macros must be defined in (and subsequently exported from) a different crate from that in which they are used. These must be library crates with the following in `Cargo.toml`:
+
+```toml
+[lib]
+proc-macro = true
+```
 
 Procedural macros appear in three forms, which are all invoked differently:
 
@@ -205,17 +212,17 @@ fn my_function() {}
 
 In this case, the `attr` token stream would contain `attribute_tokens`, and the `item` token stream would contain the `my_function` function.
 
-Cool. We have the basic infrastructure set up, now we just have _parse the input token stream(s)_.
+Cool. We have the basic infrastructure set up, now we just have parse the input token streams.
 
 The Rust compiler hasn't even been so kind as to create the syntax tree for us yet. We just get a token stream, and we have to somehow parse it into something sensible (like a struct definition, `impl` block, etc.), manipulate it in some way, and then synthesize an output that the compiler can make sense of as valid code.
 
-That's a _lot_ of work for one macro!
+That's a _lot_ of work to do!
 
 Enter: `syn` and `quote`.
 
 ## Communicating with the compiler
 
-`syn` and `quote` are a pair of crates that simplify token stream manipulation. `syn` provides utilities for parsing token streams into syntax trees, and `quote` for converting Rust-like code back into token streams.
+[`syn`](https://crates.io/crates/syn) and [`quote`](https://crates.io/crates/quote) are a pair of crates that simplify token stream manipulation. `syn` provides utilities for parsing token streams into syntax trees, and `quote` for converting Rust-like code back into token streams.
 
 The basic use-cases for each of these crates are extremely simple&mdash;they're very well-designed crates!
 
@@ -239,9 +246,119 @@ pub fn my_attribute_macro(attr: TokenStream, item: TokenStream) -> TokenStream {
 
 The `parse_macro_input` macro tries to parse a `TokenStream` into a `syn` data structure, and produces a compiler error on failure. The [`syn` data structures and documentation](https://docs.rs/syn) are worth perusing on your own. They will give you a pretty good idea of what a syntax tree might look like.
 
-The `quote` macro produces a `TokenStream2` (which can be easily transformed into a normal `TokenStream` via `.into()`) from some Rust code-like input. It also supports variable interpolation, via the `#identifier` syntax seen above.
+The `Item` parsed in the example above is an enum, which you can `match` against:
+
+```rust
+match item { // The annotated item was parsed as...
+    Item::Enum(e) => {}, // ...an enum
+    Item::Fn(f) => {}, // ...a function
+    Item::Impl(i) => {}, // ...an impl block
+    Item::Struct(s) => {}, // ...a struct
+
+    // ...and so on and so forth
+    _ => todo!(),
+}
+```
+
+The `quote` macro produces a `proc_macro2::TokenStream` (which can be easily transformed into a normal `proc_macro::TokenStream` via `Into::into`) from some input that is like Rust code. It also supports variable interpolation, via the `#identifier` syntax seen above.
 
 In the world of macro authorship, `syn` and `quote` are pretty ubiquitous. [Here's an example of `syn` and `quote` used in the popular crate `thiserror`](https://github.com/dtolnay/thiserror/blob/464e2e798eea0985af3c2c16cc55866e2918f774/impl/src/expand.rs).
+
+## Parameterization and configuration
+
+The last tool in our belt for building maintainable and usable macros is [`darling`](https://crates.io/crates/darling). The crate's stated description is:
+
+> A proc-macro library for reading attributes into structs when implementing custom derives.
+
+However, it is useful for both custom derives and attribute macros. `syn` and `quote` are useful for parsing and manipulating streams of normal Rust tokens, and `darling` is useful for parsing attribute and item input streams into custom structs, attaching custom logic to process, and reporting errors, making the combination of these three crates a powerful framework for procedural macro authorship.
+
+## Practical Example
+
+Here is an example of a very simple derive macro using all three crates, complete with [error-handling](https://docs.rs/darling/0.14.1/darling/error/struct.Accumulator.html), an optional configuration parameter, and some of `darling`'s [auto-forwarded fields](https://docs.rs/darling/0.14.1/darling/#fromderiveinput) (`data`, `generics`, `ident`, `fields`).
+
+```rust {linenos=inline}
+use darling::{FromDeriveInput, FromVariant};
+use proc_macro2::TokenStream as TokenStream2;
+use quote::quote;
+use syn::{parse_macro_input, DeriveInput, Path};
+
+#[derive(Debug, FromDeriveInput)]
+// The struct will be deserialized from a `#[display]` attribute on any kind of enum
+#[darling(attributes(display), supports(enum_any))]
+struct EnumMeta {
+    // Try to optionally deserialize an item path
+    pub transform: Option<Path>,
+
+    // Forwarded attributes
+    pub ident: syn::Ident,
+    pub generics: syn::Generics,
+    pub data: darling::ast::Data<VariantVisitor, ()>,
+}
+
+#[derive(Debug, FromVariant)]
+struct VariantVisitor {
+    // The name of the enum variant
+    pub ident: syn::Ident,
+    pub fields: darling::ast::Fields<()>,
+}
+
+fn expand(meta: EnumMeta) -> Result<TokenStream2, darling::Error> {
+    let EnumMeta {
+        transform,
+        data,
+        generics,
+        ident,
+    } = meta;
+
+    let variants = data.take_enum().unwrap();
+
+    let match_arms = variants.iter().map(|variant| {
+        let i = &variant.ident;
+        let name = i.to_string();
+        match variant.fields.style {
+            darling::ast::Style::Tuple => {
+                quote! { Self :: #i ( .. ) => #name , }
+            }
+            darling::ast::Style::Struct => {
+                quote! { Self :: #i { .. } => #name , }
+            }
+            darling::ast::Style::Unit => {
+                quote! { Self :: #i  => #name , }
+            }
+        }
+    });
+
+    // Properly includes generics in output
+    let (imp, ty, wher) = generics.split_for_impl();
+
+    // Rust code output
+    Ok(quote! {
+        impl #imp std::fmt::Display for #ident #ty #wher {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                write!(f, "{}", #transform (
+                    match self { #(#match_arms)* }
+                ))
+            }
+        }
+    })
+}
+
+// Declares the name of the macro and the attributes it supports
+#[proc_macro_derive(Display, attributes(display))]
+pub fn derive_display(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+
+    FromDeriveInput::from_derive_input(&input)
+        .and_then(expand)
+        .map(Into::into)
+        // Error handling
+        .unwrap_or_else(|e| e.write_errors().into())
+}
+```
+
+[This code is also available on GitHub](https://github.com/GeekLaunch/hello-rust-macros).
+
+This derive macro creates an implementation of `Display` on the targeted enum. It optionally accepts a `transform` attribute field, which is a path to a function which transforms the name of the variant before it is written out.
 
 ## Further Reading
 

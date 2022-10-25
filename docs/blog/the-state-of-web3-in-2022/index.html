@@ -145,31 +145,32 @@ if (!doNotTrack) {
     </header>
 
     
-    <details class="
-        ml:12_ul
-        bl:2
-        bl:fade-86
-        bl:fade-40@dark
-        mb:24
-        py:4
-        pl:12
-        lh:1.5
-        {content:'‣';pr:.3em;color:fade-70}_li::before
-        {color:fade-50}_li::before@dark
-        {text-underline-offset:3;font:medium;text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_a
-        {text-decoration-color:fade-30;color:fade-80}_a@dark
-        {text-decoration-color:fade-60;color:fade-10}_a:hover
-        {text-decoration-color:fade-60;color:fade-90}_a:hover@dark
-    ">
-        <summary class="
-            cursor:pointer
-            font-weight:semibold
-            color:fade-40
-            color:fade-80@dark
-            color:fade-70::marker
-            color:fade-50::marker@dark
-        ">Contents</summary>
-        <nav id="TableOfContents">
+    <aside>
+        <details class="
+            ml:12_ul
+            bl:2
+            bl:fade-86
+            bl:fade-40@dark
+            mb:24
+            py:4
+            pl:12
+            lh:1.5
+            {content:'‣';pr:.3em;color:fade-70}_li::before
+            {color:fade-50}_li::before@dark
+            {text-underline-offset:3;font:medium;text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_a
+            {text-decoration-color:fade-30;color:fade-80}_a@dark
+            {text-decoration-color:fade-60;color:fade-10}_a:hover
+            {text-decoration-color:fade-60;color:fade-90}_a:hover@dark
+        ">
+            <summary class="
+                cursor:pointer
+                font-weight:semibold
+                color:fade-40
+                color:fade-80@dark
+                color:fade-70::marker
+                color:fade-50::marker@dark
+            ">Contents</summary>
+            <nav id="TableOfContents">
   <ul>
     <li><a href="#innovation-transcends-regulation">Innovation transcends regulation</a></li>
     <li><a href="#web3-leaves-outsiders-behind">Web3 leaves outsiders behind</a></li>
@@ -180,7 +181,8 @@ if (!doNotTrack) {
     <li><a href="#does-insert-protocol-here-have-a-chance-to-take-over-as-the-de-facto-dapp-platform">Does [insert protocol here] have a chance to take over as the de-facto dapp platform?</a></li>
   </ul>
 </nav>
-    </details>
+        </details>
+    </aside>
     <div class="
     {text-decoration-color:fade-60}_:where(a):hover
     {text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_:where(a)
@@ -209,8 +211,7 @@ if (!doNotTrack) {
     {font:fade-80}_:where(p,li,details)@dark
     {my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
     {mt:0!}>:first-child
-    {p:20;r:8;overflow:auto}_:where(pre)
-    {bg:rgba(11,18,23,0.9)!;font:fade-90}_:where(pre)
+    {p:20;r:8;overflow:auto;bg:rgba(11,18,23,0.9)!;font:fade-90;lh:1.5}_:where(pre)
     {width:full;border-spacing:0}_:where(table)
     {v:baseline}_:where(td)
     {pl:0}_:where(td,th):first-child

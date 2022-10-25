@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://geeklaunch.net/blog/how-to-speed-up-your-code-using-graphs/</loc>
-    <lastmod>2022-08-06T00:00:00+00:00</lastmod>
+    <loc>https://geeklaunch.net/blog/fathomable-rust-macros/</loc>
+    <lastmod>2022-10-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://geeklaunch.net/blog/</loc>
-    <lastmod>2022-08-06T00:00:00+00:00</lastmod>
+    <lastmod>2022-10-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://geeklaunch.net/</loc>
+    <lastmod>2022-10-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://geeklaunch.net/blog/how-to-speed-up-your-code-using-graphs/</loc>
     <lastmod>2022-08-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://geeklaunch.net/blog/the-state-of-web3-in-2022/</loc>

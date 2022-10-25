@@ -7,7 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Copyright 2022 Jacob Lindahl</copyright>
-    <lastBuildDate>Sat, 06 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://geeklaunch.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 25 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://geeklaunch.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fathomable Rust Macros</title>
+      <link>https://geeklaunch.net/blog/fathomable-rust-macros/</link>
+      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://geeklaunch.net/blog/fathomable-rust-macros/</guid>
+      <description>Rust macros are compile-time constructs that operate on streams of Rust language tokens.
+A brief aside on compilation What are &amp;ldquo;Rust language tokens&amp;rdquo;?
+When a compiler begins compiling a program, it first reads in the source code file. For simplicity&amp;rsquo;s sake, let&amp;rsquo;s say the compiler stores that source code in a string. The next step is to step through the string, character by character, and divide it up into &amp;ldquo;tokens.&amp;rdquo;</description>
+    </item>
+    
     <item>
       <title>How to speed up your code 224,444,739% using graphs</title>
       <link>https://geeklaunch.net/blog/how-to-speed-up-your-code-using-graphs/</link>
