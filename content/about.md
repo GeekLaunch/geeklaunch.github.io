@@ -1,5 +1,6 @@
 ---
 title: 'About'
+toc: false
 ---
 
 I am passionate about educating others about technology and programming. In the past, I have given talks about programming, cryptocurrency trading, and smart contract development at universities, non-profits, cryptocurrency & startup conferences, and meetups, both in-person and remotely. I also developed and taught [a course on smart contract programming](https://web3.courses/) and periodically record [educational videos on YouTube](https://youtube.com/c/GeekLaunch).

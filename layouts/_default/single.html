@@ -13,7 +13,7 @@
         </div>
     </header>
 
-    {{ if ne (print .TableOfContents) `<nav id="TableOfContents"></nav>` }}
+    {{ if and (ne (print .TableOfContents) `<nav id="TableOfContents"></nav>`) (ne .Params.toc false) }}
     <details class="
         ml:12_ul
         bl:2
