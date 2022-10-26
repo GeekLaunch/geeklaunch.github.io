@@ -41,6 +41,12 @@
     {height:0.1rem;bg:fade-80;mx:40%;my:1.5rem}_:where(hr)
     {bg:fade-40}_:where(hr)@dark
     {cursor:pointer}_:where(details>summary)
+    {text-decoration:none;pr:16;font:medium}_.headingAnchor
+    {opacity:0;position:absolute;translateX(-100%)}_.headingAnchor@sm
+    {content:'#'}_.headingAnchor::before
+    {opacity:1}_:hover>.headingAnchor
+    {color:fade-50}_.headingAnchor@dark
+    {color:fade-70}_.headingAnchor:hover@dark
 ">
     {{- .Content -}}
 </div>

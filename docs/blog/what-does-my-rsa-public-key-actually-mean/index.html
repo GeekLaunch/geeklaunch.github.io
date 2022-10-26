@@ -29,36 +29,107 @@ if (!doNotTrack) {
 </script>
 
 <style>
-  html {
-    scroll-behavior: smooth;
+  @keyframes highlight {
+    0% {
+      background-color: rgba(226, 230, 30, 0.4);
+      outline: 0.2rem solid rgba(226, 230, 30, 0.4);
+    }
+
+    100% {
+      background-color: unset;
+      outline: 0.2rem solid transparent;
+    }
+  }
+
+  :target {
+    animation: highlight 1.2s forwards;
   }
 
 </style>
 <script>
   (() => {
-    const offset = 100;
-
-    const scrollToHash = () => {
-      const hash = location.hash.slice(1);
-      const el = document.getElementById(hash);
+    const scrollToId = id => {
+      const el = document.getElementById(id);
+      const mainNav = document.getElementById('mainNav');
+      const offset = mainNav ? mainNav.clientHeight : 100;
 
       if (el) {
-        requestAnimationFrame(() => {
-          window.scrollTo({
-            behavior: "smooth",
-            top: el.offsetTop - offset,
-          });
+        const scrollToPosition = el.offsetTop - offset;
+        window.scrollTo({
+          top: scrollToPosition,
         });
       }
-    }
+    };
 
-    window.addEventListener('hashchange', scrollToHash);
-    document.addEventListener('DOMContentLoaded', scrollToHash);
+
+    window.addEventListener('hashchange', e => {
+      const id = new URL(e.newURL).hash.slice(1);
+      scrollToId(id);
+    });
+
+    window.addEventListener('beforeunload', e => {
+      console.log('beforeunload', e);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const hash = location.hash.slice(1);
+      scrollToId(hash);
+
+      document.addEventListener('click', e => {
+         
+        const target = e.target;
+        if (!target) {
+          return;
+        }
+
+        const a = target.closest('a');
+        if (!a) {
+          return;
+        }
+
+        
+        const clickedUrl = new URL(a.href);
+        const clickedUrlHash = clickedUrl.hash;
+        const currentUrl = new URL(location.href);
+        clickedUrl.hash = '';
+        currentUrl.hash = '';
+
+        if (clickedUrl.toString() === currentUrl.toString()) {
+          document.addEventListener('scroll', () => {
+            scrollToId(clickedUrlHash.slice(1));
+          }, { once: true });
+        }
+      });
+
+      
+      const tableOfContents = document.getElementById('TableOfContents');
+
+      if (tableOfContents) {
+        const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
+
+        links.forEach(link => {
+          const linkTargetId = link.getAttribute('href').split('#')[1];
+          if (!linkTargetId) {
+            return;
+          }
+
+          const target = document.getElementById(linkTargetId);
+          if (!target) {
+            return;
+          }
+
+          const anchor = document.createElement('a');
+          anchor.href = '#' + linkTargetId;
+          anchor.className = 'headingAnchor';
+          target.insertAdjacentElement('afterbegin', anchor);
+        });
+      }
+    });
   })();
 </script>
 </head>
 <body class="bg:fade-16@dark font:fade-86@dark">
-    <nav class="w:full fixed@sm bg:fade-16/.95@dark bg:white z:1000">
+    <nav id="mainNav" class="w:full fixed@sm bg:fade-16/.95@dark bg:white z:1000">
     <div class="
         h:full
         w:full
@@ -201,6 +272,12 @@ if (!doNotTrack) {
     {height:0.1rem;bg:fade-80;mx:40%;my:1.5rem}_:where(hr)
     {bg:fade-40}_:where(hr)@dark
     {cursor:pointer}_:where(details>summary)
+    {text-decoration:none;pr:16;font:medium}_.headingAnchor
+    {opacity:0;position:absolute;translateX(-100%)}_.headingAnchor@sm
+    {content:'#'}_.headingAnchor::before
+    {opacity:1}_:hover>.headingAnchor
+    {color:fade-50}_.headingAnchor@dark
+    {color:fade-70}_.headingAnchor:hover@dark
 "><div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>-----BEGIN PUBLIC KEY-----
 </span></span><span style="display:flex;"><span>MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH
 </span></span><span style="display:flex;"><span>79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72

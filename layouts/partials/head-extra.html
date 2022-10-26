@@ -1,29 +1,100 @@
 {{ template "_internal/google_analytics.html" . }}
 <style>
-  html {
-    scroll-behavior: smooth;
+  @keyframes highlight {
+    0% {
+      background-color: rgba(226, 230, 30, 0.4);
+      outline: 0.2rem solid rgba(226, 230, 30, 0.4);
+    }
+
+    100% {
+      background-color: unset;
+      outline: 0.2rem solid transparent;
+    }
+  }
+
+  :target {
+    animation: highlight 1.2s forwards;
   }
 
 </style>
 <script>
   (() => {
-    const offset = 100;
-
-    const scrollToHash = () => {
-      const hash = location.hash.slice(1);
-      const el = document.getElementById(hash);
+    const scrollToId = id => {
+      const el = document.getElementById(id);
+      const mainNav = document.getElementById('mainNav');
+      const offset = mainNav ? mainNav.clientHeight : 100;
 
       if (el) {
-        requestAnimationFrame(() => {
-          window.scrollTo({
-            behavior: "smooth",
-            top: el.offsetTop - offset,
-          });
+        const scrollToPosition = el.offsetTop - offset;
+        window.scrollTo({
+          top: scrollToPosition,
         });
       }
-    }
+    };
 
-    window.addEventListener('hashchange', scrollToHash);
-    document.addEventListener('DOMContentLoaded', scrollToHash);
+
+    window.addEventListener('hashchange', e => {
+      const id = new URL(e.newURL).hash.slice(1);
+      scrollToId(id);
+    });
+
+    window.addEventListener('beforeunload', e => {
+      console.log('beforeunload', e);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const hash = location.hash.slice(1);
+      scrollToId(hash);
+
+      document.addEventListener('click', e => {
+        /** @type {HTMLElement} */
+        const target = e.target;
+        if (!target) {
+          return;
+        }
+
+        const a = target.closest('a');
+        if (!a) {
+          return;
+        }
+
+        // check to see if they differ at most by hash
+        const clickedUrl = new URL(a.href);
+        const clickedUrlHash = clickedUrl.hash;
+        const currentUrl = new URL(location.href);
+        clickedUrl.hash = '';
+        currentUrl.hash = '';
+
+        if (clickedUrl.toString() === currentUrl.toString()) {
+          document.addEventListener('scroll', () => {
+            scrollToId(clickedUrlHash.slice(1));
+          }, { once: true });
+        }
+      });
+
+      // Create individual header links
+      const tableOfContents = document.getElementById('TableOfContents');
+
+      if (tableOfContents) {
+        const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
+
+        links.forEach(link => {
+          const linkTargetId = link.getAttribute('href').split('#')[1];
+          if (!linkTargetId) {
+            return;
+          }
+
+          const target = document.getElementById(linkTargetId);
+          if (!target) {
+            return;
+          }
+
+          const anchor = document.createElement('a');
+          anchor.href = '#' + linkTargetId;
+          anchor.className = 'headingAnchor';
+          target.insertAdjacentElement('afterbegin', anchor);
+        });
+      }
+    });
   })();
 </script>
