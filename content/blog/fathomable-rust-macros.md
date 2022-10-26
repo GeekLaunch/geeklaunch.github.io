@@ -38,6 +38,7 @@ Might be "tokenized" into:
 A macro takes a stream of tokens akin to the above as input, and also outputs a stream of tokens.[^madklad-1] This has some major implications:
 
 [^madklad-1]: Correction from [matklad](https://matklad.github.io/):
+
     > The macro evaluation process is ... messy, a correct thing to say is that "in rust compiler, parsing, name resolution, and macro expansion are mutually recursive procedures which happen at the same time". Luckily, I think for the purposes of this post we don't need to explain when macro expansion happens, it is enough to say "tokens is what is used as input or output of the macro. Macros don't have direct access to a parsed AST, but a macro can parse input tokens itself".
 
 - Rust macros can add new code: add a trait implementation, create a new struct, write a new function, etc.
@@ -279,7 +280,7 @@ However, it is useful for both custom derives and attribute macros. `syn` and `q
 
 Here is an example of a very simple derive macro using all three crates, complete with [error-handling](https://docs.rs/darling/0.14.1/darling/error/struct.Accumulator.html), an optional configuration parameter, and some of `darling`'s [auto-forwarded fields](https://docs.rs/darling/0.14.1/darling/#fromderiveinput) (`data`, `generics`, `ident`, `fields`).
 
-```rust {linenos=inline}
+```rust
 use darling::{FromDeriveInput, FromVariant};
 use proc_macro2::TokenStream as TokenStream2;
 use quote::quote;
