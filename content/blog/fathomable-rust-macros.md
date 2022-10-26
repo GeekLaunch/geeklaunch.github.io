@@ -35,7 +35,10 @@ Might be "tokenized" into:
 
 (Note that this is a completely imaginary example.)
 
-It is at this point in the compilation process that the Rust compiler evaluates macros. Remember, a macro takes a stream of tokens as input, and also outputs a stream of tokens. This has some major implications:
+A macro takes a stream of tokens akin to the above as input, and also outputs a stream of tokens.[^madklad-1] This has some major implications:
+
+[^madklad-1]: Correction from [matklad](https://matklad.github.io/):
+    > The macro evaluation process is ... messy, a correct thing to say is that "in rust compiler, parsing, name resolution, and macro expansion are mutually recursive procedures which happen at the same time". Luckily, I think for the purposes of this post we don't need to explain when macro expansion happens, it is enough to say "tokens is what is used as input or output of the macro. Macros don't have direct access to a parsed AST, but a macro can parse input tokens itself".
 
 - Rust macros can add new code: add a trait implementation, create a new struct, write a new function, etc.
 - Rust macros cannot interact with the logic in the code (e.g. see whether a type implements a trait, call a function declared in the source, etc.), because the logic has not actually been constructed yet.
@@ -365,5 +368,6 @@ This derive macro creates an implementation of `Display` on the targeted enum. I
 - [The "Macros" chapter in The Rust Book](https://doc.rust-lang.org/book/ch19-06-macros.html)
 - [The Little Book of Rust Macros](https://veykril.github.io/tlborm/)
 - [dtolnay's procedural macros workshop](https://github.com/dtolnay/proc-macro-workshop)
+- [Rust AST Explorer](https://carlkcarlk.github.io/rust-ast-explorer/) (credit: [matklad](https://matklad.github.io/))
 
 {{% bio %}}

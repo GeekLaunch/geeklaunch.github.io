@@ -34,14 +34,29 @@ if (!doNotTrack) {
     scroll-behavior: smooth;
   }
 
-  :target:before {
-    content: "";
-    display: block;
-    height: 100px;
-    margin: -100px 0 0;
-  }
-
 </style>
+<script>
+  (() => {
+    const offset = 100;
+
+    const scrollToHash = () => {
+      const hash = location.hash.slice(1);
+      const el = document.getElementById(hash);
+
+      if (el) {
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            behavior: "smooth",
+            top: el.offsetTop - offset,
+          });
+        });
+      }
+    }
+
+    window.addEventListener('hashchange', scrollToHash);
+    document.addEventListener('DOMContentLoaded', scrollToHash);
+  })();
+</script>
 </head>
 <body class="bg:fade-16@dark font:fade-86@dark">
     <nav class="w:full fixed@sm bg:fade-16/.95@dark bg:white z:1000">
@@ -248,7 +263,7 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>    Semicolon,
 </span></span><span style="display:flex;"><span>]
 </span></span></code></pre></div><p>(Note that this is a completely imaginary example.)</p>
-<p>It is at this point in the compilation process that the Rust compiler evaluates macros. Remember, a macro takes a stream of tokens as input, and also outputs a stream of tokens. This has some major implications:</p>
+<p>A macro takes a stream of tokens akin to the above as input, and also outputs a stream of tokens.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> This has some major implications:</p>
 <ul>
 <li>Rust macros can add new code: add a trait implementation, create a new struct, write a new function, etc.</li>
 <li>Rust macros cannot interact with the logic in the code (e.g. see whether a type implements a trait, call a function declared in the source, etc.), because the logic has not actually been constructed yet.</li>
@@ -496,12 +511,24 @@ Output <em>replaces</em> input. (Original input does not exist in final token st
 <li><a href="https://doc.rust-lang.org/book/ch19-06-macros.html">The &ldquo;Macros&rdquo; chapter in The Rust Book</a></li>
 <li><a href="https://veykril.github.io/tlborm/">The Little Book of Rust Macros</a></li>
 <li><a href="https://github.com/dtolnay/proc-macro-workshop">dtolnay&rsquo;s procedural macros workshop</a></li>
+<li><a href="https://carlkcarlk.github.io/rust-ast-explorer/">Rust AST Explorer</a> (credit: <a href="https://matklad.github.io/">matklad</a>)</li>
 </ul>
 <hr>
 <p>I&rsquo;m a software engineer for <a href="https://near.org/">NEAR Protocol</a>, head of education at the <a
     href="https://www.blockchainacceleration.org/">Blockchain Acceleration Foundation</a>, and a graduate
   student at the <a href="https://www.titech.ac.jp/">Tokyo Institute of Technology</a>.</p>
 <p>Connect with me <a href="https://twitter.com/sudo_build">on Twitter</a>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Correction from <a href="https://matklad.github.io/">matklad</a>:</p>
+<blockquote>
+<p>The macro evaluation process is &hellip; messy, a correct thing to say is that &ldquo;in rust compiler, parsing, name resolution, and macro expansion are mutually recursive procedures which happen at the same time&rdquo;. Luckily, I think for the purposes of this post we don&rsquo;t need to explain when macro expansion happens, it is enough to say &ldquo;tokens is what is used as input or output of the macro. Macros don&rsquo;t have direct access to a parsed AST, but a macro can parse input tokens itself&rdquo;.</p>
+</blockquote>
+&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></li>
+</ol>
+</div>
 </div>
 </article>
 <footer class="py:24">

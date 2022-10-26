@@ -32,14 +32,29 @@ if (!doNotTrack) {
     scroll-behavior: smooth;
   }
 
-  :target:before {
-    content: "";
-    display: block;
-    height: 100px;
-    margin: -100px 0 0;
-  }
-
 </style>
+<script>
+  (() => {
+    const offset = 100;
+
+    const scrollToHash = () => {
+      const hash = location.hash.slice(1);
+      const el = document.getElementById(hash);
+
+      if (el) {
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            behavior: "smooth",
+            top: el.offsetTop - offset,
+          });
+        });
+      }
+    }
+
+    window.addEventListener('hashchange', scrollToHash);
+    document.addEventListener('DOMContentLoaded', scrollToHash);
+  })();
+</script>
 </head>
 <body class="bg:fade-16@dark font:fade-86@dark">
     <nav class="w:full fixed@sm bg:fade-16/.95@dark bg:white z:1000">
