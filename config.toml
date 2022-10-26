@@ -17,7 +17,17 @@ unsafe = true
 
 [markup]
 [markup.highlight]
-style = 'base16-snazzy'
+anchorLineNos = false
+codeFences = false
+guessSyntax = false
+hl_Lines = ""
+lineAnchors = ""
+lineNoStart = ""
+lineNos = false
+lineNumbersInTable = false
+noClasses = false
+style = ""
+tabWidth = ""
 
 [menu]
 

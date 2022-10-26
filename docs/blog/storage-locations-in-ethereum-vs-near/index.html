@@ -14,10 +14,41 @@ I hope to accomplish two things in this write-up:" />
     <meta name="author" content="" />
     
 
+    <link id="highlight-theme-light" rel="stylesheet"
+        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github.min.css">
+    <link id="highlight-theme-dark" disabled rel="stylesheet"
+        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github-dark.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
+
     <link href="https://unpkg.com/@master/normal.css" rel="stylesheet">
     <script src="https://unpkg.com/@master/css"></script>
     <script src="https://unpkg.com/themes.js"></script>
-    <script>window.themes = new window.Themes()</script>
+    <script>
+        (() => {
+            hljs.highlightAll();
+
+            const themes = new window.Themes();
+            window.themes = themes;
+
+            const updateSyntaxTheme = () => {
+                const darkStylesheet = document.getElementById('highlight-theme-dark');
+                const lightStylesheet = document.getElementById('highlight-theme-light');
+                if (themes.documentTheme === 'dark') {
+                    lightStylesheet.disabled = true;
+                    darkStylesheet.disabled = false;
+                } else {
+                    lightStylesheet.disabled = false;
+                    darkStylesheet.disabled = true;
+                }
+            };
+
+            updateSyntaxTheme();
+
+            themes.onChange = (theme) => {
+                updateSyntaxTheme();
+            };
+        })();
+    </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
 <script>
 var doNotTrack = false;
@@ -30,6 +61,10 @@ if (!doNotTrack) {
 </script>
 
 <style>
+  .table {
+    display: initial;
+  }
+
   @keyframes highlight {
     0% {
       background-color: rgba(226, 230, 30, 0.4);
@@ -66,10 +101,6 @@ if (!doNotTrack) {
     window.addEventListener('hashchange', e => {
       const id = new URL(e.newURL).hash.slice(1);
       scrollToId(id);
-    });
-
-    window.addEventListener('beforeunload', e => {
-      console.log('beforeunload', e);
     });
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -272,7 +303,6 @@ if (!doNotTrack) {
     {bl:5|solid;f:fade-34/.1}_:where(blockquote)
     {f:fade-76/.1}_:where(blockquote)@dark
     {font:90%;v:middle}_:where(code)
-    {p:2;6;r:4}_:where(code:not(.highlight_*,pre_*))
     {text-decoration:1;line-through;fade-68}_:where(del)
     {text-decoration-color:red-64}_:where(del)@dark
     {text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
@@ -293,14 +323,13 @@ if (!doNotTrack) {
     {font:fade-80}_:where(p,li,details)@dark
     {my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
     {mt:0!}>:first-child
-    {p:20;r:8;overflow:auto;bg:rgba(11,18,23,0.9)!;font:fade-90;lh:1.5}_:where(pre)
     {width:full;border-spacing:0}_:where(table)
     {v:baseline}_:where(td)
     {pl:0}_:where(td,th):first-child
     {pr:0}_:where(td,th):last-child
     {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
     {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
-    {font:semibold}_:where(th,p_code,li_code,a,mark)
+    {font:semibold}_:where(th,a,mark,:not(pre)>code)
     {list-style-type:disc}_:where(ul)
     {pl:1.5em}_:where(ul,ol,blockquote)
     {max-width:full}_:where(video,img)
@@ -314,6 +343,7 @@ if (!doNotTrack) {
     {opacity:1}_:hover>.headingAnchor
     {color:fade-50}_.headingAnchor@dark
     {color:fade-70}_.headingAnchor:hover@dark
+    {border-radius:2;lh:1.5}_:where(pre>code)
 "><p>The keywords <code>memory</code>, <code>storage</code>, <code>calldata</code> are a big pain point for new Solidity developers—just look at the sheer number of <a href="https://ethereum.stackexchange.com/questions/tagged/storage+solidity">questions that have been asked</a> and articles that have been written <a href="https://www.geeksforgeeks.org/storage-vs-memory-in-solidity/">1</a> <a href="https://solidity-by-example.org/data-locations/">2</a> <a href="https://medium.com/coinmonks/ethereum-solidity-memory-vs-storage-which-to-use-in-local-functions-72b593c3703a">3</a> <a href="https://dlt-repo.net/storage-vs-memory-vs-stack-in-solidity-ethereum/">4</a> about the topic, not to mention the <a href="https://docs.soliditylang.org/en/latest/introduction-to-smart-contracts.html#storage-memory-and-the-stack">multiple</a>, <a href="https://docs.soliditylang.org/en/latest/types.html#data-location">different</a>, <a href="https://docs.soliditylang.org/en/latest/internals/layout_in_storage.html">sections</a> (and <a href="https://docs.soliditylang.org/en/latest/internals/layout_in_memory.html">here</a>, and <a href="https://docs.soliditylang.org/en/latest/internals/layout_in_calldata.html">here</a>) the Solidity documentation dedicates to the topic.</p>
 <p>Storage locations in Solidity are no joke!</p>
 <p>I hope to accomplish two things in this write-up:</p>
@@ -335,55 +365,57 @@ if (!doNotTrack) {
 <p>Got it? Let&rsquo;s run through a quick example.</p>
 <h2 id="practical-example">Practical Example</h2>
 <p><a href="https://remix.ethereum.org/?gist=ac0bce6c2c3c59ab979de2b179ae1e55">Open this code sample in Remix IDE</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#ff5c57">contract</span> <span style="color:#f3f99d">StorageTest</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#ff5c57">struct</span> <span style="color:#f3f99d">ComplexStruct</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#9aedfe">uint256</span> x;
-</span></span><span style="display:flex;"><span>        <span style="color:#9aedfe">uint256</span> y;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    ComplexStruct <span style="color:#ff6ac1">public</span> myValue;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff5c57">function</span> <span style="color:#57c7ff">reset</span> () <span style="color:#ff6ac1">public</span> {
-</span></span><span style="display:flex;"><span>        myValue.x <span style="color:#ff6ac1">=</span> <span style="color:#ff9f43">0</span>;
-</span></span><span style="display:flex;"><span>        myValue.y <span style="color:#ff6ac1">=</span> <span style="color:#ff9f43">0</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff5c57">function</span> <span style="color:#57c7ff">setStruct1</span> (ComplexStruct calldata c) <span style="color:#ff6ac1">public</span> { <span style="color:#78787e">// 67821
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>        myValue <span style="color:#ff6ac1">=</span> c; <span style="color:#78787e">// copy and increment
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>        myValue.x <span style="color:#ff6ac1">=</span> myValue.x <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">1</span>;
-</span></span><span style="display:flex;"><span>        myValue.y <span style="color:#ff6ac1">=</span> myValue.y <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">1</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff5c57">function</span> <span style="color:#57c7ff">setStruct2</span> (ComplexStruct calldata c) <span style="color:#ff6ac1">public</span> { <span style="color:#78787e">// 66374
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>        <span style="color:#78787e">// increment without copy
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>        myValue.x <span style="color:#ff6ac1">=</span> c.x <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">1</span>;
-</span></span><span style="display:flex;"><span>        myValue.y <span style="color:#ff6ac1">=</span> c.y <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">1</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff5c57">function</span> <span style="color:#57c7ff">setStruct3</span> (ComplexStruct <span style="color:#ff6ac1">memory</span> c) <span style="color:#ff6ac1">public</span> { <span style="color:#78787e">// 67363
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>        myValue <span style="color:#ff6ac1">=</span> c; <span style="color:#78787e">// copy and increment
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>        myValue.x <span style="color:#ff6ac1">=</span> myValue.x <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">1</span>;
-</span></span><span style="display:flex;"><span>        myValue.y <span style="color:#ff6ac1">=</span> myValue.y <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">1</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff5c57">function</span> <span style="color:#57c7ff">setStruct4</span> (ComplexStruct <span style="color:#ff6ac1">memory</span> c) <span style="color:#ff6ac1">public</span> { <span style="color:#78787e">// 66937
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>        <span style="color:#78787e">// increment without copy
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>        myValue.x <span style="color:#ff6ac1">=</span> c.x <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">1</span>;
-</span></span><span style="display:flex;"><span>        myValue.y <span style="color:#ff6ac1">=</span> c.y <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">1</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff5c57">function</span> <span style="color:#57c7ff">getStruct</span> () <span style="color:#ff6ac1">public</span> <span style="color:#ff6ac1">view</span> <span style="color:#ff6ac1">returns</span> (ComplexStruct <span style="color:#ff6ac1">memory</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#ff6ac1">return</span> myValue;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>(The commented-out numbers after the function signatures are the gas units consumed for executing each function, according to Remix IDE.)</p>
+<pre><code class="language-solidity">contract StorageTest {
+    struct ComplexStruct {
+        uint256 x;
+        uint256 y;
+    }
+
+    ComplexStruct public myValue;
+
+    function reset () public {
+        myValue.x = 0;
+        myValue.y = 0;
+    }
+
+    function setStruct1 (ComplexStruct calldata c) public { // 67821
+        myValue = c; // copy and increment
+        myValue.x = myValue.x + 1;
+        myValue.y = myValue.y + 1;
+    }
+
+    function setStruct2 (ComplexStruct calldata c) public { // 66374
+        // increment without copy
+        myValue.x = c.x + 1;
+        myValue.y = c.y + 1;
+    }
+
+    function setStruct3 (ComplexStruct memory c) public { // 67363
+        myValue = c; // copy and increment
+        myValue.x = myValue.x + 1;
+        myValue.y = myValue.y + 1;
+    }
+
+    function setStruct4 (ComplexStruct memory c) public { // 66937
+        // increment without copy
+        myValue.x = c.x + 1;
+        myValue.y = c.y + 1;
+    }
+
+    function getStruct () public view returns (ComplexStruct memory) {
+        return myValue;
+    }
+}
+</code></pre>
+<p>(The commented-out numbers after the function signatures are the gas units consumed for executing each function, according to Remix IDE.)</p>
 <p>Though it&rsquo;s not explicitly stated in the code listing, <code>myValue</code> is allocated to the contract&rsquo;s storage.</p>
 <p>The first two functions (<code>setStruct1</code>, <code>setStruct2</code>) take in a struct stored in <code>calldata</code>, and thus, the more efficient of the two (<code>setStruct2</code>), is actually the most efficient in the whole contract.</p>
 <p><code>setStruct3</code> and <code>setStruct4</code> are identical to their N−2 analogues, with the exception that they use <code>memory</code> instead of <code>calldata</code>.</p>
 <p>Note that we could not call <code>setStruct1</code> or <code>setStruct2</code> from another function within the contract, because we cannot convert from <code>memory</code> to <code>calldata</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span>setStruct1(ComplexStruct({ x<span style="color:#ff6ac1">:</span> <span style="color:#ff9f43">1</span>, y<span style="color:#ff6ac1">:</span> <span style="color:#ff9f43">2</span> }));
-</span></span><span style="display:flex;"><span><span style="color:#78787e">// TypeError: Invalid type for argument in function call. Invalid implicit conversion from struct StorageTest.ComplexStruct memory to struct StorageTest.ComplexStruct calldata requested.
-</span></span></span></code></pre></div><p>Remember: calldata is <em>immutable</em>!</p>
+<pre><code class="language-solidity">setStruct1(ComplexStruct({ x: 1, y: 2 }));
+// TypeError: Invalid type for argument in function call. Invalid implicit conversion from struct StorageTest.ComplexStruct memory to struct StorageTest.ComplexStruct calldata requested.
+</code></pre>
+<p>Remember: calldata is <em>immutable</em>!</p>
 <h2 id="the-alternative">The Alternative</h2>
 <p>This whole <code>memory</code>-<code>calldata</code> fiasco is pretty complicated. Unfortunately, there are many non-ideal design decisions still influencing the modern Solidity language. However, if you must deploy to an EVM-compatible chain, Solidity is still the language of choice. It has the best editor support, tooling, resources, and community of any other smart contract DSL.</p>
 <p>That&rsquo;s a necessary qualifier—&ldquo;smart contract DSL&rdquo;—because, as it turns out, smart contracts can be written in general-purpose programming languages as well, even those with richer ecosystems than Solidity&rsquo;s.</p>

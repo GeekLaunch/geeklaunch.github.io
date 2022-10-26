@@ -5,7 +5,6 @@
     {bl:5|solid;f:fade-34/.1}_:where(blockquote)
     {f:fade-76/.1}_:where(blockquote)@dark
     {font:90%;v:middle}_:where(code)
-    {p:2;6;r:4}_:where(code:not(.highlight_*,pre_*))
     {text-decoration:1;line-through;fade-68}_:where(del)
     {text-decoration-color:red-64}_:where(del)@dark
     {text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
@@ -26,14 +25,13 @@
     {font:fade-80}_:where(p,li,details)@dark
     {my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
     {mt:0!}>:first-child
-    {p:20;r:8;overflow:auto;bg:rgba(11,18,23,0.9)!;font:fade-90;lh:1.5}_:where(pre)
     {width:full;border-spacing:0}_:where(table)
     {v:baseline}_:where(td)
     {pl:0}_:where(td,th):first-child
     {pr:0}_:where(td,th):last-child
     {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
     {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
-    {font:semibold}_:where(th,p_code,li_code,a,mark)
+    {font:semibold}_:where(th,a,mark,:not(pre)>code)
     {list-style-type:disc}_:where(ul)
     {pl:1.5em}_:where(ul,ol,blockquote)
     {max-width:full}_:where(video,img)
@@ -47,6 +45,7 @@
     {opacity:1}_:hover>.headingAnchor
     {color:fade-50}_.headingAnchor@dark
     {color:fade-70}_.headingAnchor:hover@dark
+    {border-radius:2;lh:1.5}_:where(pre>code)
 ">
     {{- .Content -}}
 </div>

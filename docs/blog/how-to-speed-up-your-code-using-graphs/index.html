@@ -14,10 +14,41 @@ In the video, he mentions that the Python code he wrote to solve the &ldquo;five
     <meta name="author" content="" />
     
 
+    <link id="highlight-theme-light" rel="stylesheet"
+        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github.min.css">
+    <link id="highlight-theme-dark" disabled rel="stylesheet"
+        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github-dark.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
+
     <link href="https://unpkg.com/@master/normal.css" rel="stylesheet">
     <script src="https://unpkg.com/@master/css"></script>
     <script src="https://unpkg.com/themes.js"></script>
-    <script>window.themes = new window.Themes()</script>
+    <script>
+        (() => {
+            hljs.highlightAll();
+
+            const themes = new window.Themes();
+            window.themes = themes;
+
+            const updateSyntaxTheme = () => {
+                const darkStylesheet = document.getElementById('highlight-theme-dark');
+                const lightStylesheet = document.getElementById('highlight-theme-light');
+                if (themes.documentTheme === 'dark') {
+                    lightStylesheet.disabled = true;
+                    darkStylesheet.disabled = false;
+                } else {
+                    lightStylesheet.disabled = false;
+                    darkStylesheet.disabled = true;
+                }
+            };
+
+            updateSyntaxTheme();
+
+            themes.onChange = (theme) => {
+                updateSyntaxTheme();
+            };
+        })();
+    </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
 <script>
 var doNotTrack = false;
@@ -30,6 +61,10 @@ if (!doNotTrack) {
 </script>
 
 <style>
+  .table {
+    display: initial;
+  }
+
   @keyframes highlight {
     0% {
       background-color: rgba(226, 230, 30, 0.4);
@@ -66,10 +101,6 @@ if (!doNotTrack) {
     window.addEventListener('hashchange', e => {
       const id = new URL(e.newURL).hash.slice(1);
       scrollToId(id);
-    });
-
-    window.addEventListener('beforeunload', e => {
-      console.log('beforeunload', e);
     });
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -276,7 +307,6 @@ if (!doNotTrack) {
     {bl:5|solid;f:fade-34/.1}_:where(blockquote)
     {f:fade-76/.1}_:where(blockquote)@dark
     {font:90%;v:middle}_:where(code)
-    {p:2;6;r:4}_:where(code:not(.highlight_*,pre_*))
     {text-decoration:1;line-through;fade-68}_:where(del)
     {text-decoration-color:red-64}_:where(del)@dark
     {text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
@@ -297,14 +327,13 @@ if (!doNotTrack) {
     {font:fade-80}_:where(p,li,details)@dark
     {my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
     {mt:0!}>:first-child
-    {p:20;r:8;overflow:auto;bg:rgba(11,18,23,0.9)!;font:fade-90;lh:1.5}_:where(pre)
     {width:full;border-spacing:0}_:where(table)
     {v:baseline}_:where(td)
     {pl:0}_:where(td,th):first-child
     {pr:0}_:where(td,th):last-child
     {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
     {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
-    {font:semibold}_:where(th,p_code,li_code,a,mark)
+    {font:semibold}_:where(th,a,mark,:not(pre)>code)
     {list-style-type:disc}_:where(ul)
     {pl:1.5em}_:where(ul,ol,blockquote)
     {max-width:full}_:where(video,img)
@@ -318,6 +347,7 @@ if (!doNotTrack) {
     {opacity:1}_:hover>.headingAnchor
     {color:fade-50}_.headingAnchor@dark
     {color:fade-70}_.headingAnchor:hover@dark
+    {border-radius:2;lh:1.5}_:where(pre>code)
 "><p>(This article got a shout-out in <a href="https://youtu.be/c33AZBnRHks?t=1068">Matt Parker&rsquo;s follow-up video</a>. Did you know <a href="https://youtube.com/c/GeekLaunch">I also make YouTube videos</a>?)</p>
 <p><a href="https://twitter.com/standupmaths">Matt Parker</a> of <a href="https://www.youtube.com/standupmaths">Stand Up Maths</a> recently uploaded a video entitled &ldquo;Can you find: five five-letter words with twenty-five unique letters?,&rdquo; which I highly recommend you watch to understand the point of this post, the problem we&rsquo;re trying to solve, and the algorithm we&rsquo;ll be optimizing.</p>
 
@@ -376,11 +406,12 @@ if (!doNotTrack) {
 <p>We can also maintain <a href="https://github.com/encody/jotto-problem/blob/master/src/main.rs#L20-L34">a set of word combinations</a> that we have already tried and failed to use in a solution.</p>
 <h2 id="compiler-options">Compiler Options</h2>
 <p>Since we only care about the runtime of this program, we can have the compiler optimize the heck out of it:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[profile.release]
-</span></span><span style="display:flex;"><span>lto = <span style="color:#ff6ac1">true</span>
-</span></span><span style="display:flex;"><span>codegen-units = <span style="color:#ff9f43">1</span>
-</span></span><span style="display:flex;"><span>panic = <span style="color:#5af78e">&#34;abort&#34;</span>
-</span></span></code></pre></div><h2 id="final-product">Final Product</h2>
+<pre><code class="language-toml">[profile.release]
+lto = true
+codegen-units = 1
+panic = &quot;abort&quot;
+</code></pre>
+<h2 id="final-product">Final Product</h2>
 <pre><code>$ time ./target/release/jotto-problem
 
 [solutions output]

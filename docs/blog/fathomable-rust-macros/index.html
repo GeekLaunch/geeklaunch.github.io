@@ -14,10 +14,41 @@ When a compiler begins compiling a program, it first reads in the source code fi
     <meta name="author" content="" />
     
 
+    <link id="highlight-theme-light" rel="stylesheet"
+        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github.min.css">
+    <link id="highlight-theme-dark" disabled rel="stylesheet"
+        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github-dark.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
+
     <link href="https://unpkg.com/@master/normal.css" rel="stylesheet">
     <script src="https://unpkg.com/@master/css"></script>
     <script src="https://unpkg.com/themes.js"></script>
-    <script>window.themes = new window.Themes()</script>
+    <script>
+        (() => {
+            hljs.highlightAll();
+
+            const themes = new window.Themes();
+            window.themes = themes;
+
+            const updateSyntaxTheme = () => {
+                const darkStylesheet = document.getElementById('highlight-theme-dark');
+                const lightStylesheet = document.getElementById('highlight-theme-light');
+                if (themes.documentTheme === 'dark') {
+                    lightStylesheet.disabled = true;
+                    darkStylesheet.disabled = false;
+                } else {
+                    lightStylesheet.disabled = false;
+                    darkStylesheet.disabled = true;
+                }
+            };
+
+            updateSyntaxTheme();
+
+            themes.onChange = (theme) => {
+                updateSyntaxTheme();
+            };
+        })();
+    </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
 <script>
 var doNotTrack = false;
@@ -30,6 +61,10 @@ if (!doNotTrack) {
 </script>
 
 <style>
+  .table {
+    display: initial;
+  }
+
   @keyframes highlight {
     0% {
       background-color: rgba(226, 230, 30, 0.4);
@@ -66,10 +101,6 @@ if (!doNotTrack) {
     window.addEventListener('hashchange', e => {
       const id = new URL(e.newURL).hash.slice(1);
       scrollToId(id);
-    });
-
-    window.addEventListener('beforeunload', e => {
-      console.log('beforeunload', e);
     });
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -281,7 +312,6 @@ if (!doNotTrack) {
     {bl:5|solid;f:fade-34/.1}_:where(blockquote)
     {f:fade-76/.1}_:where(blockquote)@dark
     {font:90%;v:middle}_:where(code)
-    {p:2;6;r:4}_:where(code:not(.highlight_*,pre_*))
     {text-decoration:1;line-through;fade-68}_:where(del)
     {text-decoration-color:red-64}_:where(del)@dark
     {text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
@@ -302,14 +332,13 @@ if (!doNotTrack) {
     {font:fade-80}_:where(p,li,details)@dark
     {my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
     {mt:0!}>:first-child
-    {p:20;r:8;overflow:auto;bg:rgba(11,18,23,0.9)!;font:fade-90;lh:1.5}_:where(pre)
     {width:full;border-spacing:0}_:where(table)
     {v:baseline}_:where(td)
     {pl:0}_:where(td,th):first-child
     {pr:0}_:where(td,th):last-child
     {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
     {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
-    {font:semibold}_:where(th,p_code,li_code,a,mark)
+    {font:semibold}_:where(th,a,mark,:not(pre)>code)
     {list-style-type:disc}_:where(ul)
     {pl:1.5em}_:where(ul,ol,blockquote)
     {max-width:full}_:where(video,img)
@@ -323,23 +352,26 @@ if (!doNotTrack) {
     {opacity:1}_:hover>.headingAnchor
     {color:fade-50}_.headingAnchor@dark
     {color:fade-70}_.headingAnchor:hover@dark
+    {border-radius:2;lh:1.5}_:where(pre>code)
 "><p>Rust macros are compile-time constructs that operate on streams of Rust language tokens.</p>
 <h2 id="a-brief-aside-on-compilation">A brief aside on compilation</h2>
 <p>What are &ldquo;Rust language tokens&rdquo;?</p>
 <p>When a compiler begins compiling a program, it first reads in the source code file. For simplicity&rsquo;s sake, let&rsquo;s say the compiler stores that source code in a string. The next step is to step through the string, character by character, and divide it up into &ldquo;tokens.&rdquo;</p>
 <p>For example, a Rust snippet like:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#ff5c57">let</span> foo: <span style="color:#9aedfe">u32</span> <span style="color:#ff6ac1">=</span> <span style="color:#ff9f43">30</span>;
-</span></span></code></pre></div><p>Might be &ldquo;tokenized&rdquo; into:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>[
-</span></span><span style="display:flex;"><span>    KeywordLet,
-</span></span><span style="display:flex;"><span>    Identifier(<span style="color:#5af78e">&#34;foo&#34;</span>),
-</span></span><span style="display:flex;"><span>    Colon,
-</span></span><span style="display:flex;"><span>    Identifier(<span style="color:#5af78e">&#34;u32&#34;</span>),
-</span></span><span style="display:flex;"><span>    SingleEquals,
-</span></span><span style="display:flex;"><span>    NumericLiteral(<span style="color:#5af78e">&#34;30&#34;</span>),
-</span></span><span style="display:flex;"><span>    Semicolon,
-</span></span><span style="display:flex;"><span>]
-</span></span></code></pre></div><p>(Note that this is a completely imaginary example.)</p>
+<pre><code class="language-rust">let foo: u32 = 30;
+</code></pre>
+<p>Might be &ldquo;tokenized&rdquo; into:</p>
+<pre><code class="language-rust">[
+    KeywordLet,
+    Identifier(&quot;foo&quot;),
+    Colon,
+    Identifier(&quot;u32&quot;),
+    SingleEquals,
+    NumericLiteral(&quot;30&quot;),
+    Semicolon,
+]
+</code></pre>
+<p>(Note that this is a completely imaginary example.)</p>
 <p>A macro takes a stream of tokens akin to the above as input, and also outputs a stream of tokens.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> This has some major implications:</p>
 <ul>
 <li>Rust macros can add new code: add a trait implementation, create a new struct, write a new function, etc.</li>
@@ -349,119 +381,132 @@ if (!doNotTrack) {
 <p>There are two main categories of Rust macros: declarative macros and procedural macros.</p>
 <h2 id="declarative-macros">Declarative macros</h2>
 <p>Declarative macros can be declared and used alongside other code. They are declared using the special <code>macro_rules!</code> construct, and have some unique syntax:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>macro_rules! my_macro {
-</span></span><span style="display:flex;"><span>    (<span style="color:#78787e">$a</span>: <span style="color:#f3f99d">ident</span> <span style="color:#ff6ac1">=&gt;</span> <span style="color:#78787e">$b</span>: <span style="color:#f3f99d">expr</span>) <span style="color:#ff6ac1">=&gt;</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#ff6ac1">fn</span> <span style="color:#78787e">$a</span>() {
-</span></span><span style="display:flex;"><span>            println!(<span style="color:#5af78e">&#34;{}&#34;</span>, <span style="color:#78787e">$b</span>);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    };
-</span></span><span style="display:flex;"><span>    (<span style="color:#78787e">$a</span>: <span style="color:#f3f99d">ident</span>, <span style="color:#78787e">$b</span>: <span style="color:#f3f99d">expr</span>) <span style="color:#ff6ac1">=&gt;</span> {
-</span></span><span style="display:flex;"><span>        println!(<span style="color:#5af78e">&#34;{} {}&#34;</span>, <span style="color:#78787e">$a</span>, <span style="color:#78787e">$b</span>);
-</span></span><span style="display:flex;"><span>    };
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Declarative macros accept Rust tokens as input and perform pattern matching against them. In the example above, the macro <code>my_macro</code> matches two different patterns:</p>
+<pre><code class="language-rust">macro_rules! my_macro {
+    ($a: ident =&gt; $b: expr) =&gt; {
+        fn $a() {
+            println!(&quot;{}&quot;, $b);
+        }
+    };
+    ($a: ident, $b: expr) =&gt; {
+        println!(&quot;{} {}&quot;, $a, $b);
+    };
+}
+</code></pre>
+<p>Declarative macros accept Rust tokens as input and perform pattern matching against them. In the example above, the macro <code>my_macro</code> matches two different patterns:</p>
 <ol>
 <li>An identifier and an expression separated by a fat arrow <code>=&gt;</code>, and</li>
 <li>An identifier and an expression separated by a comma <code>,</code>.</li>
 </ol>
 <p>This macro could be invoked like:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>my_macro<span style="color:#ff6ac1">!</span>(foo, <span style="color:#ff9f43">45</span>);
-</span></span><span style="display:flex;"><span>my_macro<span style="color:#ff6ac1">!</span>(bar <span style="color:#ff6ac1">=&gt;</span> <span style="color:#5af78e">&#34;hello&#34;</span>);
-</span></span><span style="display:flex;"><span>my_macro<span style="color:#ff6ac1">!</span>(baz <span style="color:#ff6ac1">=&gt;</span> <span style="color:#ff9f43">9</span> <span style="color:#ff6ac1">*</span> <span style="color:#ff9f43">8</span>);
-</span></span></code></pre></div><h3 id="nested-macros-and-recursion">Nested macros and recursion</h3>
+<pre><code class="language-rust">my_macro!(foo, 45);
+my_macro!(bar =&gt; &quot;hello&quot;);
+my_macro!(baz =&gt; 9 * 8);
+</code></pre>
+<h3 id="nested-macros-and-recursion">Nested macros and recursion</h3>
 <p>One of the most popular Rust crates, <a href="https://crates.io/crates/serde_json"><code>serde_json</code></a>, includes a declarative macro <a href="https://docs.rs/serde_json/latest/serde_json/macro.json.html"><code>json!()</code></a>, which allows you to write JSON-like syntax in your Rust code. It returns a <a href="https://docs.rs/serde_json/latest/serde_json/enum.Value.html"><code>serde_json::Value</code></a>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>json<span style="color:#ff6ac1">!</span>({
-</span></span><span style="display:flex;"><span>    <span style="color:#5af78e">&#34;id&#34;</span>: <span style="color:#ff9f43">42</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#5af78e">&#34;name&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#5af78e">&#34;first&#34;</span>: <span style="color:#5af78e">&#34;John&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#5af78e">&#34;last&#34;</span>: <span style="color:#5af78e">&#34;Zoidberg&#34;</span>,
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>});
-</span></span></code></pre></div><p>As it turns out, you can put any valid Rust expression (that evaluates to a value that implements <code>Serialize</code>) as the value:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>json<span style="color:#ff6ac1">!</span>({
-</span></span><span style="display:flex;"><span>    <span style="color:#5af78e">&#34;id&#34;</span>: <span style="color:#ff9f43">21</span> <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">21</span>, <span style="color:#78787e">// Computed expression
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>    <span style="color:#5af78e">&#34;name&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#5af78e">&#34;first&#34;</span>: <span style="color:#5af78e">&#34;John&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#5af78e">&#34;last&#34;</span>: <span style="color:#5af78e">&#34;Zoidberg&#34;</span>,
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>});
-</span></span></code></pre></div><p>And I mean <em>any</em> valid Rust expression…</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>json<span style="color:#ff6ac1">!</span>({
-</span></span><span style="display:flex;"><span>    <span style="color:#5af78e">&#34;id&#34;</span>: <span style="color:#ff9f43">21</span> <span style="color:#ff6ac1">+</span> <span style="color:#ff9f43">21</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#5af78e">&#34;name&#34;</span>: <span style="color:#f3f99d">json</span><span style="color:#ff6ac1">!</span>({ <span style="color:#78787e">// This is another macro invocation!
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>        <span style="color:#5af78e">&#34;first&#34;</span>: <span style="color:#5af78e">&#34;John&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#5af78e">&#34;last&#34;</span>: <span style="color:#5af78e">&#34;Zoidberg&#34;</span>,
-</span></span><span style="display:flex;"><span>    }),
-</span></span><span style="display:flex;"><span>});
-</span></span></code></pre></div><p>This ability extends to the code that your macro generates as well. For example, we can write a basic parser that recursively translates the logic symbols for AND (∧; <code>^</code> in code) and OR (∨; <code>v</code> in code) into the Rust equivalents.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>macro_rules! andor {
-</span></span><span style="display:flex;"><span>    (<span style="color:#78787e">$a</span>: <span style="color:#f3f99d">ident</span> <span style="color:#ff6ac1">^</span> <span style="color:#78787e">$b</span>: <span style="color:#f3f99d">ident</span> <span style="color:#78787e">$($tail</span>: <span style="color:#f3f99d">tt</span>)<span style="color:#ff6ac1">*</span>) <span style="color:#ff6ac1">=&gt;</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#78787e">$a</span> <span style="color:#ff6ac1">&amp;&amp;</span> andor<span style="color:#ff6ac1">!</span>(<span style="color:#78787e">$b</span> <span style="color:#78787e">$($tail</span>)<span style="color:#ff6ac1">*</span>) <span style="color:#78787e">// Recursive invocation
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>    };
-</span></span><span style="display:flex;"><span>    (<span style="color:#78787e">$a</span>: <span style="color:#f3f99d">ident</span> v <span style="color:#78787e">$b</span>: <span style="color:#f3f99d">ident</span> <span style="color:#78787e">$($tail</span>: <span style="color:#f3f99d">tt</span>)<span style="color:#ff6ac1">*</span>) <span style="color:#ff6ac1">=&gt;</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#78787e">$a</span> <span style="color:#ff6ac1">||</span> andor<span style="color:#ff6ac1">!</span>(<span style="color:#78787e">$b</span> <span style="color:#78787e">$($tail</span>)<span style="color:#ff6ac1">*</span>) <span style="color:#78787e">// Recursive invocation
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>    };
-</span></span><span style="display:flex;"><span>    (<span style="color:#78787e">$($a</span>: <span style="color:#f3f99d">tt</span>)<span style="color:#ff6ac1">*</span>) <span style="color:#ff6ac1">=&gt;</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#78787e">$($a</span>)<span style="color:#ff6ac1">*</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>andor<span style="color:#ff6ac1">!</span>(<span style="color:#ff6ac1">true</span> <span style="color:#ff6ac1">^</span> <span style="color:#ff6ac1">false</span> v <span style="color:#ff6ac1">false</span> <span style="color:#ff6ac1">^</span> <span style="color:#ff6ac1">true</span>) <span style="color:#78787e">// true &amp;&amp; false || false &amp;&amp; true
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e">// =&gt; false
-</span></span></span></code></pre></div><p>Because it is a potentially infinite operation, the macro recursion has a <a href="https://doc.rust-lang.org/reference/attributes/limits.html#the-recursion_limit-attribute">maximum depth defined by the Rust compiler</a>.</p>
+<pre><code class="language-rust">json!({
+    &quot;id&quot;: 42,
+    &quot;name&quot;: {
+        &quot;first&quot;: &quot;John&quot;,
+        &quot;last&quot;: &quot;Zoidberg&quot;,
+    },
+});
+</code></pre>
+<p>As it turns out, you can put any valid Rust expression (that evaluates to a value that implements <code>Serialize</code>) as the value:</p>
+<pre><code class="language-rust">json!({
+    &quot;id&quot;: 21 + 21, // Computed expression
+    &quot;name&quot;: {
+        &quot;first&quot;: &quot;John&quot;,
+        &quot;last&quot;: &quot;Zoidberg&quot;,
+    },
+});
+</code></pre>
+<p>And I mean <em>any</em> valid Rust expression…</p>
+<pre><code class="language-rust">json!({
+    &quot;id&quot;: 21 + 21,
+    &quot;name&quot;: json!({ // This is another macro invocation!
+        &quot;first&quot;: &quot;John&quot;,
+        &quot;last&quot;: &quot;Zoidberg&quot;,
+    }),
+});
+</code></pre>
+<p>This ability extends to the code that your macro generates as well. For example, we can write a basic parser that recursively translates the logic symbols for AND (∧; <code>^</code> in code) and OR (∨; <code>v</code> in code) into the Rust equivalents.</p>
+<pre><code class="language-rust">macro_rules! andor {
+    ($a: ident ^ $b: ident $($tail: tt)*) =&gt; {
+        $a &amp;&amp; andor!($b $($tail)*) // Recursive invocation
+    };
+    ($a: ident v $b: ident $($tail: tt)*) =&gt; {
+        $a || andor!($b $($tail)*) // Recursive invocation
+    };
+    ($($a: tt)*) =&gt; {
+        $($a)*
+    }
+}
+
+andor!(true ^ false v false ^ true) // true &amp;&amp; false || false &amp;&amp; true
+// =&gt; false
+</code></pre>
+<p>Because it is a potentially infinite operation, the macro recursion has a <a href="https://doc.rust-lang.org/reference/attributes/limits.html#the-recursion_limit-attribute">maximum depth defined by the Rust compiler</a>.</p>
 <h2 id="procedural-macros">Procedural macros</h2>
 <p>Procedural macros are written using normal Rust code (not a unique syntax), which is compiled, and then run by the compiler when invoked. For this reason, procedural macros are also sometimes called &ldquo;compiler plugins.&rdquo;</p>
 <p>Because crates = compilation units, in order for a procedural macro to be compiled before its execution, procedural macros must be defined in (and subsequently exported from) a different crate from that in which they are used. These must be library crates with the following in <code>Cargo.toml</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[lib]
-</span></span><span style="display:flex;"><span>proc-macro = <span style="color:#ff6ac1">true</span>
-</span></span></code></pre></div><p>Procedural macros appear in three forms, which are all invoked differently:</p>
+<pre><code class="language-toml">[lib]
+proc-macro = true
+</code></pre>
+<p>Procedural macros appear in three forms, which are all invoked differently:</p>
 <ul>
 <li>
 <p>Attribute-like. <br>
 Input: annotated item. <br>
 Ouput <em>replaces</em> input. (Original input does not exist in final token stream.)</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#78787e">#[my_attribute_macro]</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff6ac1">struct</span> <span style="color:#f3f99d">MyStruct</span>; <span style="color:#78787e">// This struct is the input to the macro
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#ff6ac1">struct</span> <span style="color:#f3f99d">AnotherStruct</span>; <span style="color:#78787e">// This struct is not part of the macro&#39;s input
-</span></span></span></code></pre></div></li>
+<pre><code class="language-rust">#[my_attribute_macro]
+struct MyStruct; // This struct is the input to the macro
+
+struct AnotherStruct; // This struct is not part of the macro's input
+</code></pre>
+</li>
 <li>
 <p>Custom derive. <br>
 Input: annotated item. <br>
 Output <em>is appended to</em> input. (Original input still exists in final token stream.)</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#78787e">#[derive(MyDeriveMacro)]</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff6ac1">struct</span> <span style="color:#f3f99d">MyStruct</span>; <span style="color:#78787e">// This struct is the input to the macro
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#ff6ac1">struct</span> <span style="color:#f3f99d">AnotherStruct</span>; <span style="color:#78787e">// This struct is not part of the macro&#39;s input
-</span></span></span></code></pre></div></li>
+<pre><code class="language-rust">#[derive(MyDeriveMacro)]
+struct MyStruct; // This struct is the input to the macro
+
+struct AnotherStruct; // This struct is not part of the macro's input
+</code></pre>
+</li>
 <li>
 <p>Function-like. <br>
 Input: enclosed token stream. Delimiters are <code>[]</code>, <code>{}</code>, or <code>()</code>. <br>
 Output <em>replaces</em> input. (Original input does not exist in final token stream.)</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>my_function_like_macro<span style="color:#ff6ac1">!</span>(arbitrary <span style="color:#ff6ac1">+</span> token : <span style="color:#f3f99d">stream</span> <span style="color:#ff9f43">00</span>);
-</span></span><span style="display:flex;"><span><span style="color:#78787e">// is the same as
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>my_function_like_macro<span style="color:#ff6ac1">!</span>[arbitrary <span style="color:#ff6ac1">+</span> token : <span style="color:#f3f99d">stream</span> <span style="color:#ff9f43">00</span>];
-</span></span><span style="display:flex;"><span><span style="color:#78787e">// is the same as
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>my_function_like_macro<span style="color:#ff6ac1">!</span>{arbitrary <span style="color:#ff6ac1">+</span> token : <span style="color:#f3f99d">stream</span> <span style="color:#ff9f43">00</span>};
-</span></span></code></pre></div></li>
+<pre><code class="language-rust">my_function_like_macro!(arbitrary + token : stream 00);
+// is the same as
+my_function_like_macro![arbitrary + token : stream 00];
+// is the same as
+my_function_like_macro!{arbitrary + token : stream 00};
+</code></pre>
+</li>
 </ul>
 <p>In this post, I will discuss writing attribute and derive macros.</p>
 <h2 id="authoring-procedural-macros">Authoring procedural macros</h2>
 <p>At first glance, writing a procedural macro from scratch can be <em>really daunting</em>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#ff6ac1">use</span> proc_macro::TokenStream;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#78787e">#[proc_macro_attribute]</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff6ac1">pub</span> <span style="color:#ff6ac1">fn</span> <span style="color:#57c7ff">my_attribute_macro</span>(attr: <span style="color:#f3f99d">TokenStream</span>, item: <span style="color:#f3f99d">TokenStream</span>) -&gt; <span style="color:#f3f99d">TokenStream</span> {
-</span></span><span style="display:flex;"><span>    todo!(<span style="color:#5af78e">&#34;Good luck!&#34;</span>)
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>This macro could be invoked like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#78787e">#[my_attribute_macro]</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff6ac1">struct</span> <span style="color:#f3f99d">AnnotatedItem</span>;
-</span></span></code></pre></div><p>In this case, the <code>attr</code> token stream would be empty, and the <code>item</code> token stream would contain the <code>AnnotatedItem</code> struct.</p>
+<pre><code class="language-rust">use proc_macro::TokenStream;
+
+#[proc_macro_attribute]
+pub fn my_attribute_macro(attr: TokenStream, item: TokenStream) -&gt; TokenStream {
+    todo!(&quot;Good luck!&quot;)
+}
+</code></pre>
+<p>This macro could be invoked like this:</p>
+<pre><code class="language-rust">#[my_attribute_macro]
+struct AnnotatedItem;
+</code></pre>
+<p>In this case, the <code>attr</code> token stream would be empty, and the <code>item</code> token stream would contain the <code>AnnotatedItem</code> struct.</p>
 <p>If you invoke the macro like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#78787e">#[my_attribute_macro(attribute_tokens)]</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff6ac1">fn</span> <span style="color:#57c7ff">my_function</span>() {}
-</span></span></code></pre></div><p>In this case, the <code>attr</code> token stream would contain <code>attribute_tokens</code>, and the <code>item</code> token stream would contain the <code>my_function</code> function.</p>
+<pre><code class="language-rust">#[my_attribute_macro(attribute_tokens)]
+fn my_function() {}
+</code></pre>
+<p>In this case, the <code>attr</code> token stream would contain <code>attribute_tokens</code>, and the <code>item</code> token stream would contain the <code>my_function</code> function.</p>
 <p>Cool. We have the basic infrastructure set up, now we just have parse the input token streams.</p>
 <p>The Rust compiler hasn&rsquo;t even been so kind as to create the syntax tree for us yet. We just get a token stream, and we have to somehow parse it into something sensible (like a struct definition, <code>impl</code> block, etc.), manipulate it in some way, and then synthesize an output that the compiler can make sense of as valid code.</p>
 <p>That&rsquo;s a <em>lot</em> of work to do!</p>
@@ -470,31 +515,33 @@ Output <em>replaces</em> input. (Original input does not exist in final token st
 <p><a href="https://crates.io/crates/syn"><code>syn</code></a> and <a href="https://crates.io/crates/quote"><code>quote</code></a> are a pair of crates that simplify token stream manipulation. <code>syn</code> provides utilities for parsing token streams into syntax trees, and <code>quote</code> for converting Rust-like code back into token streams.</p>
 <p>The basic use-cases for each of these crates are extremely simple—they&rsquo;re very well-designed crates!</p>
 <p>Here is a bare-bones attribute macro using <code>syn</code> and <code>quote</code>, which does absolutely nothing (it returns its input):</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#ff6ac1">use</span> proc_macro::TokenStream;
-</span></span><span style="display:flex;"><span><span style="color:#ff6ac1">use</span> syn::{parse_macro_input, AttributeArgs, Item};
-</span></span><span style="display:flex;"><span><span style="color:#ff6ac1">use</span> quote::quote;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#78787e">#[proc_macro_attribute]</span>
-</span></span><span style="display:flex;"><span><span style="color:#ff6ac1">pub</span> <span style="color:#ff6ac1">fn</span> <span style="color:#57c7ff">my_attribute_macro</span>(attr: <span style="color:#f3f99d">TokenStream</span>, item: <span style="color:#f3f99d">TokenStream</span>) -&gt; <span style="color:#f3f99d">TokenStream</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#ff5c57">let</span> _attr <span style="color:#ff6ac1">=</span> parse_macro_input<span style="color:#ff6ac1">!</span>(attr <span style="color:#ff6ac1">as</span> AttributeArgs);
-</span></span><span style="display:flex;"><span>    <span style="color:#ff5c57">let</span> item <span style="color:#ff6ac1">=</span> parse_macro_input<span style="color:#ff6ac1">!</span>(item <span style="color:#ff6ac1">as</span> Item);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    quote<span style="color:#ff6ac1">!</span>{
-</span></span><span style="display:flex;"><span>        #item
-</span></span><span style="display:flex;"><span>    }.into()
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>The <code>parse_macro_input</code> macro tries to parse a <code>TokenStream</code> into a <code>syn</code> data structure, and produces a compiler error on failure. The <a href="https://docs.rs/syn"><code>syn</code> data structures and documentation</a> are worth perusing on your own. They will give you a pretty good idea of what a syntax tree might look like.</p>
+<pre><code class="language-rust">use proc_macro::TokenStream;
+use syn::{parse_macro_input, AttributeArgs, Item};
+use quote::quote;
+
+#[proc_macro_attribute]
+pub fn my_attribute_macro(attr: TokenStream, item: TokenStream) -&gt; TokenStream {
+    let _attr = parse_macro_input!(attr as AttributeArgs);
+    let item = parse_macro_input!(item as Item);
+
+    quote!{
+        #item
+    }.into()
+}
+</code></pre>
+<p>The <code>parse_macro_input</code> macro tries to parse a <code>TokenStream</code> into a <code>syn</code> data structure, and produces a compiler error on failure. The <a href="https://docs.rs/syn"><code>syn</code> data structures and documentation</a> are worth perusing on your own. They will give you a pretty good idea of what a syntax tree might look like.</p>
 <p>The <code>Item</code> parsed in the example above is an enum, which you can <code>match</code> against:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#ff6ac1">match</span> item { <span style="color:#78787e">// The annotated item was parsed as...
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>    Item::Enum(e) <span style="color:#ff6ac1">=&gt;</span> {}, <span style="color:#78787e">// ...an enum
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>    Item::<span style="color:#ff5c57">Fn</span>(f) <span style="color:#ff6ac1">=&gt;</span> {}, <span style="color:#78787e">// ...a function
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>    Item::Impl(i) <span style="color:#ff6ac1">=&gt;</span> {}, <span style="color:#78787e">// ...an impl block
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>    Item::Struct(s) <span style="color:#ff6ac1">=&gt;</span> {}, <span style="color:#78787e">// ...a struct
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#78787e">// ...and so on and so forth
-</span></span></span><span style="display:flex;"><span><span style="color:#78787e"></span>    _ <span style="color:#ff6ac1">=&gt;</span> todo!(),
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>The <code>quote</code> macro produces a <code>proc_macro2::TokenStream</code> (which can be easily transformed into a normal <code>proc_macro::TokenStream</code> via <code>Into::into</code>) from some input that is like Rust code. It also supports variable interpolation, via the <code>#identifier</code> syntax seen above.</p>
+<pre><code class="language-rust">match item { // The annotated item was parsed as...
+    Item::Enum(e) =&gt; {}, // ...an enum
+    Item::Fn(f) =&gt; {}, // ...a function
+    Item::Impl(i) =&gt; {}, // ...an impl block
+    Item::Struct(s) =&gt; {}, // ...a struct
+
+    // ...and so on and so forth
+    _ =&gt; todo!(),
+}
+</code></pre>
+<p>The <code>quote</code> macro produces a <code>proc_macro2::TokenStream</code> (which can be easily transformed into a normal <code>proc_macro::TokenStream</code> via <code>Into::into</code>) from some input that is like Rust code. It also supports variable interpolation, via the <code>#identifier</code> syntax seen above.</p>
 <p>In the world of macro authorship, <code>syn</code> and <code>quote</code> are pretty ubiquitous. <a href="https://github.com/dtolnay/thiserror/blob/464e2e798eea0985af3c2c16cc55866e2918f774/impl/src/expand.rs">Here&rsquo;s an example of <code>syn</code> and <code>quote</code> used in the popular crate <code>thiserror</code></a>.</p>
 <h2 id="parameterization-and-configuration">Parameterization and configuration</h2>
 <p>The last tool in our belt for building maintainable and usable macros is <a href="https://crates.io/crates/darling"><code>darling</code></a>. The crate&rsquo;s stated description is:</p>
@@ -504,84 +551,85 @@ Output <em>replaces</em> input. (Original input does not exist in final token st
 <p>However, it is useful for both custom derives and attribute macros. <code>syn</code> and <code>quote</code> are useful for parsing and manipulating streams of normal Rust tokens, and <code>darling</code> is useful for parsing attribute and item input streams into custom structs, attaching custom logic to process, and reporting errors, making the combination of these three crates a powerful framework for procedural macro authorship.</p>
 <h2 id="practical-example">Practical Example</h2>
 <p>Here is an example of a very simple derive macro using all three crates, complete with <a href="https://docs.rs/darling/0.14.1/darling/error/struct.Accumulator.html">error-handling</a>, an optional configuration parameter, and some of <code>darling</code>&rsquo;s <a href="https://docs.rs/darling/0.14.1/darling/#fromderiveinput">auto-forwarded fields</a> (<code>data</code>, <code>generics</code>, <code>ident</code>, <code>fields</code>).</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ff6ac1">use</span> darling::{FromDeriveInput, FromVariant};
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#ff6ac1">use</span> proc_macro2::TokenStream <span style="color:#ff6ac1">as</span> TokenStream2;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#ff6ac1">use</span> quote::quote;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span><span style="color:#ff6ac1">use</span> syn::{parse_macro_input, DeriveInput, Path};
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span><span style="color:#78787e">#[derive(Debug, FromDeriveInput)]</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span><span style="color:#78787e">// The struct will be deserialized from a `#[display]` attribute on any kind of enum
-</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span><span style="color:#78787e"></span><span style="color:#78787e">#[darling(attributes(display), supports(enum_any))]</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span><span style="color:#ff6ac1">struct</span> <span style="color:#f3f99d">EnumMeta</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    <span style="color:#78787e">// Try to optionally deserialize an item path
-</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span><span style="color:#78787e"></span>    <span style="color:#ff6ac1">pub</span> transform: <span style="color:#ff5c57">Option</span><span style="color:#ff6ac1">&lt;</span>Path<span style="color:#ff6ac1">&gt;</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    <span style="color:#78787e">// Forwarded attributes
-</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span><span style="color:#78787e"></span>    <span style="color:#ff6ac1">pub</span> ident: <span style="color:#f3f99d">syn</span>::Ident,
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    <span style="color:#ff6ac1">pub</span> generics: <span style="color:#f3f99d">syn</span>::Generics,
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>    <span style="color:#ff6ac1">pub</span> data: <span style="color:#f3f99d">darling</span>::ast::Data<span style="color:#ff6ac1">&lt;</span>VariantVisitor, ()<span style="color:#ff6ac1">&gt;</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span><span style="color:#78787e">#[derive(Debug, FromVariant)]</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span><span style="color:#ff6ac1">struct</span> <span style="color:#f3f99d">VariantVisitor</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>    <span style="color:#78787e">// The name of the enum variant
-</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span><span style="color:#78787e"></span>    <span style="color:#ff6ac1">pub</span> ident: <span style="color:#f3f99d">syn</span>::Ident,
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    <span style="color:#ff6ac1">pub</span> fields: <span style="color:#f3f99d">darling</span>::ast::Fields<span style="color:#ff6ac1">&lt;</span>()<span style="color:#ff6ac1">&gt;</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span><span style="color:#ff6ac1">fn</span> <span style="color:#57c7ff">expand</span>(meta: <span style="color:#f3f99d">EnumMeta</span>) -&gt; <span style="color:#ff5c57">Result</span><span style="color:#ff6ac1">&lt;</span>TokenStream2, darling::Error<span style="color:#ff6ac1">&gt;</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>    <span style="color:#ff5c57">let</span> EnumMeta {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>        transform,
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>        data,
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>        generics,
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>        ident,
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>    } <span style="color:#ff6ac1">=</span> meta;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>    <span style="color:#ff5c57">let</span> variants <span style="color:#ff6ac1">=</span> data.take_enum().unwrap();
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>    <span style="color:#ff5c57">let</span> match_arms <span style="color:#ff6ac1">=</span> variants.iter().map(<span style="color:#ff6ac1">|</span>variant<span style="color:#ff6ac1">|</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>        <span style="color:#ff5c57">let</span> i <span style="color:#ff6ac1">=</span> <span style="color:#ff6ac1">&amp;</span>variant.ident;
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>        <span style="color:#ff5c57">let</span> name <span style="color:#ff6ac1">=</span> i.to_string();
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>        <span style="color:#ff6ac1">match</span> variant.fields.style {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>            darling::ast::Style::Tuple <span style="color:#ff6ac1">=&gt;</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span>                quote<span style="color:#ff6ac1">!</span> { Self :: #i ( <span style="color:#ff6ac1">..</span> ) <span style="color:#ff6ac1">=&gt;</span> #name , }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>            }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span>            darling::ast::Style::Struct <span style="color:#ff6ac1">=&gt;</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>                quote<span style="color:#ff6ac1">!</span> { Self :: #i { <span style="color:#ff6ac1">..</span> } <span style="color:#ff6ac1">=&gt;</span> #name , }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>            }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span>            darling::ast::Style::Unit <span style="color:#ff6ac1">=&gt;</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span><span>                quote<span style="color:#ff6ac1">!</span> { Self :: #i  <span style="color:#ff6ac1">=&gt;</span> #name , }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span><span>            }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49</span><span>        }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50</span><span>    });
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52</span><span>    <span style="color:#78787e">// Properly includes generics in output
-</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53</span><span><span style="color:#78787e"></span>    <span style="color:#ff5c57">let</span> (imp, ty, wher) <span style="color:#ff6ac1">=</span> generics.split_for_impl();
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55</span><span>    <span style="color:#78787e">// Rust code output
-</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56</span><span><span style="color:#78787e"></span>    <span style="color:#ff5c57">Ok</span>(quote<span style="color:#ff6ac1">!</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57</span><span>        <span style="color:#ff6ac1">impl</span> #imp std::fmt::Display <span style="color:#ff6ac1">for</span> #ident #ty #wher {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58</span><span>            <span style="color:#ff6ac1">fn</span> <span style="color:#57c7ff">fmt</span>(<span style="color:#ff6ac1">&amp;</span>self, f: <span style="color:#ff6ac1">&amp;</span><span style="color:#f3f99d">mut</span> std::fmt::Formatter<span style="color:#ff6ac1">&lt;&#39;</span><span style="color:#ff5c57">_</span><span style="color:#ff6ac1">&gt;</span>) -&gt; <span style="color:#f3f99d">std</span>::fmt::<span style="color:#ff5c57">Result</span> {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59</span><span>                write!(f, <span style="color:#5af78e">&#34;{}&#34;</span>, #transform (
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60</span><span>                    <span style="color:#ff6ac1">match</span> self { #(#match_arms)<span style="color:#ff6ac1">*</span> }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61</span><span>                ))
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62</span><span>            }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63</span><span>        }
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64</span><span>    })
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65</span><span>}
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67</span><span><span style="color:#78787e">// Declares the name of the macro and the attributes it supports
-</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68</span><span><span style="color:#78787e"></span><span style="color:#78787e">#[proc_macro_derive(Display, attributes(display))]</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69</span><span><span style="color:#ff6ac1">pub</span> <span style="color:#ff6ac1">fn</span> <span style="color:#57c7ff">derive_display</span>(input: <span style="color:#f3f99d">proc_macro</span>::TokenStream) -&gt; <span style="color:#f3f99d">proc_macro</span>::TokenStream {
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70</span><span>    <span style="color:#ff5c57">let</span> input <span style="color:#ff6ac1">=</span> parse_macro_input<span style="color:#ff6ac1">!</span>(input <span style="color:#ff6ac1">as</span> DeriveInput);
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72</span><span>    FromDeriveInput::from_derive_input(<span style="color:#ff6ac1">&amp;</span>input)
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73</span><span>        .and_then(expand)
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74</span><span>        .map(<span style="color:#ff5c57">Into</span>::into)
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75</span><span>        <span style="color:#78787e">// Error handling
-</span></span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76</span><span><span style="color:#78787e"></span>        .unwrap_or_else(<span style="color:#ff6ac1">|</span>e<span style="color:#ff6ac1">|</span> e.write_errors().into())
-</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77</span><span>}
-</span></span></code></pre></div><p><a href="https://github.com/GeekLaunch/hello-rust-macros">This code is also available on GitHub</a>.</p>
+<pre><code class="language-rust">use darling::{FromDeriveInput, FromVariant};
+use proc_macro2::TokenStream as TokenStream2;
+use quote::quote;
+use syn::{parse_macro_input, DeriveInput, Path};
+
+#[derive(Debug, FromDeriveInput)]
+// The struct will be deserialized from a `#[display]` attribute on any kind of enum
+#[darling(attributes(display), supports(enum_any))]
+struct EnumMeta {
+    // Try to optionally deserialize an item path
+    pub transform: Option&lt;Path&gt;,
+
+    // Forwarded attributes
+    pub ident: syn::Ident,
+    pub generics: syn::Generics,
+    pub data: darling::ast::Data&lt;VariantVisitor, ()&gt;,
+}
+
+#[derive(Debug, FromVariant)]
+struct VariantVisitor {
+    // The name of the enum variant
+    pub ident: syn::Ident,
+    pub fields: darling::ast::Fields&lt;()&gt;,
+}
+
+fn expand(meta: EnumMeta) -&gt; Result&lt;TokenStream2, darling::Error&gt; {
+    let EnumMeta {
+        transform,
+        data,
+        generics,
+        ident,
+    } = meta;
+
+    let variants = data.take_enum().unwrap();
+
+    let match_arms = variants.iter().map(|variant| {
+        let i = &amp;variant.ident;
+        let name = i.to_string();
+        match variant.fields.style {
+            darling::ast::Style::Tuple =&gt; {
+                quote! { Self :: #i ( .. ) =&gt; #name , }
+            }
+            darling::ast::Style::Struct =&gt; {
+                quote! { Self :: #i { .. } =&gt; #name , }
+            }
+            darling::ast::Style::Unit =&gt; {
+                quote! { Self :: #i  =&gt; #name , }
+            }
+        }
+    });
+
+    // Properly includes generics in output
+    let (imp, ty, wher) = generics.split_for_impl();
+
+    // Rust code output
+    Ok(quote! {
+        impl #imp std::fmt::Display for #ident #ty #wher {
+            fn fmt(&amp;self, f: &amp;mut std::fmt::Formatter&lt;'_&gt;) -&gt; std::fmt::Result {
+                write!(f, &quot;{}&quot;, #transform (
+                    match self { #(#match_arms)* }
+                ))
+            }
+        }
+    })
+}
+
+// Declares the name of the macro and the attributes it supports
+#[proc_macro_derive(Display, attributes(display))]
+pub fn derive_display(input: proc_macro::TokenStream) -&gt; proc_macro::TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+
+    FromDeriveInput::from_derive_input(&amp;input)
+        .and_then(expand)
+        .map(Into::into)
+        // Error handling
+        .unwrap_or_else(|e| e.write_errors().into())
+}
+</code></pre>
+<p><a href="https://github.com/GeekLaunch/hello-rust-macros">This code is also available on GitHub</a>.</p>
 <p>This derive macro creates an implementation of <code>Display</code> on the targeted enum. It optionally accepts a <code>transform</code> attribute field, which is a path to a function which transforms the name of the variant before it is written out.</p>
 <h2 id="further-reading">Further Reading</h2>
 <ul>

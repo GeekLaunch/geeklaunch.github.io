@@ -13,10 +13,41 @@ $ openssl genrsa -out priv.pem 4096 Generating RSA private key, 4096 bit long mo
     <meta name="author" content="" />
     
 
+    <link id="highlight-theme-light" rel="stylesheet"
+        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github.min.css">
+    <link id="highlight-theme-dark" disabled rel="stylesheet"
+        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github-dark.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
+
     <link href="https://unpkg.com/@master/normal.css" rel="stylesheet">
     <script src="https://unpkg.com/@master/css"></script>
     <script src="https://unpkg.com/themes.js"></script>
-    <script>window.themes = new window.Themes()</script>
+    <script>
+        (() => {
+            hljs.highlightAll();
+
+            const themes = new window.Themes();
+            window.themes = themes;
+
+            const updateSyntaxTheme = () => {
+                const darkStylesheet = document.getElementById('highlight-theme-dark');
+                const lightStylesheet = document.getElementById('highlight-theme-light');
+                if (themes.documentTheme === 'dark') {
+                    lightStylesheet.disabled = true;
+                    darkStylesheet.disabled = false;
+                } else {
+                    lightStylesheet.disabled = false;
+                    darkStylesheet.disabled = true;
+                }
+            };
+
+            updateSyntaxTheme();
+
+            themes.onChange = (theme) => {
+                updateSyntaxTheme();
+            };
+        })();
+    </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
 <script>
 var doNotTrack = false;
@@ -29,6 +60,10 @@ if (!doNotTrack) {
 </script>
 
 <style>
+  .table {
+    display: initial;
+  }
+
   @keyframes highlight {
     0% {
       background-color: rgba(226, 230, 30, 0.4);
@@ -65,10 +100,6 @@ if (!doNotTrack) {
     window.addEventListener('hashchange', e => {
       const id = new URL(e.newURL).hash.slice(1);
       scrollToId(id);
-    });
-
-    window.addEventListener('beforeunload', e => {
-      console.log('beforeunload', e);
     });
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -236,7 +267,6 @@ if (!doNotTrack) {
     {bl:5|solid;f:fade-34/.1}_:where(blockquote)
     {f:fade-76/.1}_:where(blockquote)@dark
     {font:90%;v:middle}_:where(code)
-    {p:2;6;r:4}_:where(code:not(.highlight_*,pre_*))
     {text-decoration:1;line-through;fade-68}_:where(del)
     {text-decoration-color:red-64}_:where(del)@dark
     {text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
@@ -257,14 +287,13 @@ if (!doNotTrack) {
     {font:fade-80}_:where(p,li,details)@dark
     {my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
     {mt:0!}>:first-child
-    {p:20;r:8;overflow:auto;bg:rgba(11,18,23,0.9)!;font:fade-90;lh:1.5}_:where(pre)
     {width:full;border-spacing:0}_:where(table)
     {v:baseline}_:where(td)
     {pl:0}_:where(td,th):first-child
     {pr:0}_:where(td,th):last-child
     {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
     {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
-    {font:semibold}_:where(th,p_code,li_code,a,mark)
+    {font:semibold}_:where(th,a,mark,:not(pre)>code)
     {list-style-type:disc}_:where(ul)
     {pl:1.5em}_:where(ul,ol,blockquote)
     {max-width:full}_:where(video,img)
@@ -278,105 +307,115 @@ if (!doNotTrack) {
     {opacity:1}_:hover>.headingAnchor
     {color:fade-50}_.headingAnchor@dark
     {color:fade-70}_.headingAnchor:hover@dark
-"><div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>-----BEGIN PUBLIC KEY-----
-</span></span><span style="display:flex;"><span>MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH
-</span></span><span style="display:flex;"><span>79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72
-</span></span><span style="display:flex;"><span>1Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ+zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWb
-</span></span><span style="display:flex;"><span>Ydg14nl+ZQLC0H6n+v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICw
-</span></span><span style="display:flex;"><span>UUKTuKWBu/WJo/NjKWDGQQL4A2RfZW6u3DLc/BHlQzHgL9Ac3hM6n/aN1IcR0UpR
-</span></span><span style="display:flex;"><span>4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6Cl
-</span></span><span style="display:flex;"><span>rEYA/DsuKMmbf2/hX//fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5K
-</span></span><span style="display:flex;"><span>oEqCpW/LXT/Yrh/INKY9yQ7vruE/q417mJfbqfOmRitsgX4xm6IzWOb+D862Vr8y
-</span></span><span style="display:flex;"><span>Gt931gYvRBSyh2rjLJ/EkmQHMDQN/YbtnG7MlG6jpXehWkO+3XBDiDhfVqIO3fbX
-</span></span><span style="display:flex;"><span>k2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij+IvUrmZQbDlS/p3WT
-</span></span><span style="display:flex;"><span>GRt6yCtdLlbGPC6YZD+WLk58/9a/EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXn
-</span></span><span style="display:flex;"><span>iTbKw8sfeyccOKQgWbMAo8ECAwEAAQ==
-</span></span><span style="display:flex;"><span>-----END PUBLIC KEY-----
-</span></span></code></pre></div><p>That&rsquo;s an RSA public key that I just generated using the commands:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>$ openssl genrsa -out priv.pem 4096
-</span></span><span style="display:flex;"><span>Generating RSA private key, 4096 bit long modulus (2 primes)
-</span></span><span style="display:flex;"><span>..........................................................................................................................................................................................................................................................................++++
-</span></span><span style="display:flex;"><span>................................................++++
-</span></span><span style="display:flex;"><span>e is 65537 (0x010001)
-</span></span><span style="display:flex;"><span>$ openssl rsa -in ./priv.pem -pubout -out pub.pem
-</span></span><span style="display:flex;"><span>writing RSA key
-</span></span><span style="display:flex;"><span>$ cat pub.pem
-</span></span></code></pre></div><p>But, what the heck is this?</p>
+    {border-radius:2;lh:1.5}_:where(pre>code)
+"><pre><code class="language-text">-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH
+79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72
+1Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ+zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWb
+Ydg14nl+ZQLC0H6n+v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICw
+UUKTuKWBu/WJo/NjKWDGQQL4A2RfZW6u3DLc/BHlQzHgL9Ac3hM6n/aN1IcR0UpR
+4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6Cl
+rEYA/DsuKMmbf2/hX//fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5K
+oEqCpW/LXT/Yrh/INKY9yQ7vruE/q417mJfbqfOmRitsgX4xm6IzWOb+D862Vr8y
+Gt931gYvRBSyh2rjLJ/EkmQHMDQN/YbtnG7MlG6jpXehWkO+3XBDiDhfVqIO3fbX
+k2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij+IvUrmZQbDlS/p3WT
+GRt6yCtdLlbGPC6YZD+WLk58/9a/EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXn
+iTbKw8sfeyccOKQgWbMAo8ECAwEAAQ==
+-----END PUBLIC KEY-----
+</code></pre>
+<p>That&rsquo;s an RSA public key that I just generated using the commands:</p>
+<pre><code class="language-text">$ openssl genrsa -out priv.pem 4096
+Generating RSA private key, 4096 bit long modulus (2 primes)
+..........................................................................................................................................................................................................................................................................++++
+................................................++++
+e is 65537 (0x010001)
+$ openssl rsa -in ./priv.pem -pubout -out pub.pem
+writing RSA key
+$ cat pub.pem
+</code></pre>
+<p>But, what the heck is this?</p>
 <p>It&rsquo;s the public key part of an <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA</a> key pair, which is an <a href="https://www.cloudflare.com/learning/ssl/what-is-asymmetric-encryption/">asymmetric encryption algorithm</a>.</p>
 <p>If you&rsquo;ve been working with computers for a while, you may recognize the stuff between <code>-----BEGIN PUBLIC KEY-----</code> and <code>-----END PUBLIC KEY-----</code> as being <a href="https://en.wikipedia.org/wiki/Base64">base-64 encoded</a>. Simply put, it&rsquo;s binary data that&rsquo;s been encoded into easily printable ASCII characters.</p>
 <p>We can easily decode this into its original binary form using the following command:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>$ base64 -d | hexdump -C
-</span></span><span style="display:flex;"><span>...
-</span></span><span style="display:flex;"><span>30 82 02 22 30 0d 06 09  2a 86 48 86 f7 0d 01 01  |0..&#34;0...*.H.....|
-</span></span><span style="display:flex;"><span>01 05 00 03 82 02 0f 00  30 82 02 0a 02 82 02 01  |........0.......|
-</span></span><span style="display:flex;"><span>00 a7 30 a2 c9 d0 17 7f  85 da 8f 20 f7 3e d8 87  |..0........ .&gt;..|
-</span></span><span style="display:flex;"><span>ef db c7 ea dd 95 ca a6  d1 ca 5a 96 ea da 2c 35  |..........Z...,5|
-</span></span><span style="display:flex;"><span>e0 f4 ac 7e 32 c8 c9 35  1c 8b 9e 6a cd 98 60 59  |...~2..5...j..`Y|
-</span></span><span style="display:flex;"><span>4e 82 dd a1 56 b9 cd 6b  9c c5 20 42 a8 72 8e f6  |N...V..k.. B.r..|
-</span></span><span style="display:flex;"><span>d5 6b bf 7d 79 42 a1 9c  c8 eb 56 73 fd 0e c9 3c  |.k.}yB....Vs...&lt;|
-</span></span><span style="display:flex;"><span>97 48 cd e6 90 fb 34 04  0a cc 86 4d 9a 8f c8 00  |.H....4....M....|
-</span></span><span style="display:flex;"><span>e8 3d 1a 1a 75 65 2a 65  39 fb ba 5c 0c 72 85 9b  |.=..ue*e9..\.r..|
-</span></span><span style="display:flex;"><span>61 d8 35 e2 79 7e 65 02  c2 d0 7e a7 fa fd ee 7c  |a.5.y~e...~....||
-</span></span><span style="display:flex;"><span>11 5e 2d 80 7d f3 af 71  ec 6b 19 91 7c 26 ac e1  |.^-.}..q.k..|&amp;..|
-</span></span><span style="display:flex;"><span>64 55 c7 70 cc f4 0f 39  b7 c5 e0 20 e4 8c 80 b0  |dU.p...9... ....|
-</span></span><span style="display:flex;"><span>51 42 93 b8 a5 81 bb f5  89 a3 f3 63 29 60 c6 41  |QB.........c)`.A|
-</span></span><span style="display:flex;"><span>02 f8 03 64 5f 65 6e ae  dc 32 dc fc 11 e5 43 31  |...d_en..2....C1|
-</span></span><span style="display:flex;"><span>e0 2f d0 1c de 13 3a 9f  f6 8d d4 87 11 d1 4a 51  |./....:.......JQ|
-</span></span><span style="display:flex;"><span>e3 23 7a 28 e5 72 d8 16  2e 1a a4 e5 f7 52 80 f5  |.#z(.r.......R..|
-</span></span><span style="display:flex;"><span>d3 b4 3a 55 c5 26 4a 02  49 e0 5f b0 c1 35 8f a0  |..:U.&amp;J.I._..5..|
-</span></span><span style="display:flex;"><span>ee 54 e9 66 80 2b 67 86  b7 42 da 03 a1 a7 a0 a5  |.T.f.+g..B......|
-</span></span><span style="display:flex;"><span>ac 46 00 fc 3b 2e 28 c9  9b 7f 6f e1 5f ff df 8d  |.F..;.(...o._...|
-</span></span><span style="display:flex;"><span>0e b0 3c a3 61 a3 c8 b3  2e 51 4c 75 de 82 97 07  |..&lt;.a....QLu....|
-</span></span><span style="display:flex;"><span>ac b1 33 0d cd e9 9a 98  63 d0 c3 19 d4 c1 ae 4a  |..3.....c......J|
-</span></span><span style="display:flex;"><span>a0 4a 82 a5 6f cb 5d 3f  d8 ae 1f c8 34 a6 3d c9  |.J..o.]?....4.=.|
-</span></span><span style="display:flex;"><span>0e ef ae e1 3f ab 8d 7b  98 97 db a9 f3 a6 46 2b  |....?..{......F+|
-</span></span><span style="display:flex;"><span>6c 81 7e 31 9b a2 33 58  e6 fe 0f ce b6 56 bf 32  |l.~1..3X.....V.2|
-</span></span><span style="display:flex;"><span>1a df 77 d6 06 2f 44 14  b2 87 6a e3 2c 9f c4 92  |..w../D...j.,...|
-</span></span><span style="display:flex;"><span>64 07 30 34 0d fd 86 ed  9c 6e cc 94 6e a3 a5 77  |d.04.....n..n..w|
-</span></span><span style="display:flex;"><span>a1 5a 43 be dd 70 43 88  38 5f 56 a2 0e dd f6 d7  |.ZC..pC.8_V.....|
-</span></span><span style="display:flex;"><span>93 6a 9c 25 ec 1f 7e 7d  cd 61 f7 85 6a dd 56 5c  |.j.%..~}.a..j.V\|
-</span></span><span style="display:flex;"><span>8c 52 29 57 88 89 51 4f  96 23 dd 0d 7c 45 4c 8c  |.R)W..QO.#..|EL.|
-</span></span><span style="display:flex;"><span>1b e4 88 fe 22 f5 2b 99  94 1b 0e 54 bf a7 75 93  |....&#34;.+....T..u.|
-</span></span><span style="display:flex;"><span>19 1b 7a c8 2b 5d 2e 56  c6 3c 2e 98 64 3f 96 2e  |..z.+].V.&lt;..d?..|
-</span></span><span style="display:flex;"><span>4e 7c ff d6 bf 13 27 72  cc 86 80 a3 9c f8 2b d4  |N|....&#39;r......+.|
-</span></span><span style="display:flex;"><span>d1 8f 76 4e 21 8d d5 d9  7a c4 25 03 85 dd 95 e7  |..vN!...z.%.....|
-</span></span><span style="display:flex;"><span>89 36 ca c3 cb 1f 7b 27  1c 38 a4 20 59 b3 00 a3  |.6....{&#39;.8. Y...|
-</span></span><span style="display:flex;"><span>c1 02 03 01 00 01                                 |......|
-</span></span></code></pre></div><p>This information is base-64 encoded because it&rsquo;s not human-readable in its original form. What is this form, you ask? It&rsquo;s a standard TLV-style binary data structure representing ASN.1 data, to be precise.</p>
+<pre><code class="language-text">$ base64 -d | hexdump -C
+...
+30 82 02 22 30 0d 06 09  2a 86 48 86 f7 0d 01 01  |0..&quot;0...*.H.....|
+01 05 00 03 82 02 0f 00  30 82 02 0a 02 82 02 01  |........0.......|
+00 a7 30 a2 c9 d0 17 7f  85 da 8f 20 f7 3e d8 87  |..0........ .&gt;..|
+ef db c7 ea dd 95 ca a6  d1 ca 5a 96 ea da 2c 35  |..........Z...,5|
+e0 f4 ac 7e 32 c8 c9 35  1c 8b 9e 6a cd 98 60 59  |...~2..5...j..`Y|
+4e 82 dd a1 56 b9 cd 6b  9c c5 20 42 a8 72 8e f6  |N...V..k.. B.r..|
+d5 6b bf 7d 79 42 a1 9c  c8 eb 56 73 fd 0e c9 3c  |.k.}yB....Vs...&lt;|
+97 48 cd e6 90 fb 34 04  0a cc 86 4d 9a 8f c8 00  |.H....4....M....|
+e8 3d 1a 1a 75 65 2a 65  39 fb ba 5c 0c 72 85 9b  |.=..ue*e9..\.r..|
+61 d8 35 e2 79 7e 65 02  c2 d0 7e a7 fa fd ee 7c  |a.5.y~e...~....||
+11 5e 2d 80 7d f3 af 71  ec 6b 19 91 7c 26 ac e1  |.^-.}..q.k..|&amp;..|
+64 55 c7 70 cc f4 0f 39  b7 c5 e0 20 e4 8c 80 b0  |dU.p...9... ....|
+51 42 93 b8 a5 81 bb f5  89 a3 f3 63 29 60 c6 41  |QB.........c)`.A|
+02 f8 03 64 5f 65 6e ae  dc 32 dc fc 11 e5 43 31  |...d_en..2....C1|
+e0 2f d0 1c de 13 3a 9f  f6 8d d4 87 11 d1 4a 51  |./....:.......JQ|
+e3 23 7a 28 e5 72 d8 16  2e 1a a4 e5 f7 52 80 f5  |.#z(.r.......R..|
+d3 b4 3a 55 c5 26 4a 02  49 e0 5f b0 c1 35 8f a0  |..:U.&amp;J.I._..5..|
+ee 54 e9 66 80 2b 67 86  b7 42 da 03 a1 a7 a0 a5  |.T.f.+g..B......|
+ac 46 00 fc 3b 2e 28 c9  9b 7f 6f e1 5f ff df 8d  |.F..;.(...o._...|
+0e b0 3c a3 61 a3 c8 b3  2e 51 4c 75 de 82 97 07  |..&lt;.a....QLu....|
+ac b1 33 0d cd e9 9a 98  63 d0 c3 19 d4 c1 ae 4a  |..3.....c......J|
+a0 4a 82 a5 6f cb 5d 3f  d8 ae 1f c8 34 a6 3d c9  |.J..o.]?....4.=.|
+0e ef ae e1 3f ab 8d 7b  98 97 db a9 f3 a6 46 2b  |....?..{......F+|
+6c 81 7e 31 9b a2 33 58  e6 fe 0f ce b6 56 bf 32  |l.~1..3X.....V.2|
+1a df 77 d6 06 2f 44 14  b2 87 6a e3 2c 9f c4 92  |..w../D...j.,...|
+64 07 30 34 0d fd 86 ed  9c 6e cc 94 6e a3 a5 77  |d.04.....n..n..w|
+a1 5a 43 be dd 70 43 88  38 5f 56 a2 0e dd f6 d7  |.ZC..pC.8_V.....|
+93 6a 9c 25 ec 1f 7e 7d  cd 61 f7 85 6a dd 56 5c  |.j.%..~}.a..j.V\|
+8c 52 29 57 88 89 51 4f  96 23 dd 0d 7c 45 4c 8c  |.R)W..QO.#..|EL.|
+1b e4 88 fe 22 f5 2b 99  94 1b 0e 54 bf a7 75 93  |....&quot;.+....T..u.|
+19 1b 7a c8 2b 5d 2e 56  c6 3c 2e 98 64 3f 96 2e  |..z.+].V.&lt;..d?..|
+4e 7c ff d6 bf 13 27 72  cc 86 80 a3 9c f8 2b d4  |N|....'r......+.|
+d1 8f 76 4e 21 8d d5 d9  7a c4 25 03 85 dd 95 e7  |..vN!...z.%.....|
+89 36 ca c3 cb 1f 7b 27  1c 38 a4 20 59 b3 00 a3  |.6....{'.8. Y...|
+c1 02 03 01 00 01                                 |......|
+</code></pre>
+<p>This information is base-64 encoded because it&rsquo;s not human-readable in its original form. What is this form, you ask? It&rsquo;s a standard TLV-style binary data structure representing ASN.1 data, to be precise.</p>
 <p>TLV (Tag-Length-Value) is a popular strategy for annotating binary data files. Imagine we want to encode some user data in a binary file. It might look something like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>f0 10 75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d f1 0b 6d 79 5f 75 73 65 72 6e 61 6d 65
-</span></span></code></pre></div><p>If we hexdump it:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>f0 10 75 73 65 72 40 65  78 61 6d 70 6c 65 2e 63  |..user@example.c|
-</span></span><span style="display:flex;"><span>6f 6d f1 0b 6d 79 5f 75  73 65 72 6e 61 6d 65     |om..my_username|
-</span></span></code></pre></div><p>The idea is that the first byte (or bytes, depending on the format) represent a <strong>tag</strong>. In the basic example above, the byte <code>f0</code> means email, and the byte <code>f1</code> means username. The next byte(s) indicates the <strong>length</strong> of the information. So, <code>f0 10</code> means that we&rsquo;re expecting a 16 byte long email next. So, we read the next 16 bytes <code>75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d</code> and that should be an email <strong>value</strong>. If we decode those bytes as ASCII, what do we get? <code>user@example.com</code>. <em>Voilà!</em> Now rinse and repeat for the next bytes: a <code>f1</code> username… that is <code>0b 10</code> bytes long… <code>6d 79 5f 75 73 65 72 6e 61 6d 65</code>—<code>my_username</code>!</p>
+<pre><code class="language-text">f0 10 75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d f1 0b 6d 79 5f 75 73 65 72 6e 61 6d 65
+</code></pre>
+<p>If we hexdump it:</p>
+<pre><code class="language-text">f0 10 75 73 65 72 40 65  78 61 6d 70 6c 65 2e 63  |..user@example.c|
+6f 6d f1 0b 6d 79 5f 75  73 65 72 6e 61 6d 65     |om..my_username|
+</code></pre>
+<p>The idea is that the first byte (or bytes, depending on the format) represent a <strong>tag</strong>. In the basic example above, the byte <code>f0</code> means email, and the byte <code>f1</code> means username. The next byte(s) indicates the <strong>length</strong> of the information. So, <code>f0 10</code> means that we&rsquo;re expecting a 16 byte long email next. So, we read the next 16 bytes <code>75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d</code> and that should be an email <strong>value</strong>. If we decode those bytes as ASCII, what do we get? <code>user@example.com</code>. <em>Voilà!</em> Now rinse and repeat for the next bytes: a <code>f1</code> username… that is <code>0b 10</code> bytes long… <code>6d 79 5f 75 73 65 72 6e 61 6d 65</code>—<code>my_username</code>!</p>
 <p>ASN.1 (Abstract Syntax Notation One) is a notation for describing data structures. It can represent integers, strings, sequences, booleans, etc. <a href="https://en.wikipedia.org/wiki/Abstract_Syntax_Notation_One#Encodings">There are lots of different ASN.1 encoding rules</a>, but we&rsquo;re interested in the ones for binary, specifically, the <a href="https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-der-encoding-of-asn-1-types">Distinguished Encoding Rules (DER)</a>.</p>
 <p>In ASN.1 DER, <code>30</code> (the first byte in our public key hexdump) is the tag for a sequence. The next byte, <code>82</code>, actually says that the length of this field is specified in the following two bytes (ASN.1 DER specifies rules to allow for field lengths to be longer than those that would only fit in one byte). Thus, the length of our sequence is actually <code>02 22</code>, or 546 bytes. You can look up many of the tags for ASN.1 DER at <a href="https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-der-encoding-of-asn-1-types">this link</a>.</p>
 <p>If we know that this public key is ASN.1 data, let&rsquo;s not do all the work ourselves and just stick it into a <a href="https://lapo.it/asn1js/#MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco721Wu_fXlCoZzI61Zz_Q7JPJdIzeaQ-zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWbYdg14nl-ZQLC0H6n-v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICwUUKTuKWBu_WJo_NjKWDGQQL4A2RfZW6u3DLc_BHlQzHgL9Ac3hM6n_aN1IcR0UpR4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6ClrEYA_DsuKMmbf2_hX__fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5KoEqCpW_LXT_Yrh_INKY9yQ7vruE_q417mJfbqfOmRitsgX4xm6IzWOb-D862Vr8yGt931gYvRBSyh2rjLJ_EkmQHMDQN_YbtnG7MlG6jpXehWkO-3XBDiDhfVqIO3fbXk2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij-IvUrmZQbDlS_p3WTGRt6yCtdLlbGPC6YZD-WLk58_9a_EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXniTbKw8sfeyccOKQgWbMAo8ECAwEAAQ">handy-dandy online parser</a>. <strong>Don&rsquo;t do this with sensitive data!!</strong></p>
 <p>This parser tells us our data looks something like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>SEQUENCE (2 elem)
-</span></span><span style="display:flex;"><span>  SEQUENCE (2 elem)
-</span></span><span style="display:flex;"><span>    OBJECT IDENTIFIER 1.2.840.113549.1.1.1 [rsaEncryption (PKCS #1)]
-</span></span><span style="display:flex;"><span>    NULL
-</span></span><span style="display:flex;"><span>  BIT STRING (1 elem)
-</span></span><span style="display:flex;"><span>    SEQUENCE (2 elem)
-</span></span><span style="display:flex;"><span>      INTEGER (4096 bit) 68207562626546916737438667056483633235...
-</span></span><span style="display:flex;"><span>      INTEGER 65537
-</span></span></code></pre></div><p>To understand what&rsquo;s actually going on here, we need to look at <a href="https://tools.ietf.org/html/rfc5280#page-117">RFC 5280</a>, which defines the syntax for X.509 v3 certificates in ASN.1 DER notation:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>SubjectPublicKeyInfo  ::=  SEQUENCE  {
-</span></span><span style="display:flex;"><span>     algorithm            AlgorithmIdentifier,
-</span></span><span style="display:flex;"><span>     subjectPublicKey     BIT STRING  }
-</span></span></code></pre></div><p>This tells us the first bit of information that we need to parse what&rsquo;s going on here. We have two fields: an algorithm, and a public key. The type of the algorithm field <code>AlgorithmIdentifier</code> is defined in the same RFC, later on:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>AlgorithmIdentifier  ::=  SEQUENCE  {
-</span></span><span style="display:flex;"><span>     algorithm               OBJECT IDENTIFIER,
-</span></span><span style="display:flex;"><span>     parameters              ANY DEFINED BY algorithm OPTIONAL  }
-</span></span></code></pre></div><p>Thus, we can determine that the algorithm identifier in the public key that we&rsquo;ve been using is <code>1.2.840.113549.1.1.1</code>, which happens to be the well-known object identifier (OID) for RSA.</p>
+<pre><code class="language-text">SEQUENCE (2 elem)
+  SEQUENCE (2 elem)
+    OBJECT IDENTIFIER 1.2.840.113549.1.1.1 [rsaEncryption (PKCS #1)]
+    NULL
+  BIT STRING (1 elem)
+    SEQUENCE (2 elem)
+      INTEGER (4096 bit) 68207562626546916737438667056483633235...
+      INTEGER 65537
+</code></pre>
+<p>To understand what&rsquo;s actually going on here, we need to look at <a href="https://tools.ietf.org/html/rfc5280#page-117">RFC 5280</a>, which defines the syntax for X.509 v3 certificates in ASN.1 DER notation:</p>
+<pre><code class="language-text">SubjectPublicKeyInfo  ::=  SEQUENCE  {
+     algorithm            AlgorithmIdentifier,
+     subjectPublicKey     BIT STRING  }
+</code></pre>
+<p>This tells us the first bit of information that we need to parse what&rsquo;s going on here. We have two fields: an algorithm, and a public key. The type of the algorithm field <code>AlgorithmIdentifier</code> is defined in the same RFC, later on:</p>
+<pre><code class="language-text">AlgorithmIdentifier  ::=  SEQUENCE  {
+     algorithm               OBJECT IDENTIFIER,
+     parameters              ANY DEFINED BY algorithm OPTIONAL  }
+</code></pre>
+<p>Thus, we can determine that the algorithm identifier in the public key that we&rsquo;ve been using is <code>1.2.840.113549.1.1.1</code>, which happens to be the well-known object identifier (OID) for RSA.</p>
 <p>The next value in our public key is <code>NULL</code>, which means that the algorithm requires no parameters.</p>
 <p>Now we can move into the actual contents of the public key, that <code>BIT STRING</code> field. It contains an ASN.1 sequence which contains two integer values: a modulus and an exponent. <em>These two fields make up the public key.</em></p>
 <p>A note before I finish this up: before this particular format (which is called PKCS8) was used, PKCS1 was (and still is) common. The PKCS1 format is simply the contents of the <code>BIT STRING</code> from the PKCS8 format—the sequence containing the modulus and the exponent. See <a href="https://tools.ietf.org/html/rfc8017#appendix-A.1.1">RFC 8017</a>, which contains the definition:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>RSAPublicKey ::= SEQUENCE  {
-</span></span><span style="display:flex;"><span>     modulus           INTEGER,  -- n
-</span></span><span style="display:flex;"><span>     publicExponent    INTEGER   -- e  }
-</span></span></code></pre></div><p>That&rsquo;s all I have for now. I hope you learned something from reading this post; I certainly enjoyed writing it!</p>
+<pre><code class="language-text">RSAPublicKey ::= SEQUENCE  {
+     modulus           INTEGER,  -- n
+     publicExponent    INTEGER   -- e  }
+</code></pre>
+<p>That&rsquo;s all I have for now. I hope you learned something from reading this post; I certainly enjoyed writing it!</p>
 <hr>
 <p>On top of all the different sites I linked in this post, I&rsquo;d like to credit the following sources I used while doing research for this post:</p>
 <ul>

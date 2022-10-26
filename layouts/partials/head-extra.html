@@ -1,5 +1,9 @@
 {{ template "_internal/google_analytics.html" . }}
 <style>
+  .table {
+    display: initial;
+  }
+
   @keyframes highlight {
     0% {
       background-color: rgba(226, 230, 30, 0.4);
@@ -36,10 +40,6 @@
     window.addEventListener('hashchange', e => {
       const id = new URL(e.newURL).hash.slice(1);
       scrollToId(id);
-    });
-
-    window.addEventListener('beforeunload', e => {
-      console.log('beforeunload', e);
     });
 
     document.addEventListener('DOMContentLoaded', () => {
