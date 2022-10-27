@@ -1,4 +1,11 @@
-<nav id="mainNav" class="w:full fixed@sm bg:fade-16/.95@dark bg:white z:1000">
+<nav id="mainNav" class="
+    w:full
+    fixed@sm
+    bg:white/.9
+    bg:fade-16/.9@dark
+    z:1000
+    backdrop-filter:blur(3px)
+">
     <div class="
         h:full
         w:full
@@ -38,7 +45,6 @@
                 font:fade-90.active@dark
                 p:12
                 p:18@sm
-                transition:150ms;ease-in
                 {{ $active }}
             " href="{{ .URL }}" title="{{ .Title }}">
                 {{- .Name -}}

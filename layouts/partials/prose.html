@@ -39,10 +39,11 @@
     {height:0.1rem;bg:fade-80;mx:40%;my:1.5rem}_:where(hr)
     {bg:fade-40}_:where(hr)@dark
     {cursor:pointer}_:where(details>summary)
-    {text-decoration:none;pr:16;font:medium}_.headingAnchor
+    {text-decoration:none;pr:16;font:medium;color:fade-80}_.headingAnchor
+    {color:fade-60}_.headingAnchor:hover
     {opacity:0;position:absolute;translateX(-100%)}_.headingAnchor@sm
-    {content:'#'}_.headingAnchor::before
     {opacity:1}_:hover>.headingAnchor
+    {opacity:1}_:target>.headingAnchor
     {color:fade-50}_.headingAnchor@dark
     {color:fade-70}_.headingAnchor:hover@dark
     {border-radius:2;lh:1.5}_:where(pre>code)

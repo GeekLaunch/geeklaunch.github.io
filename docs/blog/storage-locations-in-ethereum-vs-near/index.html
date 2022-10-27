@@ -61,6 +61,17 @@ if (!doNotTrack) {
 </script>
 
 <style>
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 2em;
+  }
+
+  @media (min-width: 768px) {
+    html {
+      scroll-padding-top: 64px;
+    }
+  }
+
   .table {
     display: initial;
   }
@@ -84,54 +95,7 @@ if (!doNotTrack) {
 </style>
 <script>
   (() => {
-    const scrollToId = id => {
-      const el = document.getElementById(id);
-      const mainNav = document.getElementById('mainNav');
-      const offset = mainNav ? mainNav.clientHeight : 100;
-
-      if (el) {
-        const scrollToPosition = el.offsetTop - offset;
-        window.scrollTo({
-          top: scrollToPosition,
-        });
-      }
-    };
-
-
-    window.addEventListener('hashchange', e => {
-      const id = new URL(e.newURL).hash.slice(1);
-      scrollToId(id);
-    });
-
     document.addEventListener('DOMContentLoaded', () => {
-      const hash = location.hash.slice(1);
-      scrollToId(hash);
-
-      document.addEventListener('click', e => {
-         
-        const target = e.target;
-        if (!target) {
-          return;
-        }
-
-        const a = target.closest('a');
-        if (!a) {
-          return;
-        }
-
-        
-        const clickedUrl = new URL(a.href);
-        const clickedUrlHash = clickedUrl.hash;
-        const currentUrl = new URL(location.href);
-        clickedUrl.hash = '';
-        currentUrl.hash = '';
-
-        if (clickedUrl.toString() === currentUrl.toString()) {
-          document.addEventListener('scroll', () => {
-            scrollToId(clickedUrlHash.slice(1));
-          }, { once: true });
-        }
-      });
 
       
       const tableOfContents = document.getElementById('TableOfContents');
@@ -153,6 +117,7 @@ if (!doNotTrack) {
           const anchor = document.createElement('a');
           anchor.href = '#' + linkTargetId;
           anchor.className = 'headingAnchor';
+          anchor.innerText = '#';
           target.insertAdjacentElement('afterbegin', anchor);
         });
       }
@@ -161,7 +126,14 @@ if (!doNotTrack) {
 </script>
 </head>
 <body class="bg:fade-16@dark font:fade-86@dark">
-    <nav id="mainNav" class="w:full fixed@sm bg:fade-16/.95@dark bg:white z:1000">
+    <nav id="mainNav" class="
+    w:full
+    fixed@sm
+    bg:white/.9
+    bg:fade-16/.9@dark
+    z:1000
+    backdrop-filter:blur(3px)
+">
     <div class="
         h:full
         w:full
@@ -199,7 +171,6 @@ if (!doNotTrack) {
                 font:fade-90.active@dark
                 p:12
                 p:18@sm
-                transition:150ms;ease-in
                 
             " href="/about/" title="">About</a>
             
@@ -214,7 +185,6 @@ if (!doNotTrack) {
                 font:fade-90.active@dark
                 p:12
                 p:18@sm
-                transition:150ms;ease-in
                 
             " href="/blog/" title="">Posts</a>
             
@@ -229,7 +199,6 @@ if (!doNotTrack) {
                 font:fade-90.active@dark
                 p:12
                 p:18@sm
-                transition:150ms;ease-in
                 
             " href="https://www.youtube.com/c/GeekLaunch?sub_confirmation=1" title="">YouTube</a>
             
@@ -244,7 +213,6 @@ if (!doNotTrack) {
                 font:fade-90.active@dark
                 p:12
                 p:18@sm
-                transition:150ms;ease-in
                 
             " href="https://weareindy.com/app/shared/forms/634577ccb25f8365f4aa7f42/zw1Icw3aBtCI90eLSzQVkpZiigUEBLHeaNKmJobnx4kTaPYMixQM3gDZMCFDsSHC/" title="">Contact</a>
             
@@ -337,10 +305,11 @@ if (!doNotTrack) {
     {height:0.1rem;bg:fade-80;mx:40%;my:1.5rem}_:where(hr)
     {bg:fade-40}_:where(hr)@dark
     {cursor:pointer}_:where(details>summary)
-    {text-decoration:none;pr:16;font:medium}_.headingAnchor
+    {text-decoration:none;pr:16;font:medium;color:fade-80}_.headingAnchor
+    {color:fade-60}_.headingAnchor:hover
     {opacity:0;position:absolute;translateX(-100%)}_.headingAnchor@sm
-    {content:'#'}_.headingAnchor::before
     {opacity:1}_:hover>.headingAnchor
+    {opacity:1}_:target>.headingAnchor
     {color:fade-50}_.headingAnchor@dark
     {color:fade-70}_.headingAnchor:hover@dark
     {border-radius:2;lh:1.5}_:where(pre>code)

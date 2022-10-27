@@ -1,5 +1,16 @@
 {{ template "_internal/google_analytics.html" . }}
 <style>
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 2em;
+  }
+
+  @media (min-width: 768px) {
+    html {
+      scroll-padding-top: 64px;
+    }
+  }
+
   .table {
     display: initial;
   }
@@ -23,54 +34,7 @@
 </style>
 <script>
   (() => {
-    const scrollToId = id => {
-      const el = document.getElementById(id);
-      const mainNav = document.getElementById('mainNav');
-      const offset = mainNav ? mainNav.clientHeight : 100;
-
-      if (el) {
-        const scrollToPosition = el.offsetTop - offset;
-        window.scrollTo({
-          top: scrollToPosition,
-        });
-      }
-    };
-
-
-    window.addEventListener('hashchange', e => {
-      const id = new URL(e.newURL).hash.slice(1);
-      scrollToId(id);
-    });
-
     document.addEventListener('DOMContentLoaded', () => {
-      const hash = location.hash.slice(1);
-      scrollToId(hash);
-
-      document.addEventListener('click', e => {
-        /** @type {HTMLElement} */
-        const target = e.target;
-        if (!target) {
-          return;
-        }
-
-        const a = target.closest('a');
-        if (!a) {
-          return;
-        }
-
-        // check to see if they differ at most by hash
-        const clickedUrl = new URL(a.href);
-        const clickedUrlHash = clickedUrl.hash;
-        const currentUrl = new URL(location.href);
-        clickedUrl.hash = '';
-        currentUrl.hash = '';
-
-        if (clickedUrl.toString() === currentUrl.toString()) {
-          document.addEventListener('scroll', () => {
-            scrollToId(clickedUrlHash.slice(1));
-          }, { once: true });
-        }
-      });
 
       // Create individual header links
       const tableOfContents = document.getElementById('TableOfContents');
@@ -92,6 +56,7 @@
           const anchor = document.createElement('a');
           anchor.href = '#' + linkTargetId;
           anchor.className = 'headingAnchor';
+          anchor.innerText = '#';
           target.insertAdjacentElement('afterbegin', anchor);
         });
       }
