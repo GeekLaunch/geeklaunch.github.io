@@ -11,6 +11,7 @@ title = "GeekLaunch"
 [params]
 copyright = "© Copyright 2022 Jacob Lindahl"
 logo = "/img/geeklaunch.png"
+twitter = "Geek_Launch"
 
 [markup.goldmark.renderer]
 unsafe = true

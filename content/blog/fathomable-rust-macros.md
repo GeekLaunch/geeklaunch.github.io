@@ -3,6 +3,8 @@ title: 'Fathomable Rust Macros'
 date: 2022-10-25
 draft: false
 description: 'A breakdown of the inner workings and authorship of macros in Rust'
+author: Jacob Lindahl
+twitter: sudo_build
 ---
 
 Rust macros are compile-time constructs that operate on streams of Rust language tokens.

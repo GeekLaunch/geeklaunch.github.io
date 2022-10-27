@@ -8,9 +8,25 @@
 
     
     
+
     <meta name="description" content="-----BEGIN PUBLIC KEY----- MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH 79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72 1Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ&#43;zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWb Ydg14nl&#43;ZQLC0H6n&#43;v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICw UUKTuKWBu/WJo/NjKWDGQQL4A2RfZW6u3DLc/BHlQzHgL9Ac3hM6n/aN1IcR0UpR 4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6Cl rEYA/DsuKMmbf2/hX//fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5K oEqCpW/LXT/Yrh/INKY9yQ7vruE/q417mJfbqfOmRitsgX4xm6IzWOb&#43;D862Vr8y Gt931gYvRBSyh2rjLJ/EkmQHMDQN/YbtnG7MlG6jpXehWkO&#43;3XBDiDhfVqIO3fbX k2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij&#43;IvUrmZQbDlS/p3WT GRt6yCtdLlbGPC6YZD&#43;WLk58/9a/EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXn iTbKw8sfeyccOKQgWbMAo8ECAwEAAQ== -----END PUBLIC KEY----- That&rsquo;s an RSA public key that I just generated using the commands:
 $ openssl genrsa -out priv.pem 4096 Generating RSA private key, 4096 bit long modulus (2 primes) ..........................................................................................................................................................................................................................................................................&#43;&#43;&#43;&#43; ................................................&#43;&#43;&#43;&#43; e is 65537 (0x010001) $ openssl rsa -in ./priv.pem -pubout -out pub.pem writing RSA key $ cat pub.pem But, what the heck is this?" />
-    <meta name="author" content="" />
+    <meta name="author" content="Jacob Lindahl" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="What does my RSA public key actually mean?" />
+    <meta property="og:description" content="An overview of the PKCS8 public key format" />
+    <meta property="og:url" content="https://geeklaunch.net/blog/what-does-my-rsa-public-key-actually-mean/" />
+    <meta property="og:image" content="https://geeklaunch.net/img/geeklaunch.png" />
+    <meta property="og:site_name" content="GeekLaunch" />
+
+    <meta name="twitter:card" content="summary" />
+    
+    <meta name="twitter:site" content="Geek_Launch" />
+    
+    
+    <meta name="twitter:creator" content="sudo_build" />
+    
+
     
 
     <link id="highlight-theme-light" rel="stylesheet"

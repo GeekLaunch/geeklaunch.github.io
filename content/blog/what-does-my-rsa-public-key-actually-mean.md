@@ -2,8 +2,8 @@
 title: 'What does my RSA public key actually mean?'
 date: 2020-01-22T23:03:42-06:00
 description: 'An overview of the PKCS8 public key format'
-figure: './rsa-private-key-generation.png'
-figcaption: 'Generation of an RSA private key'
+author: Jacob Lindahl
+twitter: sudo_build
 ---
 
 ```text

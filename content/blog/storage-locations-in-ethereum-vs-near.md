@@ -3,6 +3,8 @@ title: 'Storage Locations in Ethereum vs. NEAR'
 date: 2021-12-21
 draft: false
 description: 'The keywords memory, storage, calldata are a big pain point for new Solidity developers. How does NEAR compare?'
+author: Jacob Lindahl
+twitter: sudo_build
 ---
 
 The keywords `memory`, `storage`, `calldata` are a big pain point for new Solidity developers&mdash;just look at the sheer number of [questions that have been asked](https://ethereum.stackexchange.com/questions/tagged/storage+solidity) and articles that have been written [1](https://www.geeksforgeeks.org/storage-vs-memory-in-solidity/) [2](https://solidity-by-example.org/data-locations/) [3](https://medium.com/coinmonks/ethereum-solidity-memory-vs-storage-which-to-use-in-local-functions-72b593c3703a) [4](https://dlt-repo.net/storage-vs-memory-vs-stack-in-solidity-ethereum/) about the topic, not to mention the [multiple](https://docs.soliditylang.org/en/latest/introduction-to-smart-contracts.html#storage-memory-and-the-stack), [different](https://docs.soliditylang.org/en/latest/types.html#data-location), [sections](https://docs.soliditylang.org/en/latest/internals/layout_in_storage.html) (and [here](https://docs.soliditylang.org/en/latest/internals/layout_in_memory.html), and [here](https://docs.soliditylang.org/en/latest/internals/layout_in_calldata.html)) the Solidity documentation dedicates to the topic.
