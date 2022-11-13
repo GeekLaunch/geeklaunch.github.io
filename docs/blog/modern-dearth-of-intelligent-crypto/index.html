@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>The modern dearth of intelligent crypto - GeekLaunch</title>
+
+    
+    
+
+    <meta name="description" content="First, a quick word on recent events The original inspiration for writing on this topic was the Skyward smart contract hack for ~$3 million (at the time of the hack). However, since then, the FTX insolvency crisis occurred, so I&rsquo;ve reworked and added some material to be more broadly applicable to the blockchain industry as a whole.
+It&rsquo;s understandable to be uncomfortable, or even scared right now. Unregulated, fast-moving markets aren&rsquo;t appropriate for everyone, especially when working with money one can&rsquo;t afford to lose." />
+    <meta name="author" content="Jacob Lindahl" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="The modern dearth of intelligent crypto" />
+    <meta property="og:description" content="Save yourself billions of dollars with these security tips" />
+    <meta property="og:url" content="https://geeklaunch.net/blog/modern-dearth-of-intelligent-crypto/" />
+    <meta property="og:image" content="https://geeklaunch.net/img/geeklaunch.png" />
+    <meta property="og:site_name" content="GeekLaunch" />
+
+    <meta name="twitter:card" content="summary" />
+    
+    <meta name="twitter:site" content="Geek_Launch" />
+    
+    
+    <meta name="twitter:creator" content="sudo_build" />
+    
+
+    
+
+    <link id="highlight-theme-light" rel="stylesheet"
+        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github.min.css">
+    <link id="highlight-theme-dark" disabled rel="stylesheet"
+        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github-dark.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/highlightjs-solidity@2.0.5/dist/solidity.min.js"></script>
+
+    <link href="https://unpkg.com/@master/normal.css" rel="stylesheet">
+    <script src="https://unpkg.com/@master/css"></script>
+    <script src="https://unpkg.com/themes.js"></script>
+    <script>
+        (() => {
+            hljs.highlightAll();
+
+            const themes = new window.Themes();
+            window.themes = themes;
+
+            const updateSyntaxTheme = () => {
+                const darkStylesheet = document.getElementById('highlight-theme-dark');
+                const lightStylesheet = document.getElementById('highlight-theme-light');
+                if (themes.documentTheme === 'dark') {
+                    lightStylesheet.disabled = true;
+                    darkStylesheet.disabled = false;
+                } else {
+                    lightStylesheet.disabled = false;
+                    darkStylesheet.disabled = true;
+                }
+            };
+
+            updateSyntaxTheme();
+
+            themes.onChange = (theme) => {
+                updateSyntaxTheme();
+            };
+        })();
+    </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-DMBPKLBF8X', { 'anonymize_ip': false });
+}
+</script>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 2em;
+  }
+
+  @media (min-width: 768px) {
+    html {
+      scroll-padding-top: 64px;
+    }
+  }
+
+  .table {
+    display: initial;
+  }
+
+  @keyframes highlight {
+    0% {
+      background-color: rgba(226, 230, 30, 0.4);
+      outline: 0.2rem solid rgba(226, 230, 30, 0.4);
+    }
+
+    100% {
+      background-color: unset;
+      outline: 0.2rem solid transparent;
+    }
+  }
+
+  :target {
+    animation: highlight 1.2s forwards;
+  }
+
+</style>
+<script>
+  (() => {
+    document.addEventListener('DOMContentLoaded', () => {
+
+      
+      const tableOfContents = document.getElementById('TableOfContents');
+
+      if (tableOfContents) {
+        const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
+
+        links.forEach(link => {
+          const linkTargetId = link.getAttribute('href').split('#')[1];
+          if (!linkTargetId) {
+            return;
+          }
+
+          const target = document.getElementById(linkTargetId);
+          if (!target) {
+            return;
+          }
+
+          const anchor = document.createElement('a');
+          anchor.href = '#' + linkTargetId;
+          anchor.className = 'headingAnchor';
+          anchor.innerText = '#';
+          target.insertAdjacentElement('afterbegin', anchor);
+        });
+      }
+    });
+  })();
+</script>
+</head>
+<body class="bg:fade-16@dark font:fade-86@dark">
+    <nav id="mainNav" class="
+    w:full
+    fixed@sm
+    bg:white/.9
+    bg:fade-16/.9@dark
+    z:1000
+    backdrop-filter:blur(3px)
+">
+    <div class="
+        h:full
+        w:full
+        max-w:1200
+        mx:auto
+        px:32
+        d:flex
+        flex-direction:column
+        flex-direction:row@sm
+        align-items:center
+    ">
+        <a href="/" class="block mr:3 p:8 filter:brightness(1.5):hover ~filter|0.1s">
+            <img class="w:40" src="/img/geeklaunch.png" title="GeekLaunch" alt="GeekLaunch logo">
+        </a>
+
+        <div class="
+            ml:auto@sm
+            w:full
+            d:flex
+            flex-wrap:wrap
+            justify-content:space-between
+            justify-content:flex-end@sm
+        ">
+            
+            
+            
+            
+            <a class="
+                font:semibold
+                font:fade
+                font:fade-10:hover
+                font:fade-30.active
+                font:fade-80@dark
+                font:fade-96:hover@dark
+                font:fade-90.active@dark
+                p:12
+                p:18@sm
+                
+            " href="/about/" title="">About</a>
+            
+            
+            <a class="
+                font:semibold
+                font:fade
+                font:fade-10:hover
+                font:fade-30.active
+                font:fade-80@dark
+                font:fade-96:hover@dark
+                font:fade-90.active@dark
+                p:12
+                p:18@sm
+                
+            " href="/blog/" title="">Posts</a>
+            
+            
+            <a class="
+                font:semibold
+                font:fade
+                font:fade-10:hover
+                font:fade-30.active
+                font:fade-80@dark
+                font:fade-96:hover@dark
+                font:fade-90.active@dark
+                p:12
+                p:18@sm
+                
+            " href="https://www.youtube.com/c/GeekLaunch?sub_confirmation=1" title="">YouTube</a>
+            
+            
+            <a class="
+                font:semibold
+                font:fade
+                font:fade-10:hover
+                font:fade-30.active
+                font:fade-80@dark
+                font:fade-96:hover@dark
+                font:fade-90.active@dark
+                p:12
+                p:18@sm
+                
+            " href="https://weareindy.com/app/shared/forms/634577ccb25f8365f4aa7f42/zw1Icw3aBtCI90eLSzQVkpZiigUEBLHeaNKmJobnx4kTaPYMixQM3gDZMCFDsSHC/" title="">Contact</a>
+            
+        </div>
+    </div>
+</nav>
+<div class="d:flex flex:column@<=sm pt:90@sm px:24 jc:center gap:44 word-break:break-word">
+        <div class="max-w:700 w:full box:content-box">
+<article class="box:border-box pt:32">
+    <header class="mb:32">
+        <h1><a class="font:40 font:extrabold" href="https://geeklaunch.net/blog/modern-dearth-of-intelligent-crypto/">The modern dearth of intelligent crypto</a></h1>
+        
+        <p class="font:18 mt:12 lh:1.4 font:semibold color:fade-30 color:fade-70@dark">Save yourself billions of dollars with these security tips</p>
+        
+        <div class="mt:16 f:fade-60">
+            <a href="https://twitter.com/sudo_build" class="text-decoration:underline:hover" rel="author">Jacob Lindahl</a><span class="mx:10">&mdash;</span><time pubdate datetime="2022-11-13 00:00:00 &#43;0000 UTC" title="November 13, 2022">Nov 13, 2022</time></div>
+    </header>
+
+    
+    <aside>
+        <details class="
+            ml:12_ul
+            bl:2
+            bl:fade-86
+            bl:fade-40@dark
+            mb:24
+            py:4
+            pl:12
+            lh:1.5
+            {content:'#';pr:.3em;color:fade-70}_li::before
+            {color:fade-50}_li::before@dark
+            {text-underline-offset:3;font:medium;text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_a
+            {text-decoration-color:fade-30;color:fade-80}_a@dark
+            {text-decoration-color:fade-60;color:fade-10}_a:hover
+            {text-decoration-color:fade-60;color:fade-90}_a:hover@dark
+        ">
+            <summary class="
+                cursor:pointer
+                font-weight:semibold
+                color:fade-40
+                color:fade-80@dark
+                color:fade-70::marker
+                color:fade-50::marker@dark
+            ">Contents</summary>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#first-a-quick-word-on-recent-events">First, a quick word on recent events</a></li>
+    <li><a href="#the-blockchain-promise">The blockchain promise</a></li>
+    <li><a href="#not-the-solution-yet">Not the solution, yet</a></li>
+    <li><a href="#breach-of-smart-contract">Breach of smart contract</a></li>
+    <li><a href="#the-well-tempered-contract-developer">The well-tempered contract developer</a>
+      <ul>
+        <li><a href="#dont-trust-your-users">Don&rsquo;t trust your users</a></li>
+        <li><a href="#make-invalid-states-unrepresentable">Make invalid states unrepresentable</a></li>
+        <li><a href="#the-pull-model">The pull model</a></li>
+        <li><a href="#understand-the-limitations-and-quirks-of-your-platform">Understand the limitations and quirks of your platform</a></li>
+        <li><a href="#get-audited">Get audited</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </details>
+    </aside>
+    <div class="
+    {text-decoration-color:fade-60}_:where(a):hover
+    {text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_:where(a)
+    {text-decoration-color:fade-30;color:fade-90}_:where(a)@dark
+    {bl:4|solid;b:fade-84;color:fade-34}_:where(blockquote)
+    {b:fade-38;color:fade-86}_:where(blockquote)@dark
+    {font:90%;v:middle}_:where(code)
+    {text-decoration:1;line-through;fade-68}_:where(del)
+    {text-decoration-color:red-64}_:where(del)@dark
+    {text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
+    {font:fade-57}_:where(figcaption)@dark
+    {font:40;font:extrabold}_:where(h1)
+    {mt:.5em}_:where(h1,h2,h3)+:where(h1,h2,h3)
+    {mt:2em}_:where(h1,h2,h3,h4,h5,h6)
+    {mb:1em;font:32}_:where(h2)
+    {font:24}_:where(h3)
+    {font:20}_:where(h4)
+    {font:16}_:where(h5)
+    {font:14}_:where(h6)
+    {font:fade-44}_:where(li)::marker
+    {font:fade-68}_:where(li)::marker@dark
+    {pl:.375em}_:where(li)
+    {text-decoration:underline;#fce016;bg:transparent;text-decoration-color:rgb(252;224;22/.5)@dark}_:where(mark)
+    {font:fade-36;font:16;line-height:1.65}_:where(p,li,details)
+    {font:fade-80}_:where(p,li,details)@dark
+    {my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
+    {mt:0!}>:first-child
+    {width:full;border-spacing:0}_:where(table)
+    {v:baseline}_:where(td)
+    {pl:0}_:where(td,th):first-child
+    {pr:0}_:where(td,th):last-child
+    {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
+    {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
+    {font:semibold}_:where(th,a,mark,:not(pre)>code)
+    {list-style-type:disc}_:where(ul)
+    {pl:1.5em}_:where(ul,ol,blockquote)
+    {max-width:full}_:where(video,img)
+    {text-underline-offset:3}_:where(a,mark)
+    {height:0.1rem;bg:fade-80;mx:40%;my:1.5rem}_:where(hr)
+    {bg:fade-40}_:where(hr)@dark
+    {cursor:pointer}_:where(details>summary)
+    {text-decoration:none;pr:16;font:medium;color:fade-80}_.headingAnchor
+    {color:fade-60}_.headingAnchor:hover
+    {opacity:0;position:absolute;translateX(-100%)}_.headingAnchor@sm
+    {opacity:1}_:hover>.headingAnchor
+    {opacity:1}_:target>.headingAnchor
+    {color:fade-50}_.headingAnchor@dark
+    {color:fade-70}_.headingAnchor:hover@dark
+    {border-radius:2;lh:1.5}_:where(pre>code)
+"><h2 id="first-a-quick-word-on-recent-events">First, a quick word on recent events</h2>
+<p>The original inspiration for writing on this topic was the <a href="https://twitter.com/skywardfinance/status/1587947957789331457">Skyward smart contract hack</a> for ~$3 million (at the time of the hack). However, since then, <a href="https://twitter.com/SBF_FTX/status/1591089317300293636">the FTX insolvency crisis</a> occurred, so I&rsquo;ve reworked and added some material to be more broadly applicable to the blockchain industry as a whole.</p>
+<p>It&rsquo;s understandable to be uncomfortable, or even <em>scared</em> right now. Unregulated, fast-moving markets aren&rsquo;t appropriate for everyone, especially when working with money one can&rsquo;t afford to lose.</p>
+<h2 id="the-blockchain-promise">The blockchain promise</h2>
+<p>Wasn&rsquo;t crypto supposed to solve all the problems of the financial systems of yesterday? It was supposed to be trustless, and mathematically impossible to break! It seems like crypto has the same problems that Wall Street has, but now they&rsquo;re Internet-connected, worldwide, and taking advantage of the average consumer. Worse, there are no repercussions for the masterminds behind each shoddy operation: they get off scot-free to enjoy their ill-gotten riches in exotic locations from which they can&rsquo;t be extradited.</p>
+<p>What went wrong?</p>
+<p>Let&rsquo;s go back to the original promise of blockchain.</p>
+<p>The first line of Satoshi Nakamoto&rsquo;s paper introducing Bitcoin reads:</p>
+<blockquote>
+<p>Commerce on the Internet has come to rely almost exclusively on financial institutions serving as trusted third parties to process electronic payments.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+</blockquote>
+<p>We need read no further to already see a problem: the use of a centralized cryptocurrency exchange (such as FTX) is already in conflict with <em>the</em> principle upon which the entirety of cryptocurrency was founded. Of course, I&rsquo;m not saying that centralized exchanges, lenders, banks, and their ilk (hereafter referred to as &ldquo;centralized finance&rdquo; or &ldquo;CeFi&rdquo;) should not exist, but that they still exist in the &ldquo;trusted third party&rdquo; paradigm of financial institutions.</p>
+<p>The promise of blockchain-based cryptocurrencies was that it was possible to conduct finance independent of any trusted third party, and thence comes the &ldquo;trustless&rdquo; word that the cryptosphere likes to throw around.</p>
+<p>So, we have two financial paradigms: &ldquo;trusted&rdquo; and &ldquo;trustless&rdquo;. FTX and Binance, J.P. Morgan Chase Bank and BlackRock, RobinHood and Fidelity—all of centralized finance exists in the former. Trades and asset holdings are mediated and managed by these entities, and their customers <em>trust</em> them to uphold their terms of service.</p>
+<p>An excerpt from the FTX Terms of Service:</p>
+<blockquote>
+<p>(B) None of the Digital Assets in your Account are the property of, or shall or may be loaned to, FTX Trading; FTX Trading does not represent or treat Digital Assets in User’s Accounts as belonging to FTX Trading.</p>
+<p>(C) You control the Digital Assets held in your Account. At any time, subject to outages, downtime, and other applicable policies (including the Terms), you may withdraw your Digital Assets by sending them to a different blockchain address controlled by you or a third party.<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+</blockquote>
+<p>We see here the contravention of the premise of Bitcoin: a reliance on trusted, third-party financial institutions has returned. Or, maybe it never really left?</p>
+<p>Unfortunately, the drawbacks of centralized finance are still present in centralized <em>cryptocurrency</em> finance. It&rsquo;s just that this time, the centralized entities are not regulated or insured.</p>
+<p>Human nature hasn&rsquo;t changed: where there&rsquo;s dishonest money to be made, dishonest money will be made.</p>
+<h2 id="not-the-solution-yet">Not the solution, yet</h2>
+<p>We&rsquo;ve seen the downfall of centralized finance time and time again. FTX is just the biggest and most recent domino to fall.</p>
+<p>As any cryptobro would quickly tell you, the solution is DeFi!</p>
+<p>(<em>De</em>centralized finance, for the uninitiated.)</p>
+<p>Instead of using a trusted person or company as the intermediary, DeFi systems are built around smart contracts—bits of code that run independently on the blockchain, and always, only do <em>exactly</em> what they are programmed to do. Nothing more, nothing less. They can&rsquo;t break their terms of service, because they <em>are</em> their own terms of service. A smart contract is the description and execution of its own behavior, inextricably unified.</p>
+<p>Sounds like the perfect solution!</p>
+<p>In a way, it is. Many DeFi platforms like Uniswap, 1inch, have been fairly successful thus far in fulfilling their value prop. However, swapping LPs is not the whole story of DeFi:</p>
+
+  <blockquote class="twitter-tweet" data-dnt="true"><p lang="en" dir="ltr">1/ After four hacks yesterday, October is now the biggest month in the biggest year ever for hacking activity, with more than half the month still to go. So far this month, $718 million has been stolen from <a href="https://twitter.com/hashtag/DeFi?src=hash&amp;ref_src=twsrc%5Etfw">#DeFi</a> protocols across 11 different hacks. <a href="https://t.co/emz36f6gpK">pic.twitter.com/emz36f6gpK</a></p>&mdash; Chainalysis (@chainalysis) <a href="https://twitter.com/chainalysis/status/1580312145451180032?ref_src=twsrc%5Etfw">October 12, 2022</a></blockquote>
+
+<p>If you look at the monthly chart in the above tweet, you&rsquo;ll see that the Y-axis is demarcated in units of $200 millions per month, with the most recent figure (October) coming in at $718 million.</p>
+<p>Sure, it&rsquo;s notable that FTX, an industry stalwart up to this point, has experienced such a violent and cataclysmic tumble from grace, with preliminary estimates of their liabilities ranging from <a href="https://www.reuters.com/markets/currencies/exclusive-least-1-billion-client-funds-missing-failed-crypto-firm-ftx-sources-2022-11-12/">$1 billion</a> to <a href="https://www.theverge.com/2022/11/10/23451484/ftx-customer-funds-alameda-research-sam-bankman-fried">$10 billion</a>, but DeFi hacks account for that much over the course of a month or few, while seeing more than an order of magnitude <em>less</em> volume.<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>Whether this is a fair comparison to make is up to you. I&rsquo;ll be the first to admit that I&rsquo;m a programmer, not a financial analyst. However…</p>
+<p>I&rsquo;m a programmer, not a financial analyst.</p>
+<h2 id="breach-of-smart-contract">Breach of smart contract</h2>
+<p>Usually, when it comes to failures in the traditional finance space, there are governments or at least insurance companies to fall back on. (Obviously, the centralized crypto exchanges have yet to be as thoroughly regulated and insured as other, more established institutions, but let there be no doubt: the regulation will come.) Eventually, consumers will be protected against institutional failures like FTX (even if they aren&rsquo;t today).</p>
+<p>DeFi, on the other hand, does not come with any such safety net. You get the contract, and that&rsquo;s it. You read the contract, <em>trust</em><sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> the contract, and interact with it based on your understanding of what the contract will do. Herein lies the conundrum: of course, very few DeFi users will actually take the time to thoroughly read and understand every smart contract with which they interact (myself included 😰), which means they&rsquo;re <em>trust</em>ing the smart contract developer knows what he&rsquo;s doing.</p>
+<p>By and large, the numbers speak for themselves: that trust is misplaced.</p>
+<p>That&rsquo;s a bit of a problem.</p>
+<p>It can be addressed in three ways:</p>
+<ol>
+<li><strong>Regulation</strong>. This injects a trusted third party (government) into every transaction, yet again violating the premise and the promise.</li>
+<li><strong>Educating the users</strong>: teaching them how to read smart contracts, understand security vulnerabilities, and accurately estimate financial valuations. This is the most noble effort. If you figure out how to make users smarter, please share! Every software engineer would thank you.<br>
+Long-term, I think this should be the goal, but it is lofty and idealistic. Realistically, this will probably take the form of well-known auditing firms whose &ldquo;seals of approval&rdquo; will be well-recognized by the average user.</li>
+<li><strong>Educating the developers</strong>. Luckily, developer education is something in which dApp platforms hold a great deal of sway, and in which they can make great strides. Eventually, this will probably take the form of libraries in which nearly every conceivable DeFi pattern is already implemented, and the developers just need to learn how to use them.</li>
+</ol>
+<p>(Of course, no system is perfect, so insurance, legislation, and other band-aid solutions will come into play when the primary system fails, but for now, let&rsquo;s focus on making sure the primary system doesn&rsquo;t fail.)</p>
+<h2 id="the-well-tempered-contract-developer">The well-tempered contract developer</h2>
+<p>I&rsquo;m going to do my best to make each of these points as protocol-agnostic as possible, but some specifics may leak through.</p>
+<h3 id="dont-trust-your-users">Don&rsquo;t trust your users</h3>
+<p><a href="https://youtu.be/k8Udcffrexw?t=24">Trustlessness goes both ways</a>.</p>
+<p>If we have (or rather, <a href="https://owasp.org/Top10/A03_2021-Injection/">have not</a>) learned anything from web 2, it&rsquo;s that you should sanitize your database inputs.</p>
+<p>Crypto is the wild, wild west. Entities that interact with your smart contract will understand your contract if they&rsquo;re doing their due diligence, and may understand it even better than you, the developer, do.</p>
+<p>Do not trust your users. Do not trust that their input will be well-formed. Do not trust that they will only try to withdraw an asset they own, or from their own account. Do not trust that they will deposit an asset or quantity you expect them to, or that they told you they would. Do not trust that two different accounts are not controlled by the same entity. Do not trust that a contract invocation is not coming from the same contract (does re-entrancy sound familiar to anyone?).</p>
+<p>Do not trust that your users will be reasonable.</p>
+<p>Do not trust.</p>
+<h3 id="make-invalid-states-unrepresentable">Make invalid states unrepresentable</h3>
+<p>This will be somewhat platform-dependent, as different smart contract programming languages have differing degrees of type system flexibility in this regard. Usually, any functional (or at least FP-inspired) programming language will have a sufficiently advanced type system. At least, look for support for full algebraic types (product <em>and</em> sum).</p>
+<p>Creating a good set of types for any system can be difficult, but it can also serve to reclassify a whole set of errors from runtime (or worse—undetected) to compile-time.</p>
+<p>There&rsquo;s a great deal of prior writing on this topic, and as diving much deeper would entail specific examples, I will instead suggest the following resources:</p>
+<ul>
+<li><a href="https://fsharpforfunandprofit.com/posts/designing-with-types-making-illegal-states-unrepresentable/">Designing with types: Making illegal states unrepresentable (Scott Wlaschin)</a></li>
+<li><a href="https://www.youtube.com/watch?v=7GzQArrek7A">Building a space station in Rust (Simple Rust patterns) [RUST-8] (No Boilerplate)</a></li>
+<li><a href="https://tomasp.net/blog/type-first-development.aspx/">Why type-first development matters (Tomas Petricek)</a></li>
+</ul>
+<h3 id="the-pull-model">The pull model</h3>
+<p>Most smart contracts eventually have to disburse assets to their users, be it native tokens, contract tokens (e.g. ERC-20s), NFTs, etc. The pull model merely says that instead of pushing (sending) those assets out immediately, the contract will wait for them to be requested. This has a number of benefits:</p>
+<ul>
+<li>The assets remain in control of an account that is known to be valid. If (in the case of a protocol that supports account deletion, like NEAR Protocol) the account to which the assets were to be disbursed is no longer active, the assets will remain in the control of an entity that can still manipulate them (the smart contract). This is more important if the thing being transferred is something like &ldquo;ownership of this contract,&rdquo; in which case accidentally transferring to an invalid account essentially bricks the contract.</li>
+<li>It saves on gas fees. If a rewards disbursal were initiated by a contract owner, and the disbursement is to, say 100k users, that could be a very expensive operation for the one contract owner (especially on high-fee networks like Ethereum), compounded with the fact that maybe not every user may actually use the rewards. Instead, the pull model offloads the gas fees to the user receiving the disbursal.</li>
+<li>It allows for easier monitoring of user activity. If all disbursals are mediated by a single <code>withdraw</code> function (or something similar), it makes it easier to apply limits and detect possible suspicious behavior. If you know that only one function can disburse funds, it makes it easier to secure the disbursal of funds.</li>
+</ul>
+<h3 id="understand-the-limitations-and-quirks-of-your-platform">Understand the limitations and quirks of your platform</h3>
+<p>Ideally, this means diving deep into the architecture of your specific smart contract execution environment. EVM? Study memory layout, proxy calls, bytecode, and the ABI. WASM? Study I/O, type representation (JSON limitations?), environment injection, and gas calculation.</p>
+<h3 id="get-audited">Get audited</h3>
+<p>At this point in time, there is no excuse for a contract that expects to be seeing a decent amount of volume to not publish regular audits.</p>
+<p>Solidity contracts absolutely. There are quite a few respectable auditing firms with Solidity experience. Other protocols may still be in their infancy in this regard, but that won&rsquo;t stop hackers—it should be just as high of a priority for a protocol to onboard competent developers as competent auditors.</p>
+<hr>
+<p>This is a lot, and one of the longer blogs I&rsquo;ve written, but with good reason: security is ever-increasing in its importance in this industry, and it&rsquo;s all-too-often ignored. I&rsquo;ve barely scratched the surface here, but I hope it was a good jumping-off point.</p>
+<p>Don&rsquo;t be the next multi-billion dollar victim.</p>
+<hr>
+<p>I&rsquo;m a software engineer for <a href="https://near.org/">NEAR Protocol</a>, head of education at the <a
+    href="https://www.blockchainacceleration.org/">Blockchain Acceleration Foundation</a>, and a graduate
+  student at the <a href="https://www.titech.ac.jp/">Tokyo Institute of Technology</a>.</p>
+<p>Connect with me <a href="https://twitter.com/sudo_build">on Twitter</a>.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://bitcoin.org/bitcoin.pdf">Bitcoin: A Peer-to-Peer Electronic Cash System</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://web.archive.org/web/20221113001311/https://help.ftx.com/hc/en-us/article_attachments/9719619779348/FTX_Terms_of_Service.pdf">FTX Terms of Service (Archive.org)</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>At the time of writing, CoinGecko reports <a href="https://www.coingecko.com/en/exchanges">all exchanges</a> as seeing $53.2 billion of volume over the last 24 hours, while <a href="https://www.coingecko.com/en/exchanges/decentralized">decentralized exchanges</a> have only seen $2.27 billion.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Ironic.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+</div>
+</article>
+<footer class="py:24">
+    <div class="f:fade-50 f:fade-60@dark f:14 mb:8">© Copyright 2022 Jacob Lindahl</div>
+    <div class="f:fade-80 f:fade-40@dark f:12">Theme <a class="f:bold" href="https://github.com/serkodev/holy"
+            _target="_blank">Holy</a></div>
+</footer>
+</div>
+    </div>
+</body>
+
+</html>

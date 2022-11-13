@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Copyright 2022 Jacob Lindahl</copyright>
-    <lastBuildDate>Tue, 25 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://geeklaunch.net/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://geeklaunch.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The modern dearth of intelligent crypto</title>
+      <link>https://geeklaunch.net/blog/modern-dearth-of-intelligent-crypto/</link>
+      <pubDate>Sun, 13 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://geeklaunch.net/blog/modern-dearth-of-intelligent-crypto/</guid>
+      <description>First, a quick word on recent events The original inspiration for writing on this topic was the Skyward smart contract hack for ~$3 million (at the time of the hack). However, since then, the FTX insolvency crisis occurred, so I&amp;rsquo;ve reworked and added some material to be more broadly applicable to the blockchain industry as a whole.
+It&amp;rsquo;s understandable to be uncomfortable, or even scared right now. Unregulated, fast-moving markets aren&amp;rsquo;t appropriate for everyone, especially when working with money one can&amp;rsquo;t afford to lose.</description>
+    </item>
+    
     <item>
       <title>Fathomable Rust Macros</title>
       <link>https://geeklaunch.net/blog/fathomable-rust-macros/</link>
