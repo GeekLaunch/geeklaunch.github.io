@@ -282,10 +282,13 @@ if (!doNotTrack) {
     <li><a href="#the-well-tempered-contract-developer">The well-tempered contract developer</a>
       <ul>
         <li><a href="#dont-trust-your-users">Don&rsquo;t trust your users</a></li>
+        <li><a href="#dont-trust-other-smart-contracts">Don&rsquo;t trust other smart contracts</a></li>
         <li><a href="#make-invalid-states-unrepresentable">Make invalid states unrepresentable</a></li>
         <li><a href="#the-pull-model">The pull model</a></li>
+        <li><a href="#know-your-workflow">Know your workflow</a></li>
         <li><a href="#understand-the-limitations-and-quirks-of-your-platform">Understand the limitations and quirks of your platform</a></li>
         <li><a href="#get-audited">Get audited</a></li>
+        <li><a href="#miscellaneous">Miscellaneous</a></li>
       </ul>
     </li>
   </ul>
@@ -399,6 +402,16 @@ Long-term, I think this should be the goal, but it is lofty and idealistic. Real
 <p>Do not trust your users. Do not trust that their input will be well-formed. Do not trust that they will only try to withdraw an asset they own, or from their own account. Do not trust that they will deposit an asset or quantity you expect them to, or that they told you they would. Do not trust that two different accounts are not controlled by the same entity. Do not trust that a contract invocation is not coming from the same contract (does re-entrancy sound familiar to anyone?).</p>
 <p>Do not trust that your users will be reasonable.</p>
 <p>Do not trust.</p>
+<h3 id="dont-trust-other-smart-contracts">Don&rsquo;t trust other smart contracts</h3>
+<ul>
+<li>Don&rsquo;t assume that every contract that claims to implement a standard has implemented it <em>correctly</em>. (Slightly less relevant for protocols that implement asset standards at the protocol level, like <a href="https://developer.algorand.org/docs/get-details/asa/">Algorand</a>.)</li>
+<li>Don&rsquo;t assume that just because a contract works properly now that it will work properly in the future.
+<ul>
+<li>A contract may get hacked.</li>
+<li>If the contract is <a href="https://blog.openzeppelin.com/proxy-patterns/">proxied</a> or <a href="https://docs.near.org/develop/upgrade#programmatic-update">upgradable in-place</a>, the logic may change without the address changing.</li>
+</ul>
+</li>
+</ul>
 <h3 id="make-invalid-states-unrepresentable">Make invalid states unrepresentable</h3>
 <p>This will be somewhat platform-dependent, as different smart contract programming languages have differing degrees of type system flexibility in this regard. Usually, any functional (or at least FP-inspired) programming language will have a sufficiently advanced type system. At least, look for support for full algebraic types (product <em>and</em> sum).</p>
 <p>Creating a good set of types for any system can be difficult, but it can also serve to reclassify a whole set of errors from runtime (or worse—undetected) to compile-time.</p>
@@ -415,11 +428,28 @@ Long-term, I think this should be the goal, but it is lofty and idealistic. Real
 <li>It saves on gas fees. If a rewards disbursal were initiated by a contract owner, and the disbursement is to, say 100k users, that could be a very expensive operation for the one contract owner (especially on high-fee networks like Ethereum), compounded with the fact that maybe not every user may actually use the rewards. Instead, the pull model offloads the gas fees to the user receiving the disbursal.</li>
 <li>It allows for easier monitoring of user activity. If all disbursals are mediated by a single <code>withdraw</code> function (or something similar), it makes it easier to apply limits and detect possible suspicious behavior. If you know that only one function can disburse funds, it makes it easier to secure the disbursal of funds.</li>
 </ul>
+<h3 id="know-your-workflow">Know your workflow</h3>
+<p>Know your workflow, and don&rsquo;t allow it to be abused. This means:</p>
+<ul>
+<li>Knowing, documenting, and testing the happy path. Often this means setting up a CI service to run tests on every commit. (GitHub Actions is great at this for open-source projects.)</li>
+<li>Ensuring that every deviation from the happy path is either impossible to reach or dealt with in such a way that it does not leave the contract in an invalid state. (For example, implementing the <a href="https://docs.soliditylang.org/en/v0.8.17/security-considerations.html#use-the-checks-effects-interactions-pattern">checks-effects-interactions pattern</a> in Solidity to avoid reentrancy vulnerabilities.)
+<ul>
+<li>Deviations from the happy path should be well-tested too (i.e. check for failure).</li>
+</ul>
+</li>
+</ul>
 <h3 id="understand-the-limitations-and-quirks-of-your-platform">Understand the limitations and quirks of your platform</h3>
 <p>Ideally, this means diving deep into the architecture of your specific smart contract execution environment. EVM? Study memory layout, proxy calls, bytecode, and the ABI. WASM? Study I/O, type representation (JSON limitations?), environment injection, and gas calculation.</p>
 <h3 id="get-audited">Get audited</h3>
 <p>At this point in time, there is no excuse for a contract that expects to be seeing a decent amount of volume to not publish regular audits.</p>
 <p>Solidity contracts absolutely. There are quite a few respectable auditing firms with Solidity experience. Other protocols may still be in their infancy in this regard, but that won&rsquo;t stop hackers—it should be just as high of a priority for a protocol to onboard competent developers as competent auditors.</p>
+<h3 id="miscellaneous">Miscellaneous</h3>
+<ul>
+<li>Don&rsquo;t hardcode gas values. <a href="https://eips.ethereum.org/EIPS/eip-150">Protocols can and will change them</a>.</li>
+<li>Be aware of function access modifiers.</li>
+<li>Be wary of any sort of looping or iterating operation. (First, make sure you couldn&rsquo;t remove the loop entirely by using something like <a href="#the-pull-model">the pull model</a>.) If it is possible that the collection over which you are iterating could grow to a point where the gas would become prohibitively expensive, consider condensing the data (would a Merkle tree suffice?) or paginating/limiting it.</li>
+<li>Don&rsquo;t store private data on-chain. Blockchains are public.<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></li>
+</ul>
 <hr>
 <p>This is a lot, and one of the longer blogs I&rsquo;ve written, but with good reason: security is ever-increasing in its importance in this industry, and it&rsquo;s all-too-often ignored. I&rsquo;ve barely scratched the surface here, but I hope it was a good jumping-off point.</p>
 <p>Don&rsquo;t be the next multi-billion dollar victim.</p>
@@ -442,6 +472,9 @@ Long-term, I think this should be the goal, but it is lofty and idealistic. Real
 </li>
 <li id="fn:4">
 <p>Ironic.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Except for a small, but growing number: <a href="https://www.getmonero.org/">Monero</a>, <a href="https://z.cash/">ZCash</a>, <a href="https://minaprotocol.com/">Mina</a>.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </div>

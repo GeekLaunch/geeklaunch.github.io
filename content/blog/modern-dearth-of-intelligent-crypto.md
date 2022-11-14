@@ -112,6 +112,13 @@ Do not trust that your users will be reasonable.
 
 Do not trust.
 
+### Don't trust other smart contracts
+
+- Don't assume that every contract that claims to implement a standard has implemented it _correctly_. (Slightly less relevant for protocols that implement asset standards at the protocol level, like [Algorand](https://developer.algorand.org/docs/get-details/asa/).)
+- Don't assume that just because a contract works properly now that it will work properly in the future.
+  - A contract may get hacked.
+  - If the contract is [proxied](https://blog.openzeppelin.com/proxy-patterns/) or [upgradable in-place](https://docs.near.org/develop/upgrade#programmatic-update), the logic may change without the address changing.
+
 ### Make invalid states unrepresentable
 
 This will be somewhat platform-dependent, as different smart contract programming languages have differing degrees of type system flexibility in this regard. Usually, any functional (or at least FP-inspired) programming language will have a sufficiently advanced type system. At least, look for support for full algebraic types (product _and_ sum).
@@ -132,6 +139,14 @@ Most smart contracts eventually have to disburse assets to their users, be it na
 - It saves on gas fees. If a rewards disbursal were initiated by a contract owner, and the disbursement is to, say 100k users, that could be a very expensive operation for the one contract owner (especially on high-fee networks like Ethereum), compounded with the fact that maybe not every user may actually use the rewards. Instead, the pull model offloads the gas fees to the user receiving the disbursal.
 - It allows for easier monitoring of user activity. If all disbursals are mediated by a single `withdraw` function (or something similar), it makes it easier to apply limits and detect possible suspicious behavior. If you know that only one function can disburse funds, it makes it easier to secure the disbursal of funds.
 
+### Know your workflow
+
+Know your workflow, and don't allow it to be abused. This means:
+
+- Knowing, documenting, and testing the happy path. Often this means setting up a CI service to run tests on every commit. (GitHub Actions is great at this for open-source projects.)
+- Ensuring that every deviation from the happy path is either impossible to reach or dealt with in such a way that it does not leave the contract in an invalid state. (For example, implementing the [checks-effects-interactions pattern](https://docs.soliditylang.org/en/v0.8.17/security-considerations.html#use-the-checks-effects-interactions-pattern) in Solidity to avoid reentrancy vulnerabilities.)
+  - Deviations from the happy path should be well-tested too (i.e. check for failure).
+
 ### Understand the limitations and quirks of your platform
 
 Ideally, this means diving deep into the architecture of your specific smart contract execution environment. EVM? Study memory layout, proxy calls, bytecode, and the ABI. WASM? Study I/O, type representation (JSON limitations?), environment injection, and gas calculation.
@@ -141,6 +156,15 @@ Ideally, this means diving deep into the architecture of your specific smart con
 At this point in time, there is no excuse for a contract that expects to be seeing a decent amount of volume to not publish regular audits.
 
 Solidity contracts absolutely. There are quite a few respectable auditing firms with Solidity experience. Other protocols may still be in their infancy in this regard, but that won't stop hackers&mdash;it should be just as high of a priority for a protocol to onboard competent developers as competent auditors.
+
+### Miscellaneous
+
+- Don't hardcode gas values. [Protocols can and will change them](https://eips.ethereum.org/EIPS/eip-150).
+- Be aware of function access modifiers.
+- Be wary of any sort of looping or iterating operation. (First, make sure you couldn't remove the loop entirely by using something like [the pull model](#the-pull-model).) If it is possible that the collection over which you are iterating could grow to a point where the gas would become prohibitively expensive, consider condensing the data (would a Merkle tree suffice?) or paginating/limiting it.
+- Don't store private data on-chain. Blockchains are public.[^public]
+
+[^public]: Except for a small, but growing number: [Monero](https://www.getmonero.org/), [ZCash](https://z.cash/), [Mina](https://minaprotocol.com/).
 
 ---
 
