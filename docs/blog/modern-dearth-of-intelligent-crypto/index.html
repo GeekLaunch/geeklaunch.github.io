@@ -239,12 +239,12 @@ if (!doNotTrack) {
         <div class="max-w:700 w:full box:content-box">
 <article class="box:border-box pt:32">
     <header class="mb:32">
-        <h1><a class="font:40 font:extrabold" href="https://geeklaunch.net/blog/modern-dearth-of-intelligent-crypto/">The modern dearth of intelligent crypto</a></h1>
+        <h1 class="font:40 font:extrabold">The modern dearth of intelligent crypto</h1>
         
         <p class="font:18 mt:12 lh:1.4 font:semibold color:fade-30 color:fade-70@dark">Save yourself billions of dollars with these security tips</p>
         
-        <div class="mt:16 f:fade-60">
-            <a href="https://twitter.com/sudo_build" class="text-decoration:underline:hover" rel="author">Jacob Lindahl</a><span class="mx:10">&mdash;</span><time pubdate datetime="2022-11-13 00:00:00 &#43;0000 UTC" title="November 13, 2022">Nov 13, 2022</time></div>
+        <div class="mt:16 f:fade-60 text-decoration:underline_:where(a):hover">
+            <a href="https://twitter.com/sudo_build" rel="author">Jacob Lindahl</a><span class="mx:10">&mdash;</span><a href="https://geeklaunch.net/blog/modern-dearth-of-intelligent-crypto/"><time pubdate datetime="2022-11-13 00:00:00 &#43;0000 UTC" title="November 13, 2022">Nov 13, 2022</time></a></div>
     </header>
 
     
@@ -320,6 +320,7 @@ if (!doNotTrack) {
     {text-decoration:underline;#fce016;bg:transparent;text-decoration-color:rgb(252;224;22/.5)@dark}_:where(mark)
     {font:fade-36;font:16;line-height:1.65}_:where(p,li,details)
     {font:fade-80}_:where(p,li,details)@dark
+    {my:0.125em}_:where(li>ul)
     {my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
     {mt:0!}>:first-child
     {width:full;border-spacing:0}_:where(table)
@@ -432,11 +433,8 @@ Long-term, I think this should be the goal, but it is lofty and idealistic. Real
 <p>Know your workflow, and don&rsquo;t allow it to be abused. This means:</p>
 <ul>
 <li>Knowing, documenting, and testing the happy path. Often this means setting up a CI service to run tests on every commit. (GitHub Actions is great at this for open-source projects.)</li>
-<li>Ensuring that every deviation from the happy path is either impossible to reach or dealt with in such a way that it does not leave the contract in an invalid state. (For example, implementing the <a href="https://docs.soliditylang.org/en/v0.8.17/security-considerations.html#use-the-checks-effects-interactions-pattern">checks-effects-interactions pattern</a> in Solidity to avoid reentrancy vulnerabilities.)
-<ul>
-<li>Deviations from the happy path should be well-tested too (i.e. check for failure).</li>
-</ul>
-</li>
+<li>Ensuring that every deviation from the happy path is either impossible to reach or dealt with in such a way that it does not leave the contract in an invalid state. (For example, implementing the <a href="https://docs.soliditylang.org/en/v0.8.17/security-considerations.html#use-the-checks-effects-interactions-pattern">checks-effects-interactions pattern</a> in Solidity to avoid reentrancy vulnerabilities.) <br>
+Deviations from the happy path should be well-tested too (i.e. check for failure).</li>
 </ul>
 <h3 id="understand-the-limitations-and-quirks-of-your-platform">Understand the limitations and quirks of your platform</h3>
 <p>Ideally, this means diving deep into the architecture of your specific smart contract execution environment. EVM? Study memory layout, proxy calls, bytecode, and the ABI. WASM? Study I/O, type representation (JSON limitations?), environment injection, and gas calculation.</p>
@@ -474,7 +472,7 @@ Long-term, I think this should be the goal, but it is lofty and idealistic. Real
 <p>Ironic.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:5">
-<p>Except for a small, but growing number: <a href="https://www.getmonero.org/">Monero</a>, <a href="https://z.cash/">ZCash</a>, <a href="https://minaprotocol.com/">Mina</a>.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Except for a small, but growing number, e.g. <a href="https://www.getmonero.org/">Monero</a>, <a href="https://z.cash/">ZCash</a>, <a href="https://minaprotocol.com/">Mina</a>.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </div>

@@ -144,8 +144,8 @@ Most smart contracts eventually have to disburse assets to their users, be it na
 Know your workflow, and don't allow it to be abused. This means:
 
 - Knowing, documenting, and testing the happy path. Often this means setting up a CI service to run tests on every commit. (GitHub Actions is great at this for open-source projects.)
-- Ensuring that every deviation from the happy path is either impossible to reach or dealt with in such a way that it does not leave the contract in an invalid state. (For example, implementing the [checks-effects-interactions pattern](https://docs.soliditylang.org/en/v0.8.17/security-considerations.html#use-the-checks-effects-interactions-pattern) in Solidity to avoid reentrancy vulnerabilities.)
-  - Deviations from the happy path should be well-tested too (i.e. check for failure).
+- Ensuring that every deviation from the happy path is either impossible to reach or dealt with in such a way that it does not leave the contract in an invalid state. (For example, implementing the [checks-effects-interactions pattern](https://docs.soliditylang.org/en/v0.8.17/security-considerations.html#use-the-checks-effects-interactions-pattern) in Solidity to avoid reentrancy vulnerabilities.) \
+   Deviations from the happy path should be well-tested too (i.e. check for failure).
 
 ### Understand the limitations and quirks of your platform
 
@@ -164,7 +164,7 @@ Solidity contracts absolutely. There are quite a few respectable auditing firms 
 - Be wary of any sort of looping or iterating operation. (First, make sure you couldn't remove the loop entirely by using something like [the pull model](#the-pull-model).) If it is possible that the collection over which you are iterating could grow to a point where the gas would become prohibitively expensive, consider condensing the data (would a Merkle tree suffice?) or paginating/limiting it.
 - Don't store private data on-chain. Blockchains are public.[^public]
 
-[^public]: Except for a small, but growing number: [Monero](https://www.getmonero.org/), [ZCash](https://z.cash/), [Mina](https://minaprotocol.com/).
+[^public]: Except for a small, but growing number, e.g. [Monero](https://www.getmonero.org/), [ZCash](https://z.cash/), [Mina](https://minaprotocol.com/).
 
 ---
 
