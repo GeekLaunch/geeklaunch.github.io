@@ -12,7 +12,7 @@
     <meta name="description" content="Rust macros are compile-time constructs that operate on streams of Rust language tokens.
 A brief aside on compilation What are &ldquo;Rust language tokens&rdquo;?
 When a compiler begins compiling a program, it first reads in the source code file. For simplicity&rsquo;s sake, let&rsquo;s say the compiler stores that source code in a string. The next step is to step through the string, character by character, and divide it up into &ldquo;tokens.&rdquo;" />
-    <meta name="author" content="Jacob Lindahl" />
+    <meta name="author" content="map[name:Jacob Lindahl twitter:sudo_build]" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Fathomable Rust Macros" />
     <meta property="og:description" content="A breakdown of the inner workings and authorship of macros in Rust" />
@@ -245,7 +245,8 @@ if (!doNotTrack) {
         <p class="font:18 mt:12 lh:1.4 font:semibold color:fade-30 color:fade-70@dark">A breakdown of the inner workings and authorship of macros in Rust</p>
         
         <div class="mt:16 f:fade-60 text-decoration:underline_:where(a):hover">
-            <a href="https://twitter.com/sudo_build" rel="author">Jacob Lindahl</a><span class="mx:10">&mdash;</span><a href="https://geeklaunch.net/blog/fathomable-rust-macros/"><time pubdate datetime="2022-10-25 00:00:00 &#43;0000 UTC" title="October 25, 2022">Oct 25, 2022</time></a></div>
+            <p><a href="https://twitter.com/sudo_build" rel="author">Jacob Lindahl</a><span class="mx:10">&mdash;</span><a href="https://geeklaunch.net/blog/fathomable-rust-macros/"><time pubdate datetime="2022-10-25 00:00:00 &#43;0000 UTC" title="October 25, 2022">Oct 25, 2022</time></a></p>
+        </div>
     </header>
 
     
@@ -645,10 +646,9 @@ pub fn derive_display(input: proc_macro::TokenStream) -&gt; proc_macro::TokenStr
 </div>
 </div>
 </article>
-<footer class="py:24">
-    <div class="f:fade-50 f:fade-60@dark f:14 mb:8">© Copyright 2022 Jacob Lindahl</div>
-    <div class="f:fade-80 f:fade-40@dark f:12">Theme <a class="f:bold" href="https://github.com/serkodev/holy"
-            _target="_blank">Holy</a></div>
+<footer class="py:24 f:fade-50 f:fade-60@dark f:14 d:flex flex:col gap:8"><p>
+        This work is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+    </p><p>© Copyright 2022 Jacob Lindahl</p>
 </footer>
 </div>
     </div>

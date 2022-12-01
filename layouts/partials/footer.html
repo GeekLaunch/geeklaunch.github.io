@@ -1,5 +1,8 @@
-<footer class="py:24">
-    <div class="f:fade-50 f:fade-60@dark f:14 mb:8">{{ .Site.Params.copyright }}</div>
-    <div class="f:fade-80 f:fade-40@dark f:12">Theme <a class="f:bold" href="https://github.com/serkodev/holy"
-            _target="_blank">Holy</a></div>
+<footer class="py:24 f:fade-50 f:fade-60@dark f:14 d:flex flex:col gap:8">
+    {{- if isset .Params "license" -}}
+    <p>
+        This work is licensed under <a rel="license" href="{{ .Params.license.link }}">{{ .Params.license.name }}</a>.
+    </p>
+    {{- end -}}
+    <p>{{ .Site.Params.copyright }}</p>
 </footer>

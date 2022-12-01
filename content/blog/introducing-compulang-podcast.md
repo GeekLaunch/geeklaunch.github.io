@@ -1,10 +1,14 @@
 ---
-title: 'Introducing the Compulang Podcast'
+title: "Introducing the Compulang Podcast"
 date: 2020-09-13T14:14:24-05:00
 draft: false
-description: 'Grab the latest tech news sound bytes from the new podcast by GeekLaunch'
-author: Jacob Lindahl
-twitter: sudo_build
+description: "Grab the latest tech news sound bytes from the new podcast by GeekLaunch"
+author:
+  name: Jacob Lindahl
+  twitter: sudo_build
+license:
+  name: CC BY-SA 4.0
+  link: https://creativecommons.org/licenses/by-sa/4.0/
 ---
 
 <iframe src="https://anchor.fm/compulang/embed" height="230px" width="100%" frameborder="0" scrolling="no"></iframe>

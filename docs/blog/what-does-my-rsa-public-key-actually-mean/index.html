@@ -11,7 +11,7 @@
 
     <meta name="description" content="-----BEGIN PUBLIC KEY----- MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH 79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72 1Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ&#43;zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWb Ydg14nl&#43;ZQLC0H6n&#43;v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICw UUKTuKWBu/WJo/NjKWDGQQL4A2RfZW6u3DLc/BHlQzHgL9Ac3hM6n/aN1IcR0UpR 4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6Cl rEYA/DsuKMmbf2/hX//fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5K oEqCpW/LXT/Yrh/INKY9yQ7vruE/q417mJfbqfOmRitsgX4xm6IzWOb&#43;D862Vr8y Gt931gYvRBSyh2rjLJ/EkmQHMDQN/YbtnG7MlG6jpXehWkO&#43;3XBDiDhfVqIO3fbX k2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij&#43;IvUrmZQbDlS/p3WT GRt6yCtdLlbGPC6YZD&#43;WLk58/9a/EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXn iTbKw8sfeyccOKQgWbMAo8ECAwEAAQ== -----END PUBLIC KEY----- That&rsquo;s an RSA public key that I just generated using the commands:
 $ openssl genrsa -out priv.pem 4096 Generating RSA private key, 4096 bit long modulus (2 primes) ..........................................................................................................................................................................................................................................................................&#43;&#43;&#43;&#43; ................................................&#43;&#43;&#43;&#43; e is 65537 (0x010001) $ openssl rsa -in ./priv.pem -pubout -out pub.pem writing RSA key $ cat pub.pem But, what the heck is this?" />
-    <meta name="author" content="Jacob Lindahl" />
+    <meta name="author" content="map[name:Jacob Lindahl twitter:sudo_build]" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="What does my RSA public key actually mean?" />
     <meta property="og:description" content="An overview of the PKCS8 public key format" />
@@ -244,7 +244,8 @@ if (!doNotTrack) {
         <p class="font:18 mt:12 lh:1.4 font:semibold color:fade-30 color:fade-70@dark">An overview of the PKCS8 public key format</p>
         
         <div class="mt:16 f:fade-60 text-decoration:underline_:where(a):hover">
-            <a href="https://twitter.com/sudo_build" rel="author">Jacob Lindahl</a><span class="mx:10">&mdash;</span><a href="https://geeklaunch.net/blog/what-does-my-rsa-public-key-actually-mean/"><time pubdate datetime="2020-01-22 23:03:42 -0600 -0600" title="January 22, 2020">Jan 22, 2020</time></a></div>
+            <p><a href="https://twitter.com/sudo_build" rel="author">Jacob Lindahl</a><span class="mx:10">&mdash;</span><a href="https://geeklaunch.net/blog/what-does-my-rsa-public-key-actually-mean/"><time pubdate datetime="2020-01-22 23:03:42 -0600 -0600" title="January 22, 2020">Jan 22, 2020</time></a></p>
+        </div>
     </header>
 
     <div class="
@@ -420,10 +421,9 @@ c1 02 03 01 00 01                                 |......|
 <p>Connect with me <a href="https://twitter.com/sudo_build">on Twitter</a>.</p>
 </div>
 </article>
-<footer class="py:24">
-    <div class="f:fade-50 f:fade-60@dark f:14 mb:8">© Copyright 2022 Jacob Lindahl</div>
-    <div class="f:fade-80 f:fade-40@dark f:12">Theme <a class="f:bold" href="https://github.com/serkodev/holy"
-            _target="_blank">Holy</a></div>
+<footer class="py:24 f:fade-50 f:fade-60@dark f:14 d:flex flex:col gap:8"><p>
+        This work is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+    </p><p>© Copyright 2022 Jacob Lindahl</p>
 </footer>
 </div>
     </div>

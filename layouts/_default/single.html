@@ -6,19 +6,29 @@
         <p class="font:18 mt:12 lh:1.4 font:semibold color:fade-30 color:fade-70@dark">{{ .Params.description }}</p>
         {{ end }}
         <div class="mt:16 f:fade-60 text-decoration:underline_:where(a):hover">
-            <a href="https://twitter.com/{{ .Params.twitter }}" rel="author">
-                {{- .Params.author -}}
-            </a>
-            {{- if isset .Params "date" -}}
-            <span class="mx:10">&mdash;</span><a href="{{ .Permalink }}">
-                {{- if eq .Lastmod .Date -}}
-                {{- $t := .Date | time.Format (":date_long") -}}
-                <time pubdate datetime="{{ .Date }}" title="{{ $t }}">{{ .Date | time.Format (":date_medium") }}</time>
+            <p>
+                {{- with .Params.author -}}
+                {{- if isset . "twitter" -}}
+                <a href="https://twitter.com/{{ .twitter }}" rel="author">
+                    {{- .name -}}
+                </a>
                 {{- else -}}
-                <time>{{ .Lastmod | time.Format (":date_medium") }}</time>
+                {{- .name -}}
                 {{- end -}}
-            </a>
-            {{- end -}}
+                {{- end -}}
+
+                {{- if isset .Params "date" -}}
+                <span class="mx:10">&mdash;</span><a href="{{ .Permalink }}">
+                    {{- if eq .Lastmod .Date -}}
+                    {{- $t := .Date | time.Format (":date_long") -}}
+                    <time pubdate datetime="{{ .Date }}" title="{{ $t }}">{{ .Date | time.Format (":date_medium")
+                        }}</time>
+                    {{- else -}}
+                    <time>{{ .Lastmod | time.Format (":date_medium") }}</time>
+                    {{- end -}}
+                </a>
+                {{- end -}}
+            </p>
         </div>
     </header>
 

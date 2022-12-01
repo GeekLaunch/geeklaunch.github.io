@@ -21,8 +21,8 @@
     {{ if isset site.Params "twitter" }}
     <meta name="twitter:site" content="{{ site.Params.twitter }}" />
     {{ end }}
-    {{ if isset .Params "twitter" }}
-    <meta name="twitter:creator" content="{{ .Params.twitter }}" />
+    {{ with .Params.author }}
+    <meta name="twitter:creator" content="{{ .twitter }}" />
     {{ end }}
 
     {{ else }}

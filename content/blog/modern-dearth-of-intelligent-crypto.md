@@ -1,10 +1,14 @@
 ---
-title: 'The modern dearth of intelligent crypto'
+title: "The modern dearth of intelligent crypto"
 date: 2022-11-13
 draft: false
-description: 'Save yourself billions of dollars with these security tips'
-author: Jacob Lindahl
-twitter: sudo_build
+description: "Save yourself billions of dollars with these security tips"
+author:
+  name: Jacob Lindahl
+  twitter: sudo_build
+license:
+  name: CC BY-SA 4.0
+  link: https://creativecommons.org/licenses/by-sa/4.0/
 ---
 
 ## First, a quick word on recent events
