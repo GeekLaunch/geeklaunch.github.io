@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Copyright 2022 Jacob Lindahl</copyright>
-    <lastBuildDate>Mon, 14 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://geeklaunch.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://geeklaunch.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to switch GitHub Pages to a new domain for free using Cloudflare</title>
+      <link>https://geeklaunch.io/blog/how-to-switch-github-pages-to-a-new-domain-for-free-using-cloudflare/</link>
+      <pubDate>Fri, 16 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://geeklaunch.io/blog/how-to-switch-github-pages-to-a-new-domain-for-free-using-cloudflare/</guid>
+      <description>For reasons consisting of little more than vanity, I decided to puchase the domain geeklaunch.io and port this website over to it, replacing geeklaunch.net. However, I wanted to make sure that I maintained as much of my measly SEO rankings as possible, as well as not break any of the links to geeklaunch.net that may exist around the web.
+Setting the DNS records on the new domain For GitHub Pages, which is the hosting service I currently use for this website, the process for setting up a new domain to point at GitHub Pages is pretty well-documented.</description>
+    </item>
+    
     <item>
       <title>ウィスコンシン州の北地方</title>
       <link>https://geeklaunch.io/blog/%E3%82%A6%E3%82%A3%E3%82%B9%E3%82%B3%E3%83%B3%E3%82%B7%E3%83%B3%E5%B7%9E%E3%81%AE%E5%8C%97%E5%9C%B0%E6%96%B9/</link>

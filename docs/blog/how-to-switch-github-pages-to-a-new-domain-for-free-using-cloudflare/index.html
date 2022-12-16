@@ -4,12 +4,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <title>Posts - GeekLaunch</title>
+    <title>How to switch GitHub Pages to a new domain for free using Cloudflare - GeekLaunch</title>
 
     
     
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+
+    <meta name="description" content="For reasons consisting of little more than vanity, I decided to puchase the domain geeklaunch.io and port this website over to it, replacing geeklaunch.net. However, I wanted to make sure that I maintained as much of my measly SEO rankings as possible, as well as not break any of the links to geeklaunch.net that may exist around the web.
+Setting the DNS records on the new domain For GitHub Pages, which is the hosting service I currently use for this website, the process for setting up a new domain to point at GitHub Pages is pretty well-documented." />
+    <meta name="author" content="map[name:Jacob Lindahl twitter:sudo_build]" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="How to switch GitHub Pages to a new domain for free using Cloudflare" />
+    <meta property="og:description" content="Using completely free serivces, set up path-preserving redirects from an old domain to a new one." />
+    <meta property="og:url" content="https://geeklaunch.io/blog/how-to-switch-github-pages-to-a-new-domain-for-free-using-cloudflare/" />
+    <meta property="og:image" content="https://geeklaunch.io/img/geeklaunch.png" />
+    <meta property="og:site_name" content="GeekLaunch" />
+
+    <meta name="twitter:card" content="summary" />
+    
+    <meta name="twitter:site" content="Geek_Launch" />
+    
+    
+    <meta name="twitter:creator" content="sudo_build" />
+    
+
     
 
     <link id="highlight-theme-light" rel="stylesheet"
@@ -220,11 +237,53 @@ if (!doNotTrack) {
 </nav>
 <div class="d:flex flex:column@<=sm pt:90@sm px:24 jc:center gap:44 word-break:break-word">
         <div class="max-w:700 w:full box:content-box">
-<div>
-    <article class="box:border-box pt:64 w:full">
-        <header class="mb:32">
-            <div class="font:40 font:extrabold">Posts</div>
-        </header><div class="
+<article class="box:border-box pt:32">
+    <header class="mb:32">
+        <h1 class="font:40 font:extrabold">How to switch GitHub Pages to a new domain for free using Cloudflare</h1>
+        
+        <p class="font:18 mt:12 lh:1.4 font:semibold color:fade-30 color:fade-70@dark">Using completely free serivces, set up path-preserving redirects from an old domain to a new one.</p>
+        
+        <div class="mt:16 f:fade-60 text-decoration:underline_:where(a):hover">
+            <p><a href="https://twitter.com/sudo_build" rel="author">Jacob Lindahl</a><span class="mx:10">&mdash;</span><a href="https://geeklaunch.io/blog/how-to-switch-github-pages-to-a-new-domain-for-free-using-cloudflare/"><time pubdate datetime="2022-12-16 00:00:00 &#43;0000 UTC" title="December 16, 2022">Dec 16, 2022</time></a></p>
+        </div>
+    </header>
+
+    
+    <aside>
+        <details class="
+            ml:12_ul
+            bl:2
+            bl:fade-86
+            bl:fade-40@dark
+            mb:24
+            py:4
+            pl:12
+            lh:1.5
+            {content:'#';pr:.3em;color:fade-70}_li::before
+            {color:fade-50}_li::before@dark
+            {text-underline-offset:3;font:medium;text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_a
+            {text-decoration-color:fade-30;color:fade-80}_a@dark
+            {text-decoration-color:fade-60;color:fade-10}_a:hover
+            {text-decoration-color:fade-60;color:fade-90}_a:hover@dark
+        ">
+            <summary class="
+                cursor:pointer
+                font-weight:semibold
+                color:fade-40
+                color:fade-80@dark
+                color:fade-70::marker
+                color:fade-50::marker@dark
+            ">Contents</summary>
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#setting-the-dns-records-on-the-new-domain">Setting the DNS records on the new domain</a></li>
+    <li><a href="#updating-the-base-url-for-the-website">Updating the base URL for the website</a></li>
+    <li><a href="#setting-up-seo-preserving-https-redirects">Setting up SEO-preserving, HTTPS redirects</a></li>
+  </ul>
+</nav>
+        </details>
+    </aside>
+    <div class="
     {text-decoration-color:fade-60}_:where(a):hover
     {text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_:where(a)
     {text-decoration-color:fade-30;color:fade-90}_:where(a)@dark
@@ -274,80 +333,58 @@ if (!doNotTrack) {
     {color:fade-50}_.headingAnchor@dark
     {color:fade-70}_.headingAnchor:hover@dark
     {border-radius:2;lh:1.5}_:where(pre>code)
-"></div>
-</article><div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/how-to-switch-github-pages-to-a-new-domain-for-free-using-cloudflare/">
-        How to switch GitHub Pages to a new domain for free using Cloudflare
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Dec 16, 2022</time></div>
-    
+"><p>For reasons consisting of little more than vanity, I decided to puchase the domain <code>geeklaunch.io</code> and port this website over to it, replacing <code>geeklaunch.net</code>. However, I wanted to make sure that I maintained as much of my measly SEO rankings as possible, as well as not break any of the links to <code>geeklaunch.net</code> that may exist around the web.</p>
+<h2 id="setting-the-dns-records-on-the-new-domain">Setting the DNS records on the new domain</h2>
+<p>For GitHub Pages, which is the hosting service I currently use for this website, the process for setting up a new domain to point at GitHub Pages is <a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain">pretty well-documented</a>.</p>
+<p>Basically, all you need to do is set up the <code>A</code> records for your domain to point at the IP addresses of your host. (<code>AAAA</code> records for IPv6.)</p>
+<p>Then, be sure to actually tell GitHub that you&rsquo;ve set up the domain. Open up your repository, and under <code>Settings</code> → <code>Pages</code> → <code>Custom domain</code>, type in the domain and click &ldquo;Save.&rdquo;</p>
+<p><img src="./custom-domain.png" alt="A screenshot of the &amp;ldquo;Custom domain&amp;rdquo; field in a GitHub repository&amp;rsquo;s settings"></p>
+<h2 id="updating-the-base-url-for-the-website">Updating the base URL for the website</h2>
+<p>I use <a href="https://gohugo.io/">the Hugo static site generator</a> to maintain this website. Depending on your website&rsquo;s configuration, you may need to update the website&rsquo;s configuration to tell it at what domain it will live:</p>
+<ul>
+<li><a href="https://gohugo.io/getting-started/configuration/#baseurl">Hugo: <code>baseURL</code></a></li>
+<li><a href="https://mademistakes.com/mastering-jekyll/site-url-baseurl/">Jekyll: <code>baseurl</code></a></li>
+</ul>
+<h2 id="setting-up-seo-preserving-https-redirects">Setting up SEO-preserving, HTTPS redirects</h2>
+<p>I use Namecheap as my domain registrar. They provide a simple DNS service that allows you to <a href="https://www.namecheap.com/support/knowledgebase/article.aspx/385/2237/how-to-redirect-a-url-for-a-domain/">set up redirects</a>, but unfortunately, they won&rsquo;t automatically issue an SSL certificate for your domain. GitHub Pages <em>does</em> do this automatic issuance, but only for the domain that is currently configured. If I change the domain (which is what I&rsquo;m trying to do!), the SSL certificate will be decommissioned. This means that if I simply used the redirect service provided by my registrar, the old domain would be downgraded to HTTP-only, which, in this day and age, would probably lose me quite a few SEO points.</p>
+<p>Luckily, GitHub Pages isn&rsquo;t the only place I can get a free SSL certificate automatically managed for my domain. There&rsquo;s also <a href="https://www.cloudflare.com/">Cloudflare</a>.</p>
+<p>Cloudflare&rsquo;s free plan is more than sufficient for our needs.</p>
+<p>Once you&rsquo;ve set up your domain on Cloudflare (all you need to do is tell your domain registrar to point the domain at Cloudflare&rsquo;s nameservers), select your domain from the Cloudflare dashboard, and navigate over to the &ldquo;Page Rules&rdquo; section on the sidebar.</p>
+<p><img src="./page-rules.png" alt="A screenshot of the &amp;ldquo;Page Rules&amp;rdquo; link on the Cloudflare dashboard"></p>
+<p>Create a new Page Rule, and fill it in like so:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>URL</td>
+<td><code>geeklaunch.net/*</code></td>
+</tr>
+<tr>
+<td>Setting</td>
+<td>Forwarding URL</td>
+</tr>
+<tr>
+<td>Status code</td>
+<td>301 - Permanent Redirect</td>
+</tr>
+<tr>
+<td>Destination URL</td>
+<td><code>https://geeklaunch.io/$1</code></td>
+</tr>
+</tbody>
+</table>
+<p>This will set up a path-preserving redirect from <code>geeklaunch.net</code> to <code>geeklaunch.io</code>. That is, <code>https://geeklaunch.net/blog/fathomable-rust-macros/</code> will be forwarded to <code>https://geeklaunch.io/blog/fathomable-rust-macros/</code>. Since it&rsquo;s a <a href="https://en.wikipedia.org/wiki/HTTP_301">301 redirect</a>, SEO ranking will be passed over to the new URL.</p>
+<p>You can find more details in the <a href="https://support.cloudflare.com/hc/en-us/articles/4729826525965-Configuring-URL-forwarding-or-redirects-with-Page-Rules#h_53Wv490V4xQG351E96JIAA">Cloudflare documentation for Page Rules</a>.</p>
 </div>
-<div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/%E3%82%A6%E3%82%A3%E3%82%B9%E3%82%B3%E3%83%B3%E3%82%B7%E3%83%B3%E5%B7%9E%E3%81%AE%E5%8C%97%E5%9C%B0%E6%96%B9/">
-        ウィスコンシン州の北地方
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Nov 14, 2022</time></div>
-    
-</div>
-<div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/modern-dearth-of-intelligent-crypto/">
-        The modern dearth of intelligent crypto
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Nov 13, 2022</time></div>
-    
-</div>
-<div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/fathomable-rust-macros/">
-        Fathomable Rust Macros
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Oct 25, 2022</time></div>
-    
-</div>
-<div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/how-to-speed-up-your-code-using-graphs/">
-        How to speed up your code 224,444,739% using graphs
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Aug 6, 2022</time></div>
-    
-</div>
-<div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/the-state-of-web3-in-2022/">
-        The State of Web3 in 2022
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Jun 22, 2022</time></div>
-    
-</div>
-<div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/storage-locations-in-ethereum-vs-near/">
-        Storage Locations in Ethereum vs. NEAR
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Dec 21, 2021</time></div>
-    
-</div>
-<div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/introducing-compulang-podcast/">
-        Introducing the Compulang Podcast
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Sep 13, 2020</time></div>
-    
-</div>
-<div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/how-to-verify-domain-name-on-github-with-namecheap/">
-        How to Verify a Domain Name on GitHub with Namecheap
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Jan 27, 2020</time></div>
-    
-</div>
-<div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/what-does-my-rsa-public-key-actually-mean/">
-        What does my RSA public key actually mean?
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Jan 22, 2020</time></div>
-    
-</div>
-
-</div>
-<footer class="py:24 f:fade-50 f:fade-60@dark f:14 d:flex flex:col gap:8"><p>© Copyright 2022 Jacob Lindahl</p>
+</article>
+<footer class="py:24 f:fade-50 f:fade-60@dark f:14 d:flex flex:col gap:8"><p>
+        This work is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+    </p><p>© Copyright 2022 Jacob Lindahl</p>
 </footer>
 </div>
     </div>
