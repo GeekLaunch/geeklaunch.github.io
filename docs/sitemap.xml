@@ -2,39 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://geeklaunch.net/blog/</loc>
+    <loc>https://geeklaunch.io/blog/</loc>
     <lastmod>2022-11-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://geeklaunch.net/</loc>
+    <loc>https://geeklaunch.io/</loc>
     <lastmod>2022-11-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://geeklaunch.net/blog/%E3%82%A6%E3%82%A3%E3%82%B9%E3%82%B3%E3%83%B3%E3%82%B7%E3%83%B3%E5%B7%9E%E3%81%AE%E5%8C%97%E5%9C%B0%E6%96%B9/</loc>
+    <loc>https://geeklaunch.io/blog/%E3%82%A6%E3%82%A3%E3%82%B9%E3%82%B3%E3%83%B3%E3%82%B7%E3%83%B3%E5%B7%9E%E3%81%AE%E5%8C%97%E5%9C%B0%E6%96%B9/</loc>
     <lastmod>2022-11-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://geeklaunch.net/blog/modern-dearth-of-intelligent-crypto/</loc>
+    <loc>https://geeklaunch.io/blog/modern-dearth-of-intelligent-crypto/</loc>
     <lastmod>2022-11-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://geeklaunch.net/blog/fathomable-rust-macros/</loc>
+    <loc>https://geeklaunch.io/blog/fathomable-rust-macros/</loc>
     <lastmod>2022-10-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://geeklaunch.net/blog/how-to-speed-up-your-code-using-graphs/</loc>
+    <loc>https://geeklaunch.io/blog/how-to-speed-up-your-code-using-graphs/</loc>
     <lastmod>2022-08-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://geeklaunch.net/blog/the-state-of-web3-in-2022/</loc>
+    <loc>https://geeklaunch.io/blog/the-state-of-web3-in-2022/</loc>
     <lastmod>2022-06-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://geeklaunch.net/blog/storage-locations-in-ethereum-vs-near/</loc>
+    <loc>https://geeklaunch.io/blog/storage-locations-in-ethereum-vs-near/</loc>
     <lastmod>2021-12-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://geeklaunch.net/blog/introducing-compulang-podcast/</loc>
+    <loc>https://geeklaunch.io/blog/introducing-compulang-podcast/</loc>
     <lastmod>2020-09-13T14:14:24-05:00</lastmod>
   </url><url>
-    <loc>https://geeklaunch.net/blog/how-to-verify-domain-name-on-github-with-namecheap/</loc>
+    <loc>https://geeklaunch.io/blog/how-to-verify-domain-name-on-github-with-namecheap/</loc>
     <lastmod>2020-01-27T17:10:36-06:00</lastmod>
   </url><url>
-    <loc>https://geeklaunch.net/blog/what-does-my-rsa-public-key-actually-mean/</loc>
+    <loc>https://geeklaunch.io/blog/what-does-my-rsa-public-key-actually-mean/</loc>
     <lastmod>2020-01-22T23:03:42-06:00</lastmod>
   </url><url>
-    <loc>https://geeklaunch.net/about/</loc>
+    <loc>https://geeklaunch.io/about/</loc>
   </url>
 </urlset>
