@@ -5,7 +5,7 @@
         {{ if isset .Params "description" }}
         <p class="font:18 mt:12 lh:1.4 font:semibold color:fade-30 color:fade-70@dark">{{ .Params.description }}</p>
         {{ end }}
-        <div class="mt:16 f:fade-60 text-decoration:underline_:where(a):hover">
+        <div class="mt:16 f:fade-60@dark f:fade-50 text-decoration:underline_:where(a):hover">
             <p>
                 {{- if isset .Params "twitter" -}}
                 <a href="https://twitter.com/{{ .Params.twitter }}" rel="author">
