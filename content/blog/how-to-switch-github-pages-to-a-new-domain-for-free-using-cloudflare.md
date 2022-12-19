@@ -2,9 +2,8 @@
 title: "How to switch GitHub Pages to a new domain for free using Cloudflare"
 date: 2022-12-16
 description: "Using completely free serivces, set up path-preserving redirects from an old domain to a new one."
-author:
-  name: Jacob Lindahl
-  twitter: sudo_build
+author: Jacob Lindahl
+twitter: sudo_build
 license:
   name: CC BY-SA 4.0
   link: https://creativecommons.org/licenses/by-sa/4.0/

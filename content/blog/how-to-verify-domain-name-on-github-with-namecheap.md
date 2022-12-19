@@ -2,9 +2,8 @@
 title: "How to Verify a Domain Name on GitHub with Namecheap"
 date: 2020-01-27T17:10:36-06:00
 description: "Let's take a closer look at DNS records and verify a domain on GitHub"
-author:
-  name: Jacob Lindahl
-  twitter: sudo_build
+author: Jacob Lindahl
+twitter: sudo_build
 license:
   name: CC BY-SA 4.0
   link: https://creativecommons.org/licenses/by-sa/4.0/

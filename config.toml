@@ -7,7 +7,11 @@ languageCode = "en-us"
 publishDir = "docs"
 title = "GeekLaunch"
 
+[author]
+name = "Jacob Lindahl"
+
 [params]
+description = "Tech tips and tutorials. Computer science educational videos, tutorials, guides, blog posts about Rust programming, blockchain, optimization problems, cybersecurity."
 logo = "/img/geeklaunch.png"
 mastodon = "geeklaunch@techhub.social"
 twitter = "Geek_Launch"

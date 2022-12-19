@@ -3,9 +3,8 @@ title: "Fathomable Rust Macros"
 date: 2022-10-25
 draft: false
 description: "A breakdown of the inner workings and authorship of macros in Rust"
-author:
-  name: Jacob Lindahl
-  twitter: sudo_build
+author: Jacob Lindahl
+twitter: sudo_build
 license:
   name: CC BY-SA 4.0
   link: https://creativecommons.org/licenses/by-sa/4.0/

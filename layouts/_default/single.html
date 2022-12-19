@@ -7,14 +7,12 @@
         {{ end }}
         <div class="mt:16 f:fade-60 text-decoration:underline_:where(a):hover">
             <p>
-                {{- with .Params.author -}}
-                {{- if isset . "twitter" -}}
-                <a href="https://twitter.com/{{ .twitter }}" rel="author">
-                    {{- .name -}}
+                {{- if isset .Params "twitter" -}}
+                <a href="https://twitter.com/{{ .Params.twitter }}" rel="author">
+                    {{- .Params.Author -}}
                 </a>
                 {{- else -}}
-                {{- .name -}}
-                {{- end -}}
+                {{- .Params.Author -}}
                 {{- end -}}
 
                 {{- if isset .Params "date" -}}

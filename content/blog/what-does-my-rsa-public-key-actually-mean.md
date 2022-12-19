@@ -2,9 +2,8 @@
 title: "What does my RSA public key actually mean?"
 date: 2020-01-22T23:03:42-06:00
 description: "An overview of the PKCS8 public key format"
-author:
-  name: Jacob Lindahl
-  twitter: sudo_build
+author: Jacob Lindahl
+twitter: sudo_build
 license:
   name: CC BY-SA 4.0
   link: https://creativecommons.org/licenses/by-sa/4.0/

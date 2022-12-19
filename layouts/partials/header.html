@@ -28,28 +28,20 @@
             flex-wrap:wrap
             justify-content:space-between
             justify-content:flex-end@sm
+
+            {font:semibold;font:fade}_a
+            font:fade-10_a:hover
+            font:fade-80_a@dark
+            font:fade-96_a:hover@dark
+            p:12_a
+            p:18_a@sm
         ">
-            {{ $currentPage := . }}
-            {{ $active := "" }}
-            {{ range .Site.Menus.main }}
-            {{ if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}
-            {{ $active = "active" }}
-            {{ end }}
-            <a class="
-                font:semibold
-                font:fade
-                font:fade-10:hover
-                font:fade-30.active
-                font:fade-80@dark
-                font:fade-96:hover@dark
-                font:fade-90.active@dark
-                p:12
-                p:18@sm
-                {{ $active }}
-            " href="{{ .URL }}" title="{{ .Title }}">
+            {{- $currentPage := . -}}
+            {{- range .Site.Menus.main -}}
+            <a href="{{ .URL }}" title="{{ .Title }}">
                 {{- .Name -}}
             </a>
-            {{ end }}
+            {{- end -}}
         </div>
     </div>
 </nav>

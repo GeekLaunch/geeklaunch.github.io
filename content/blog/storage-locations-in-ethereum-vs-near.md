@@ -3,9 +3,8 @@ title: "Storage Locations in Ethereum vs. NEAR"
 date: 2021-12-21
 draft: false
 description: "The keywords memory, storage, calldata are a big pain point for new Solidity developers. How does NEAR compare?"
-author:
-  name: Jacob Lindahl
-  twitter: sudo_build
+author: Jacob Lindahl
+twitter: sudo_build
 license:
   name: CC BY-SA 4.0
   link: https://creativecommons.org/licenses/by-sa/4.0/

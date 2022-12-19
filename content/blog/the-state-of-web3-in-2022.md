@@ -3,9 +3,8 @@ title: "The State of Web3 in 2022"
 date: 2022-06-22
 draft: false
 description: "There are a lot of issues that web3 needs to address, and fast."
-author:
-  name: Jacob Lindahl
-  twitter: sudo_build
+author: Jacob Lindahl
+twitter: sudo_build
 license:
   name: CC BY-SA 4.0
   link: https://creativecommons.org/licenses/by-sa/4.0/
