@@ -7,10 +7,10 @@
     <ul>
         {{- range first 10 (where site.RegularPages "Type" "in" site.Params.mainSections) -}}
 
-        {{- partial "li.html" ( dict
-        "url" .Permalink
-        "title" .Title
-        "subTitle" (.Date | time.Format (":date_medium"))
+        {{- partial "li.html" (dict
+            "href" .Permalink
+            "title" .Title
+            "date" .Date
         ) -}}
 
         {{- end -}}

@@ -30,41 +30,17 @@ It&rsquo;s understandable to be uncomfortable, or even scared right now. Unregul
     
 
     <link id="highlight-theme-light" rel="stylesheet"
-        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github.min.css">
+        href='/github.min_4917475948316153746.min.css'>
     <link id="highlight-theme-dark" disabled rel="stylesheet"
-        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github-dark.min.css">
-    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
-    <script src="https://unpkg.com/highlightjs-solidity@2.0.5/dist/solidity.min.js"></script>
+        href='/github-dark.min_15794025392105988476.min.css'>
+    <script
+        src='/highlight.min_12813739840627204152.min.js'></script>
+    <script
+        src='/solidity.min_1698098518847126779.min.js'></script>
 
-    <link href="https://unpkg.com/@master/normal.css@1" rel="stylesheet">
-    <script src="https://unpkg.com/@master/css@1"></script>
-    <script src="https://unpkg.com/themes.js@0.0.10"></script>
-    <script>
-        (() => {
-            hljs.highlightAll();
-
-            const themes = new window.Themes();
-            window.themes = themes;
-
-            const updateSyntaxTheme = () => {
-                const darkStylesheet = document.getElementById('highlight-theme-dark');
-                const lightStylesheet = document.getElementById('highlight-theme-light');
-                if (themes.documentTheme === 'dark') {
-                    lightStylesheet.disabled = true;
-                    darkStylesheet.disabled = false;
-                } else {
-                    lightStylesheet.disabled = false;
-                    darkStylesheet.disabled = true;
-                }
-            };
-
-            updateSyntaxTheme();
-
-            themes.onChange = (theme) => {
-                updateSyntaxTheme();
-            };
-        })();
-    </script>
+    <link href='/normal_13953566615062847353.min.css' rel="stylesheet">
+    <script src='/css@1_15597864207408232852.min.js'></script>
+    <script src='/themes.js@0.0_2721045479065658286.min.js'></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
 <script>
 var doNotTrack = false;
@@ -77,68 +53,89 @@ if (!doNotTrack) {
 </script>
 
 <style>
-  html {
+html {
     scroll-behavior: smooth;
     scroll-padding-top: 2em;
-  }
+}
 
-  @media (min-width: 768px) {
+@media (min-width: 768px) {
     html {
-      scroll-padding-top: 64px;
+        scroll-padding-top: 64px;
     }
-  }
+}
 
-  .table {
+.table {
     display: initial;
-  }
+}
 
-  @keyframes highlight {
+@keyframes highlight {
     0% {
-      background-color: rgba(226, 230, 30, 0.4);
-      outline: 0.2rem solid rgba(226, 230, 30, 0.4);
+        background-color: rgba(226, 230, 30, 0.4);
+        outline: 0.2rem solid rgba(226, 230, 30, 0.4);
     }
 
     100% {
-      background-color: unset;
-      outline: 0.2rem solid transparent;
+        background-color: unset;
+        outline: 0.2rem solid transparent;
     }
-  }
+}
 
-  :target {
+:target {
     animation: highlight 1.2s forwards;
-  }
-
+}
 </style>
 <script>
-  (() => {
+(() => {
     document.addEventListener('DOMContentLoaded', () => {
+        hljs.highlightAll();
 
-      
-      const tableOfContents = document.getElementById('TableOfContents');
+        const themes = new window.Themes();
+        window.themes = themes;
 
-      if (tableOfContents) {
-        const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
+        const updateSyntaxTheme = () => {
+            const darkStylesheet = document.getElementById('highlight-theme-dark');
+            const lightStylesheet = document.getElementById('highlight-theme-light');
+            if (themes.documentTheme === 'dark') {
+                lightStylesheet.disabled = true;
+                darkStylesheet.disabled = false;
+            } else {
+                lightStylesheet.disabled = false;
+                darkStylesheet.disabled = true;
+            }
+        };
 
-        links.forEach(link => {
-          const linkTargetId = link.getAttribute('href').split('#')[1];
-          if (!linkTargetId) {
-            return;
-          }
+        updateSyntaxTheme();
 
-          const target = document.getElementById(linkTargetId);
-          if (!target) {
-            return;
-          }
+        themes.onChange = (theme) => {
+            updateSyntaxTheme();
+        };
 
-          const anchor = document.createElement('a');
-          anchor.href = '#' + linkTargetId;
-          anchor.className = 'headingAnchor';
-          anchor.innerText = '#';
-          target.insertAdjacentElement('afterbegin', anchor);
-        });
-      }
+        
+        const tableOfContents = document.getElementById('TableOfContents');
+
+        if (tableOfContents) {
+            const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
+
+            links.forEach(link => {
+                const linkTargetId = link.getAttribute('href').split('#')[1];
+                if (!linkTargetId) {
+                    return;
+                }
+
+                const target = document.getElementById(linkTargetId);
+                if (!target) {
+                    return;
+                }
+
+                const anchor = document.createElement('a');
+                anchor.href = '#' + linkTargetId;
+                anchor.className = 'headingAnchor';
+                anchor.innerText = '#';
+                target.insertAdjacentElement('afterbegin', anchor);
+            });
+        }
     });
-  })();
+})();
 </script>
 </head>
 <body class="bg:fade-16@dark font:fade-86@dark">

@@ -1,65 +1,86 @@
 {{ template "_internal/google_analytics.html" . }}
 <style>
-  html {
+html {
     scroll-behavior: smooth;
     scroll-padding-top: 2em;
-  }
+}
 
-  @media (min-width: 768px) {
+@media (min-width: 768px) {
     html {
-      scroll-padding-top: 64px;
+        scroll-padding-top: 64px;
     }
-  }
+}
 
-  .table {
+.table {
     display: initial;
-  }
+}
 
-  @keyframes highlight {
+@keyframes highlight {
     0% {
-      background-color: rgba(226, 230, 30, 0.4);
-      outline: 0.2rem solid rgba(226, 230, 30, 0.4);
+        background-color: rgba(226, 230, 30, 0.4);
+        outline: 0.2rem solid rgba(226, 230, 30, 0.4);
     }
 
     100% {
-      background-color: unset;
-      outline: 0.2rem solid transparent;
+        background-color: unset;
+        outline: 0.2rem solid transparent;
     }
-  }
+}
 
-  :target {
+:target {
     animation: highlight 1.2s forwards;
-  }
-
+}
 </style>
 <script>
-  (() => {
+(() => {
     document.addEventListener('DOMContentLoaded', () => {
+        hljs.highlightAll();
 
-      // Create individual header links
-      const tableOfContents = document.getElementById('TableOfContents');
+        const themes = new window.Themes();
+        window.themes = themes;
 
-      if (tableOfContents) {
-        const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
+        const updateSyntaxTheme = () => {
+            const darkStylesheet = document.getElementById('highlight-theme-dark');
+            const lightStylesheet = document.getElementById('highlight-theme-light');
+            if (themes.documentTheme === 'dark') {
+                lightStylesheet.disabled = true;
+                darkStylesheet.disabled = false;
+            } else {
+                lightStylesheet.disabled = false;
+                darkStylesheet.disabled = true;
+            }
+        };
 
-        links.forEach(link => {
-          const linkTargetId = link.getAttribute('href').split('#')[1];
-          if (!linkTargetId) {
-            return;
-          }
+        updateSyntaxTheme();
 
-          const target = document.getElementById(linkTargetId);
-          if (!target) {
-            return;
-          }
+        themes.onChange = (theme) => {
+            updateSyntaxTheme();
+        };
 
-          const anchor = document.createElement('a');
-          anchor.href = '#' + linkTargetId;
-          anchor.className = 'headingAnchor';
-          anchor.innerText = '#';
-          target.insertAdjacentElement('afterbegin', anchor);
-        });
-      }
+        // Create individual header links
+        const tableOfContents = document.getElementById('TableOfContents');
+
+        if (tableOfContents) {
+            const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
+
+            links.forEach(link => {
+                const linkTargetId = link.getAttribute('href').split('#')[1];
+                if (!linkTargetId) {
+                    return;
+                }
+
+                const target = document.getElementById(linkTargetId);
+                if (!target) {
+                    return;
+                }
+
+                const anchor = document.createElement('a');
+                anchor.href = '#' + linkTargetId;
+                anchor.className = 'headingAnchor';
+                anchor.innerText = '#';
+                target.insertAdjacentElement('afterbegin', anchor);
+            });
+        }
     });
-  })();
+})();
 </script>

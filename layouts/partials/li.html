@@ -1,7 +1,18 @@
 <div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="{{ .url }}">
-        {{ .title }}
+    <a class="
+        f:18
+        font:semibold
+        f:fade-40
+        f:fade-70@dark
+        f:fade-10:hover
+        f:fade-90:hover@dark
+        text-decoration:none
+    " href="{{ .href }}">
+        {{- .title -}}
     </a>
-    <div class="mt:12 f:14 f:fade-60"><time>{{ .subTitle }}</time></div>
-    {{ .hi }}
+    <div class="mt:12 f:14 f:fade-60">
+        <time datetime="{{ .date }}">
+            {{- .date | time.Format ":date_medium" -}}
+        </time>
+    </div>
 </div>

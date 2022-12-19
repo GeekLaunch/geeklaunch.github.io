@@ -13,41 +13,17 @@
     
 
     <link id="highlight-theme-light" rel="stylesheet"
-        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github.min.css">
+        href='/github.min_4917475948316153746.min.css'>
     <link id="highlight-theme-dark" disabled rel="stylesheet"
-        href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github-dark.min.css">
-    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
-    <script src="https://unpkg.com/highlightjs-solidity@2.0.5/dist/solidity.min.js"></script>
+        href='/github-dark.min_15794025392105988476.min.css'>
+    <script
+        src='/highlight.min_12813739840627204152.min.js'></script>
+    <script
+        src='/solidity.min_1698098518847126779.min.js'></script>
 
-    <link href="https://unpkg.com/@master/normal.css@1" rel="stylesheet">
-    <script src="https://unpkg.com/@master/css@1"></script>
-    <script src="https://unpkg.com/themes.js@0.0.10"></script>
-    <script>
-        (() => {
-            hljs.highlightAll();
-
-            const themes = new window.Themes();
-            window.themes = themes;
-
-            const updateSyntaxTheme = () => {
-                const darkStylesheet = document.getElementById('highlight-theme-dark');
-                const lightStylesheet = document.getElementById('highlight-theme-light');
-                if (themes.documentTheme === 'dark') {
-                    lightStylesheet.disabled = true;
-                    darkStylesheet.disabled = false;
-                } else {
-                    lightStylesheet.disabled = false;
-                    darkStylesheet.disabled = true;
-                }
-            };
-
-            updateSyntaxTheme();
-
-            themes.onChange = (theme) => {
-                updateSyntaxTheme();
-            };
-        })();
-    </script>
+    <link href='/normal_13953566615062847353.min.css' rel="stylesheet">
+    <script src='/css@1_15597864207408232852.min.js'></script>
+    <script src='/themes.js@0.0_2721045479065658286.min.js'></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
 <script>
 var doNotTrack = false;
@@ -60,68 +36,89 @@ if (!doNotTrack) {
 </script>
 
 <style>
-  html {
+html {
     scroll-behavior: smooth;
     scroll-padding-top: 2em;
-  }
+}
 
-  @media (min-width: 768px) {
+@media (min-width: 768px) {
     html {
-      scroll-padding-top: 64px;
+        scroll-padding-top: 64px;
     }
-  }
+}
 
-  .table {
+.table {
     display: initial;
-  }
+}
 
-  @keyframes highlight {
+@keyframes highlight {
     0% {
-      background-color: rgba(226, 230, 30, 0.4);
-      outline: 0.2rem solid rgba(226, 230, 30, 0.4);
+        background-color: rgba(226, 230, 30, 0.4);
+        outline: 0.2rem solid rgba(226, 230, 30, 0.4);
     }
 
     100% {
-      background-color: unset;
-      outline: 0.2rem solid transparent;
+        background-color: unset;
+        outline: 0.2rem solid transparent;
     }
-  }
+}
 
-  :target {
+:target {
     animation: highlight 1.2s forwards;
-  }
-
+}
 </style>
 <script>
-  (() => {
+(() => {
     document.addEventListener('DOMContentLoaded', () => {
+        hljs.highlightAll();
 
-      
-      const tableOfContents = document.getElementById('TableOfContents');
+        const themes = new window.Themes();
+        window.themes = themes;
 
-      if (tableOfContents) {
-        const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
+        const updateSyntaxTheme = () => {
+            const darkStylesheet = document.getElementById('highlight-theme-dark');
+            const lightStylesheet = document.getElementById('highlight-theme-light');
+            if (themes.documentTheme === 'dark') {
+                lightStylesheet.disabled = true;
+                darkStylesheet.disabled = false;
+            } else {
+                lightStylesheet.disabled = false;
+                darkStylesheet.disabled = true;
+            }
+        };
 
-        links.forEach(link => {
-          const linkTargetId = link.getAttribute('href').split('#')[1];
-          if (!linkTargetId) {
-            return;
-          }
+        updateSyntaxTheme();
 
-          const target = document.getElementById(linkTargetId);
-          if (!target) {
-            return;
-          }
+        themes.onChange = (theme) => {
+            updateSyntaxTheme();
+        };
 
-          const anchor = document.createElement('a');
-          anchor.href = '#' + linkTargetId;
-          anchor.className = 'headingAnchor';
-          anchor.innerText = '#';
-          target.insertAdjacentElement('afterbegin', anchor);
-        });
-      }
+        
+        const tableOfContents = document.getElementById('TableOfContents');
+
+        if (tableOfContents) {
+            const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
+
+            links.forEach(link => {
+                const linkTargetId = link.getAttribute('href').split('#')[1];
+                if (!linkTargetId) {
+                    return;
+                }
+
+                const target = document.getElementById(linkTargetId);
+                if (!target) {
+                    return;
+                }
+
+                const anchor = document.createElement('a');
+                anchor.href = '#' + linkTargetId;
+                anchor.className = 'headingAnchor';
+                anchor.innerText = '#';
+                target.insertAdjacentElement('afterbegin', anchor);
+            });
+        }
     });
-  })();
+})();
 </script>
 </head>
 <body class="bg:fade-16@dark font:fade-86@dark">
@@ -277,74 +274,144 @@ if (!doNotTrack) {
     {border-radius:2;lh:1.5}_:where(pre>code)
 "></div>
 </article><div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/how-to-switch-github-pages-to-a-new-domain-for-free-using-cloudflare/">
-        How to switch GitHub Pages to a new domain for free using Cloudflare
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Dec 16, 2022</time></div>
-    
+    <a class="
+        f:18
+        font:semibold
+        f:fade-40
+        f:fade-70@dark
+        f:fade-10:hover
+        f:fade-90:hover@dark
+        text-decoration:none
+    " href="https://geeklaunch.io/blog/how-to-switch-github-pages-to-a-new-domain-for-free-using-cloudflare/">How to switch GitHub Pages to a new domain for free using Cloudflare</a>
+    <div class="mt:12 f:14 f:fade-60">
+        <time datetime="2022-12-16 00:00:00 &#43;0000 UTC">Dec 16, 2022</time>
+    </div>
 </div>
 <div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/%E3%82%A6%E3%82%A3%E3%82%B9%E3%82%B3%E3%83%B3%E3%82%B7%E3%83%B3%E5%B7%9E%E3%81%AE%E5%8C%97%E5%9C%B0%E6%96%B9/">
-        ウィスコンシン州の北地方
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Nov 14, 2022</time></div>
-    
+    <a class="
+        f:18
+        font:semibold
+        f:fade-40
+        f:fade-70@dark
+        f:fade-10:hover
+        f:fade-90:hover@dark
+        text-decoration:none
+    " href="https://geeklaunch.io/blog/%E3%82%A6%E3%82%A3%E3%82%B9%E3%82%B3%E3%83%B3%E3%82%B7%E3%83%B3%E5%B7%9E%E3%81%AE%E5%8C%97%E5%9C%B0%E6%96%B9/">ウィスコンシン州の北地方</a>
+    <div class="mt:12 f:14 f:fade-60">
+        <time datetime="2022-11-14 00:00:00 &#43;0000 UTC">Nov 14, 2022</time>
+    </div>
 </div>
 <div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/modern-dearth-of-intelligent-crypto/">
-        The modern dearth of intelligent crypto
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Nov 13, 2022</time></div>
-    
+    <a class="
+        f:18
+        font:semibold
+        f:fade-40
+        f:fade-70@dark
+        f:fade-10:hover
+        f:fade-90:hover@dark
+        text-decoration:none
+    " href="https://geeklaunch.io/blog/modern-dearth-of-intelligent-crypto/">The modern dearth of intelligent crypto</a>
+    <div class="mt:12 f:14 f:fade-60">
+        <time datetime="2022-11-13 00:00:00 &#43;0000 UTC">Nov 13, 2022</time>
+    </div>
 </div>
 <div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/fathomable-rust-macros/">
-        Fathomable Rust Macros
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Oct 25, 2022</time></div>
-    
+    <a class="
+        f:18
+        font:semibold
+        f:fade-40
+        f:fade-70@dark
+        f:fade-10:hover
+        f:fade-90:hover@dark
+        text-decoration:none
+    " href="https://geeklaunch.io/blog/fathomable-rust-macros/">Fathomable Rust Macros</a>
+    <div class="mt:12 f:14 f:fade-60">
+        <time datetime="2022-10-25 00:00:00 &#43;0000 UTC">Oct 25, 2022</time>
+    </div>
 </div>
 <div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/how-to-speed-up-your-code-using-graphs/">
-        How to speed up your code 224,444,739% using graphs
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Aug 6, 2022</time></div>
-    
+    <a class="
+        f:18
+        font:semibold
+        f:fade-40
+        f:fade-70@dark
+        f:fade-10:hover
+        f:fade-90:hover@dark
+        text-decoration:none
+    " href="https://geeklaunch.io/blog/how-to-speed-up-your-code-using-graphs/">How to speed up your code 224,444,739% using graphs</a>
+    <div class="mt:12 f:14 f:fade-60">
+        <time datetime="2022-08-06 00:00:00 &#43;0000 UTC">Aug 6, 2022</time>
+    </div>
 </div>
 <div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/the-state-of-web3-in-2022/">
-        The State of Web3 in 2022
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Jun 22, 2022</time></div>
-    
+    <a class="
+        f:18
+        font:semibold
+        f:fade-40
+        f:fade-70@dark
+        f:fade-10:hover
+        f:fade-90:hover@dark
+        text-decoration:none
+    " href="https://geeklaunch.io/blog/the-state-of-web3-in-2022/">The State of Web3 in 2022</a>
+    <div class="mt:12 f:14 f:fade-60">
+        <time datetime="2022-06-22 00:00:00 &#43;0000 UTC">Jun 22, 2022</time>
+    </div>
 </div>
 <div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/storage-locations-in-ethereum-vs-near/">
-        Storage Locations in Ethereum vs. NEAR
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Dec 21, 2021</time></div>
-    
+    <a class="
+        f:18
+        font:semibold
+        f:fade-40
+        f:fade-70@dark
+        f:fade-10:hover
+        f:fade-90:hover@dark
+        text-decoration:none
+    " href="https://geeklaunch.io/blog/storage-locations-in-ethereum-vs-near/">Storage Locations in Ethereum vs. NEAR</a>
+    <div class="mt:12 f:14 f:fade-60">
+        <time datetime="2021-12-21 00:00:00 &#43;0000 UTC">Dec 21, 2021</time>
+    </div>
 </div>
 <div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/introducing-compulang-podcast/">
-        Introducing the Compulang Podcast
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Sep 13, 2020</time></div>
-    
+    <a class="
+        f:18
+        font:semibold
+        f:fade-40
+        f:fade-70@dark
+        f:fade-10:hover
+        f:fade-90:hover@dark
+        text-decoration:none
+    " href="https://geeklaunch.io/blog/introducing-compulang-podcast/">Introducing the Compulang Podcast</a>
+    <div class="mt:12 f:14 f:fade-60">
+        <time datetime="2020-09-13 14:14:24 -0500 -0500">Sep 13, 2020</time>
+    </div>
 </div>
 <div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/how-to-verify-domain-name-on-github-with-namecheap/">
-        How to Verify a Domain Name on GitHub with Namecheap
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Jan 27, 2020</time></div>
-    
+    <a class="
+        f:18
+        font:semibold
+        f:fade-40
+        f:fade-70@dark
+        f:fade-10:hover
+        f:fade-90:hover@dark
+        text-decoration:none
+    " href="https://geeklaunch.io/blog/how-to-verify-domain-name-on-github-with-namecheap/">How to Verify a Domain Name on GitHub with Namecheap</a>
+    <div class="mt:12 f:14 f:fade-60">
+        <time datetime="2020-01-27 17:10:36 -0600 -0600">Jan 27, 2020</time>
+    </div>
 </div>
 <div class="mb:12 py:8">
-    <a class="f:18 font:semibold f:fade-40 f:fade-70@dark f:fade-10:hover f:fade-90:hover@dark text-decoration:none transition:150ms|ease-in" href="https://geeklaunch.io/blog/what-does-my-rsa-public-key-actually-mean/">
-        What does my RSA public key actually mean?
-    </a>
-    <div class="mt:12 f:14 f:fade-60"><time>Jan 22, 2020</time></div>
-    
+    <a class="
+        f:18
+        font:semibold
+        f:fade-40
+        f:fade-70@dark
+        f:fade-10:hover
+        f:fade-90:hover@dark
+        text-decoration:none
+    " href="https://geeklaunch.io/blog/what-does-my-rsa-public-key-actually-mean/">What does my RSA public key actually mean?</a>
+    <div class="mt:12 f:14 f:fade-60">
+        <time datetime="2020-01-22 23:03:42 -0600 -0600">Jan 22, 2020</time>
+    </div>
 </div>
 
 </div>
