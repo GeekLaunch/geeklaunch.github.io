@@ -4,7 +4,6 @@ disableKinds = ["taxonomy", "taxonomyTerm"]
 googleAnalytics = "G-DMBPKLBF8X"
 ignoreFiles = ["\\.psd$"]
 languageCode = "en-us"
-# publishDir = "docs"
 title = "GeekLaunch"
 
 [author]

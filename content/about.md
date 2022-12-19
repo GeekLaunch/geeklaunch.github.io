@@ -1,5 +1,5 @@
 ---
-title: 'About'
+title: "About"
 toc: false
 ---
 
@@ -65,7 +65,7 @@ I'm experienced with many technologies and programming languages, including:
   </ul>
 </details>
 
-I use [Hugo](https://gohugo.io/) to maintain this website.
+I use the [Hugo static site generator](https://gohugo.io/) to maintain this website.
 
 Much of my work is on [GitHub](https://github.com/encody).
 
