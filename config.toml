@@ -1,5 +1,5 @@
 baseURL = "https://geeklaunch.io"
-copyright = "© Copyright 2022 Jacob Lindahl"
+copyright = "Jacob Lindahl"
 disableKinds = ["taxonomy", "taxonomyTerm"]
 googleAnalytics = "G-DMBPKLBF8X"
 ignoreFiles = ["\\.psd$"]
@@ -8,9 +8,10 @@ publishDir = "docs"
 title = "GeekLaunch"
 
 [params]
-copyright = "© Copyright 2022 Jacob Lindahl"
 logo = "/img/geeklaunch.png"
+mastodon = "geeklaunch@techhub.social"
 twitter = "Geek_Launch"
+youtube = "GeekLaunch"
 
 [markup.goldmark.renderer]
 unsafe = true

@@ -1,0 +1,4 @@
+{{- $m_parts := split . "@" -}}
+{{- $m_account := index $m_parts 0 -}}
+{{- $m_server := index $m_parts 1 -}}
+https://{{ $m_server }}/@{{ $m_account -}}

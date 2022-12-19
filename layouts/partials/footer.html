@@ -4,5 +4,35 @@
         This work is licensed under <a rel="license" href="{{ .Params.license.link }}">{{ .Params.license.name }}</a>.
     </p>
     {{- end -}}
-    <p>{{ .Site.Params.copyright }}</p>
+    <p>&copy; Copyright {{ now.Format "2006" }} {{ .Site.Copyright }}</p>
+    <p class="
+        d:flex
+        {p:5}_a
+        {w:18;fill:fade-50}_svg
+        {fill:fade-60}_svg@dark
+        {fill:fade-10}_a:hover_svg
+        {fill:fade-90}_a:hover_svg@dark
+    ">
+        {{- if isset .Site.Params "youtube" -}}
+        <a href="https://youtube.com/{{ .Site.Params.youtube }}" title="YouTube">
+            {{- partial "dl-svg-icon.html" (dict "icon" "youtube") -}}
+            <span class="sr-only">YouTube channel</span>
+        </a>
+        {{- end -}}
+
+        {{- if isset .Site.Params "twitter" -}}
+        <a href="https://twitter.com/{{ .Site.Params.twitter }}" title="Twitter">
+            {{- partial "dl-svg-icon.html" (dict "icon" "twitter") -}}
+            <span class="sr-only">Twitter profile</span>
+        </a>
+        {{- end -}}
+
+        {{- if isset .Site.Params "mastodon" -}}
+        {{- $m_link := partial "mastodon-link.html" .Site.Params.mastodon -}}
+        <a rel="me" href="{{ $m_link }}" title="Mastodon">
+            {{- partial "dl-svg-icon.html" (dict "icon" "mastodon") -}}
+            <span class="sr-only">Mastodon profile</span>
+        </a>
+        {{- end -}}
+    </p>
 </footer>
