@@ -19,7 +19,7 @@ Basically, all you need to do is set up the `A` records for your domain to point
 
 Then, be sure to actually tell GitHub that you've set up the domain. Open up your repository, and under `Settings` &rarr; `Pages` &rarr; `Custom domain`, type in the domain and click "Save."
 
-![A screenshot of the "Custom domain" field in a GitHub repository's settings](./custom-domain.png)
+{{% imgset path="img/blog/custom-domain.png" alt="A screenshot of the \"Custom domain\" field in a GitHub repository's settings" %}}
 
 ## Updating the base URL for the website
 
@@ -38,7 +38,7 @@ Cloudflare's free plan is more than sufficient for our needs.
 
 Once you've set up your domain on Cloudflare (all you need to do is tell your domain registrar to point the domain at Cloudflare's nameservers), select your domain from the Cloudflare dashboard, and navigate over to the "Page Rules" section on the sidebar.
 
-![A screenshot of the "Page Rules" link on the Cloudflare dashboard](./page-rules.png)
+{{% imgset path="img/blog/page-rules.png" alt="A screenshot of the \"Page Rules\" link on the Cloudflare dashboard" %}}
 
 Create a new Page Rule, and fill it in like so:
 

@@ -1,0 +1,8 @@
+{{ partial "imgset.html" (dict
+    "width" (.Get "width")
+    "height" (.Get "height")
+    "alt" (.Get "alt")
+    "resource" (resources.Get (.Get "path"))
+    "mode" (.Get "mode" | default "fit")
+    "factors" (slice 1.5 2 4)
+) }}

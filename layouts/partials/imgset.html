@@ -1,0 +1,57 @@
+{{- $logo := resources.Get .Site.Params.logo -}}
+{{- $srcset := slice -}}
+{{- $factors := slice 1 | append .factors -}}
+{{- $base := 0 -}}
+{{- $baseWidth := 0 -}}
+{{- $baseHeight := 0 -}}
+{{- $isWidthSet := and (isset . "width") (ne (index . "width") "") }}
+{{- $isHeightSet := and (isset . "height") (ne (index . "height") "") }}
+
+{{- if and (not $isWidthSet) (not $isHeightSet) -}}
+    {{- $baseWidth = .resource.Width -}}
+    {{- $baseHeight = .resource.Height -}}
+{{- else -}}
+    {{- if $isWidthSet -}}
+        {{- $baseWidth = .width -}}
+    {{- else -}}
+        {{- $baseWidth = mul .resource.Width (div .height .resource.Height) -}}
+    {{- end -}}
+    {{- if $isHeightSet -}}
+        {{- $baseHeight = .height -}}
+    {{- else -}}
+        {{- $baseHeight = mul .resource.Height (div .width .resource.Width) -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $inputResource := .resource -}}
+{{- $originalWidth := .resource.Width -}}
+{{- $originalHeight := .resource.Height -}}
+{{- $mode := index . "mode" | default "fit" -}}
+
+{{- range $i, $factor := $factors -}}
+    {{- $width := mul $factor $baseWidth | math.Ceil -}}
+    {{- $height := mul $factor $baseHeight | math.Ceil -}}
+
+    {{- if and (le $width $originalWidth) (le $height $originalHeight) -}}
+        {{- $dim := printf "%vx%v webp" $width $height -}}
+        {{- $resource := 0 -}}
+
+        {{- if eq $mode "fit" -}}
+            {{- $resource = $inputResource.Fit $dim -}}
+        {{- else if eq $mode "fill" -}}
+            {{- $resource = $inputResource.Fill $dim -}}
+        {{- else -}}
+            {{- $resource = $inputResource.Resize $dim -}}
+        {{- end -}}
+
+        {{- $part := printf "%s %vx" $resource.RelPermalink $factor -}}
+        {{- $srcset = $srcset | append $part -}}
+
+        {{- if eq $i 0 -}}
+            {{- $base = $resource.RelPermalink -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- $srcsetStr := delimit $srcset ", " -}}
+<img width="{{ .width }}" height="{{ .height }}" {{ printf "srcset=\"%s\"" $srcsetStr | safeHTMLAttr }}
+    src="{{ $base }}" alt="{{ .alt | default "" }}">
