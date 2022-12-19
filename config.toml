@@ -17,9 +17,6 @@ mastodon = "geeklaunch@techhub.social"
 twitter = "Geek_Launch"
 youtube = "GeekLaunch"
 
-[minify]
-minifyOutput = true
-
 [markup.goldmark.renderer]
 unsafe = true
 
