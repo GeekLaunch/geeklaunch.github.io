@@ -1,242 +1,86 @@
-<!DOCTYPE html>
-<html><head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-    <title>What does my RSA public key actually mean? - GeekLaunch</title>
-
-    
-    
-
-    <meta name="description" content="-----BEGIN PUBLIC KEY----- MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH 79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72 1Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ&#43;zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWb Ydg14nl&#43;ZQLC0H6n&#43;v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICw UUKTuKWBu/WJo/NjKWDGQQL4A2RfZW6u3DLc/BHlQzHgL9Ac3hM6n/aN1IcR0UpR 4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6Cl rEYA/DsuKMmbf2/hX//fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5K oEqCpW/LXT/Yrh/INKY9yQ7vruE/q417mJfbqfOmRitsgX4xm6IzWOb&#43;D862Vr8y Gt931gYvRBSyh2rjLJ/EkmQHMDQN/YbtnG7MlG6jpXehWkO&#43;3XBDiDhfVqIO3fbX k2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij&#43;IvUrmZQbDlS/p3WT GRt6yCtdLlbGPC6YZD&#43;WLk58/9a/EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXn iTbKw8sfeyccOKQgWbMAo8ECAwEAAQ== -----END PUBLIC KEY----- That&rsquo;s an RSA public key that I just generated using the commands:
-$ openssl genrsa -out priv.pem 4096 Generating RSA private key, 4096 bit long modulus (2 primes) ..........................................................................................................................................................................................................................................................................&#43;&#43;&#43;&#43; ................................................&#43;&#43;&#43;&#43; e is 65537 (0x010001) $ openssl rsa -in ./priv.pem -pubout -out pub.pem writing RSA key $ cat pub.pem But, what the heck is this?" />
-    <meta name="author" content="Jacob Lindahl" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="What does my RSA public key actually mean?" />
-    <meta property="og:description" content="An overview of the PKCS8 public key format" />
-    <meta property="og:url" content="https://geeklaunch.io/blog/what-does-my-rsa-public-key-actually-mean/" />
-    <meta property="og:image" content="https://geeklaunch.io/img/geeklaunch.png" />
-    <meta property="og:site_name" content="GeekLaunch" />
-
-    <meta name="twitter:card" content="summary" /><meta name="twitter:site" content="Geek_Launch" /><meta name="twitter:creator" content="sudo_build" /><link id="highlight-theme-light" rel="stylesheet"
-        href='/github.min_4917475948316153746.min.css'>
-    <link id="highlight-theme-dark" disabled rel="stylesheet"
-        href='/github-dark.min_15794025392105988476.min.css'>
-    <script
-        src='/highlight.min_12813739840627204152.min.js'></script>
-    <script
-        src='/solidity.min_1698098518847126779.min.js'></script>
-
-    <link href='/normal_13953566615062847353.min.css'
-        rel="stylesheet">
-    <script
-        src='/css@1_15597864207408232852.min.js'></script>
-    <script
-        src='/themes.js@0.0_2721045479065658286.min.js'></script>
+<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>What does my RSA public key actually mean? - GeekLaunch</title><meta name=description content="-----BEGIN PUBLIC KEY----- MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH 79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72 1Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ+zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWb Ydg14nl+ZQLC0H6n+v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICw UUKTuKWBu/WJo/NjKWDGQQL4A2RfZW6u3DLc/BHlQzHgL9Ac3hM6n/aN1IcR0UpR 4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6Cl rEYA/DsuKMmbf2/hX//fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5K oEqCpW/LXT/Yrh/INKY9yQ7vruE/q417mJfbqfOmRitsgX4xm6IzWOb+D862Vr8y Gt931gYvRBSyh2rjLJ/EkmQHMDQN/YbtnG7MlG6jpXehWkO+3XBDiDhfVqIO3fbX k2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij+IvUrmZQbDlS/p3WT GRt6yCtdLlbGPC6YZD+WLk58/9a/EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXn iTbKw8sfeyccOKQgWbMAo8ECAwEAAQ== -----END PUBLIC KEY----- That&rsquo;s an RSA public key that I just generated using the commands:
+$ openssl genrsa -out priv.pem 4096 Generating RSA private key, 4096 bit long modulus (2 primes) ..........................................................................................................................................................................................................................................................................++++ ................................................++++ e is 65537 (0x010001) $ openssl rsa -in ./priv.pem -pubout -out pub.pem writing RSA key $ cat pub.pem But, what the heck is this?"><meta name=author content="Jacob Lindahl"><meta property="og:type" content="article"><meta property="og:title" content="What does my RSA public key actually mean?"><meta property="og:description" content="An overview of the PKCS8 public key format"><meta property="og:url" content="https://geeklaunch.io/blog/what-does-my-rsa-public-key-actually-mean/"><meta property="og:image" content="https://geeklaunch.io/img/geeklaunch.png"><meta property="og:site_name" content="GeekLaunch"><meta name=twitter:card content="summary"><meta name=twitter:site content="Geek_Launch"><meta name=twitter:creator content="sudo_build"><link id=highlight-theme-light rel=stylesheet href=/github.min_4917475948316153746.css><link id=highlight-theme-dark disabled rel=stylesheet href=/github-dark.min_15794025392105988476.css><script src=/highlight.min_12813739840627204152.js></script>
+<script src=/solidity.min_1698098518847126779.js></script>
+<link href=/normal_13953566615062847353.css rel=stylesheet><script src=/css@1_15597864207408232852.js></script>
+<script src=/themes.js@0.0_2721045479065658286.js></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-DMBPKLBF8X', { 'anonymize_ip': false });
-}
-</script>
-
-<style>
-html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 2em;
-}
-
-@media (min-width: 768px) {
-    html {
-        scroll-padding-top: 64px;
-    }
-}
-
-.table {
-    display: initial;
-}
-
-@keyframes highlight {
-    0% {
-        background-color: rgba(226, 230, 30, 0.4);
-        outline: 0.2rem solid rgba(226, 230, 30, 0.4);
-    }
-
-    100% {
-        background-color: unset;
-        outline: 0.2rem solid transparent;
-    }
-}
-
-:target {
-    animation: highlight 1.2s forwards;
-}
-</style>
-<script>
-(() => {
-    document.addEventListener('DOMContentLoaded', () => {
-        hljs.highlightAll();
-
-        const themes = new window.Themes();
-        window.themes = themes;
-
-        const updateSyntaxTheme = () => {
-            const darkStylesheet = document.getElementById('highlight-theme-dark');
-            const lightStylesheet = document.getElementById('highlight-theme-light');
-            if (themes.documentTheme === 'dark') {
-                lightStylesheet.disabled = true;
-                darkStylesheet.disabled = false;
-            } else {
-                lightStylesheet.disabled = false;
-                darkStylesheet.disabled = true;
-            }
-        };
-
-        updateSyntaxTheme();
-
-        themes.onChange = (theme) => {
-            updateSyntaxTheme();
-        };
-
-        
-        const tableOfContents = document.getElementById('TableOfContents');
-
-        if (tableOfContents) {
-            const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
-
-            links.forEach(link => {
-                const linkTargetId = link.getAttribute('href').split('#')[1];
-                if (!linkTargetId) {
-                    return;
-                }
-
-                const target = document.getElementById(linkTargetId);
-                if (!target) {
-                    return;
-                }
-
-                const anchor = document.createElement('a');
-                anchor.href = '#' + linkTargetId;
-                anchor.className = 'headingAnchor';
-                anchor.innerText = '#';
-                target.insertAdjacentElement('afterbegin', anchor);
-            });
-        }
-    });
-})();
-</script>
-</head>
-<body class="bg:fade-16@dark font:fade-86@dark">
-    <nav id="mainNav" class="
-    w:full
-    fixed@sm
-    bg:white/.9
-    bg:fade-16/.9@dark
-    z:1000
-    backdrop-filter:blur(3px)
-">
-    <div class="
-        h:full
-        w:full
-        max-w:1200
-        mx:auto
-        px:32
-        d:flex
-        flex-direction:column
-        flex-direction:row@sm
-        align-items:center
-    ">
-        <a href="/" class="block mr:3 p:8 filter:brightness(1.5):hover ~filter|0.1s">
-            <img class="w:40" src="/img/geeklaunch.png" title="GeekLaunch" alt="GeekLaunch logo">
-        </a>
-
-        <div class="
-            ml:auto@sm
-            w:full
-            d:flex
-            flex-wrap:wrap
-            justify-content:space-between
-            justify-content:flex-end@sm
-
-            {font:semibold;font:fade}_a
-            font:fade-10_a:hover
-            font:fade-80_a@dark
-            font:fade-96_a:hover@dark
-            p:12_a
-            p:18_a@sm
-        "><a href="/about/" title="">About</a><a href="/blog/" title="">Posts</a><a href="https://www.youtube.com/c/GeekLaunch?sub_confirmation=1" title="">YouTube</a><a href="https://weareindy.com/app/shared/forms/634577ccb25f8365f4aa7f42/zw1Icw3aBtCI90eLSzQVkpZiigUEBLHeaNKmJobnx4kTaPYMixQM3gDZMCFDsSHC/" title="">Contact</a></div>
-    </div>
-</nav>
-<div class="d:flex flex:column@<=sm pt:90@sm px:24 jc:center gap:44 word-break:break-word">
-        <div class="max-w:700 w:full box:content-box">
-<article class="box:border-box pt:32">
-    <header class="mb:32">
-        <h1 class="font:40 font:extrabold">What does my RSA public key actually mean?</h1>
-        
-        <p class="font:18 mt:12 lh:1.4 font:semibold color:fade-30 color:fade-70@dark">An overview of the PKCS8 public key format</p>
-        
-        <div class="mt:16 f:fade-60 text-decoration:underline_:where(a):hover">
-            <p><a href="https://twitter.com/sudo_build" rel="author">Jacob Lindahl</a><span class="mx:10">&mdash;</span><a href="https://geeklaunch.io/blog/what-does-my-rsa-public-key-actually-mean/"><time pubdate datetime="2020-01-22 23:03:42 -0600 -0600" title="January 22, 2020">Jan 22, 2020</time></a></p>
-        </div>
-    </header>
-
-    <div class="
-    {text-decoration-color:fade-60}_:where(a):hover
-    {text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_:where(a)
-    {text-decoration-color:fade-30;color:fade-90}_:where(a)@dark
-    {bl:4|solid;b:fade-84;color:fade-34}_:where(blockquote)
-    {b:fade-38;color:fade-86}_:where(blockquote)@dark
-    {font:90%;color:blue-20}_:where(code)
-    {color:blue-86}_:where(code)@dark
-    {text-decoration:1;line-through;fade-68}_:where(del)
-    {text-decoration-color:red-64}_:where(del)@dark
-    {text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
-    {font:fade-57}_:where(figcaption)@dark
-    {font:40;font:extrabold}_:where(h1)
-    {mt:.5em}_:where(h1,h2,h3)+:where(h1,h2,h3)
-    {mt:2em}_:where(h1,h2,h3,h4,h5,h6)
-    {mb:1em;font:32}_:where(h2)
-    {font:24}_:where(h3)
-    {font:20}_:where(h4)
-    {font:16}_:where(h5)
-    {font:14}_:where(h6)
-    {font:fade-44}_:where(li)::marker
-    {font:fade-68}_:where(li)::marker@dark
-    {pl:.375em}_:where(li)
-    {text-decoration:underline;#fce016;bg:transparent;text-decoration-color:rgb(252;224;22/.5)@dark}_:where(mark)
-    {font:fade-36;font:16;line-height:1.65}_:where(p,li,details)
-    {font:fade-80}_:where(p,li,details)@dark
-    {my:0.125em}_:where(li>ul)
-    {my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
-    {mt:0!}>:first-child
-    {width:full;border-spacing:0}_:where(table)
-    {v:baseline}_:where(td)
-    {pl:0}_:where(td,th):first-child
-    {pr:0}_:where(td,th):last-child
-    {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
-    {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
-    {font:semibold}_:where(th,a,mark,:not(pre)>code)
-    {list-style-type:disc}_:where(ul)
-    {pl:1.5em}_:where(ul,ol,blockquote)
-    {max-width:full}_:where(video,img)
-    {text-underline-offset:3}_:where(a,mark)
-    {height:0.1rem;bg:fade-80;mx:40%;my:1.5rem}_:where(hr)
-    {bg:fade-40}_:where(hr)@dark
-    {cursor:pointer}_:where(details>summary)
-    {text-decoration:none;pr:16;font:medium;color:fade-80}_.headingAnchor
-    {color:fade-60}_.headingAnchor:hover
-    {opacity:0;position:absolute;translateX(-100%)}_.headingAnchor@sm
-    {opacity:1}_:hover>.headingAnchor
-    {opacity:1}_:target>.headingAnchor
-    {color:fade-50}_.headingAnchor@dark
-    {color:fade-70}_.headingAnchor:hover@dark
-    {border-radius:2;lh:1.5}_:where(pre>code)
-"><pre><code class="language-text">-----BEGIN PUBLIC KEY-----
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-DMBPKLBF8X",{anonymize_ip:!1})}</script><style>html{scroll-behavior:smooth;scroll-padding-top:2em}@media(min-width:768px){html{scroll-padding-top:64px}}.table{display:initial}@keyframes highlight{0%{background-color:rgba(226,230,30,.4);outline:.2rem solid rgba(226,230,30,.4)}100%{background-color:unset;outline:.2rem solid transparent}}:target{animation:highlight 1.2s forwards}</style><script>(()=>{document.addEventListener("DOMContentLoaded",()=>{hljs.highlightAll();const e=new window.Themes;window.themes=e;const t=()=>{const t=document.getElementById("highlight-theme-dark"),n=document.getElementById("highlight-theme-light");e.documentTheme==="dark"?(n.disabled=!0,t.disabled=!1):(n.disabled=!1,t.disabled=!0)};t(),e.onChange=e=>{t()};const n=document.getElementById("TableOfContents");if(n){const e=Array.from(n.querySelectorAll("a[href]"));e.forEach(e=>{const n=e.getAttribute("href").split("#")[1];if(!n)return;const s=document.getElementById(n);if(!s)return;const t=document.createElement("a");t.href="#"+n,t.className="headingAnchor",t.innerText="#",s.insertAdjacentElement("afterbegin",t)})}})})()</script></head><body class="bg:fade-16@dark font:fade-86@dark"><nav id=mainNav class="w:full
+fixed@sm
+bg:white/.9
+bg:fade-16/.9@dark
+z:1000
+backdrop-filter:blur(3px)"><div class="h:full
+w:full
+max-w:1200
+mx:auto
+px:32
+d:flex
+flex-direction:column
+flex-direction:row@sm
+align-items:center"><a href=/ class="block mr:3 p:8 filter:brightness(1.5):hover ~filter|0.1s"><img class=w:40 src=/img/geeklaunch.png title=GeekLaunch alt="GeekLaunch logo"></a><div class="ml:auto@sm
+w:full
+d:flex
+flex-wrap:wrap
+justify-content:space-between
+justify-content:flex-end@sm
+{font:semibold;font:fade}_a
+font:fade-10_a:hover
+font:fade-80_a@dark
+font:fade-96_a:hover@dark
+p:12_a
+p:18_a@sm"><a href=/about/ title>About</a>
+<a href=/blog/ title>Posts</a>
+<a href="https://www.youtube.com/c/GeekLaunch?sub_confirmation=1" title>YouTube</a>
+<a href=https://weareindy.com/app/shared/forms/634577ccb25f8365f4aa7f42/zw1Icw3aBtCI90eLSzQVkpZiigUEBLHeaNKmJobnx4kTaPYMixQM3gDZMCFDsSHC/ title>Contact</a></div></div></nav><div class="d:flex flex:column@<=sm pt:90@sm px:24 jc:center gap:44 word-break:break-word"><div class="max-w:700 w:full box:content-box"><article class="box:border-box pt:32"><header class=mb:32><h1 class="font:40 font:extrabold">What does my RSA public key actually mean?</h1><p class="font:18 mt:12 lh:1.4 font:semibold color:fade-30 color:fade-70@dark">An overview of the PKCS8 public key format</p><div class="mt:16 f:fade-60 text-decoration:underline_:where(a):hover"><p><a href=https://twitter.com/sudo_build rel=author>Jacob Lindahl</a><span class=mx:10>&mdash;</span><a href=https://geeklaunch.io/blog/what-does-my-rsa-public-key-actually-mean/><time pubdate datetime="2020-01-22 23:03:42 -0600 -0600" title="January 22, 2020">Jan 22, 2020</time></a></p></div></header><div class="{text-decoration-color:fade-60}_:where(a):hover
+{text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_:where(a)
+{text-decoration-color:fade-30;color:fade-90}_:where(a)@dark
+{bl:4|solid;b:fade-84;color:fade-34}_:where(blockquote)
+{b:fade-38;color:fade-86}_:where(blockquote)@dark
+{font:90%;color:blue-20}_:where(code)
+{color:blue-86}_:where(code)@dark
+{text-decoration:1;line-through;fade-68}_:where(del)
+{text-decoration-color:red-64}_:where(del)@dark
+{text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
+{font:fade-57}_:where(figcaption)@dark
+{font:40;font:extrabold}_:where(h1)
+{mt:.5em}_:where(h1,h2,h3)+:where(h1,h2,h3)
+{mt:2em}_:where(h1,h2,h3,h4,h5,h6)
+{mb:1em;font:32}_:where(h2)
+{font:24}_:where(h3)
+{font:20}_:where(h4)
+{font:16}_:where(h5)
+{font:14}_:where(h6)
+{font:fade-44}_:where(li)::marker
+{font:fade-68}_:where(li)::marker@dark
+{pl:.375em}_:where(li)
+{text-decoration:underline;#fce016;bg:transparent;text-decoration-color:rgb(252;224;22/.5)@dark}_:where(mark)
+{font:fade-36;font:16;line-height:1.65}_:where(p,li,details)
+{font:fade-80}_:where(p,li,details)@dark
+{my:0.125em}_:where(li>ul)
+{my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
+{mt:0!}>:first-child
+{width:full;border-spacing:0}_:where(table)
+{v:baseline}_:where(td)
+{pl:0}_:where(td,th):first-child
+{pr:0}_:where(td,th):last-child
+{bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
+{font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
+{font:semibold}_:where(th,a,mark,:not(pre)>code)
+{list-style-type:disc}_:where(ul)
+{pl:1.5em}_:where(ul,ol,blockquote)
+{max-width:full}_:where(video,img)
+{text-underline-offset:3}_:where(a,mark)
+{height:0.1rem;bg:fade-80;mx:40%;my:1.5rem}_:where(hr)
+{bg:fade-40}_:where(hr)@dark
+{cursor:pointer}_:where(details>summary)
+{text-decoration:none;pr:16;font:medium;color:fade-80}_.headingAnchor
+{color:fade-60}_.headingAnchor:hover
+{opacity:0;position:absolute;translateX(-100%)}_.headingAnchor@sm
+{opacity:1}_:hover>.headingAnchor
+{opacity:1}_:target>.headingAnchor
+{color:fade-50}_.headingAnchor@dark
+{color:fade-70}_.headingAnchor:hover@dark
+{border-radius:2;lh:1.5}_:where(pre>code)"><pre><code class=language-text>-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH
 79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco72
 1Wu/fXlCoZzI61Zz/Q7JPJdIzeaQ+zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWb
@@ -250,9 +94,7 @@ k2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij+IvUrmZQbDlS/p3WT
 GRt6yCtdLlbGPC6YZD+WLk58/9a/EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXn
 iTbKw8sfeyccOKQgWbMAo8ECAwEAAQ==
 -----END PUBLIC KEY-----
-</code></pre>
-<p>That&rsquo;s an RSA public key that I just generated using the commands:</p>
-<pre><code class="language-text">$ openssl genrsa -out priv.pem 4096
+</code></pre><p>That&rsquo;s an RSA public key that I just generated using the commands:</p><pre><code class=language-text>$ openssl genrsa -out priv.pem 4096
 Generating RSA private key, 4096 bit long modulus (2 primes)
 ..........................................................................................................................................................................................................................................................................++++
 ................................................++++
@@ -260,12 +102,7 @@ e is 65537 (0x010001)
 $ openssl rsa -in ./priv.pem -pubout -out pub.pem
 writing RSA key
 $ cat pub.pem
-</code></pre>
-<p>But, what the heck is this?</p>
-<p>It&rsquo;s the public key part of an <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA</a> key pair, which is an <a href="https://www.cloudflare.com/learning/ssl/what-is-asymmetric-encryption/">asymmetric encryption algorithm</a>.</p>
-<p>If you&rsquo;ve been working with computers for a while, you may recognize the stuff between <code>-----BEGIN PUBLIC KEY-----</code> and <code>-----END PUBLIC KEY-----</code> as being <a href="https://en.wikipedia.org/wiki/Base64">base-64 encoded</a>. Simply put, it&rsquo;s binary data that&rsquo;s been encoded into easily printable ASCII characters.</p>
-<p>We can easily decode this into its original binary form using the following command:</p>
-<pre><code class="language-text">$ base64 -d | hexdump -C
+</code></pre><p>But, what the heck is this?</p><p>It&rsquo;s the public key part of an <a href=https://en.wikipedia.org/wiki/RSA_(cryptosystem)>RSA</a> key pair, which is an <a href=https://www.cloudflare.com/learning/ssl/what-is-asymmetric-encryption/>asymmetric encryption algorithm</a>.</p><p>If you&rsquo;ve been working with computers for a while, you may recognize the stuff between <code>-----BEGIN PUBLIC KEY-----</code> and <code>-----END PUBLIC KEY-----</code> as being <a href=https://en.wikipedia.org/wiki/Base64>base-64 encoded</a>. Simply put, it&rsquo;s binary data that&rsquo;s been encoded into easily printable ASCII characters.</p><p>We can easily decode this into its original binary form using the following command:</p><pre><code class=language-text>$ base64 -d | hexdump -C
 ...
 30 82 02 22 30 0d 06 09  2a 86 48 86 f7 0d 01 01  |0..&quot;0...*.H.....|
 01 05 00 03 82 02 0f 00  30 82 02 0a 02 82 02 01  |........0.......|
@@ -302,21 +139,10 @@ a1 5a 43 be dd 70 43 88  38 5f 56 a2 0e dd f6 d7  |.ZC..pC.8_V.....|
 d1 8f 76 4e 21 8d d5 d9  7a c4 25 03 85 dd 95 e7  |..vN!...z.%.....|
 89 36 ca c3 cb 1f 7b 27  1c 38 a4 20 59 b3 00 a3  |.6....{'.8. Y...|
 c1 02 03 01 00 01                                 |......|
-</code></pre>
-<p>This information is base-64 encoded because it&rsquo;s not human-readable in its original form. What is this form, you ask? It&rsquo;s a standard TLV-style binary data structure representing ASN.1 data, to be precise.</p>
-<p>TLV (Tag-Length-Value) is a popular strategy for annotating binary data files. Imagine we want to encode some user data in a binary file. It might look something like this:</p>
-<pre><code class="language-text">f0 10 75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d f1 0b 6d 79 5f 75 73 65 72 6e 61 6d 65
-</code></pre>
-<p>If we hexdump it:</p>
-<pre><code class="language-text">f0 10 75 73 65 72 40 65  78 61 6d 70 6c 65 2e 63  |..user@example.c|
+</code></pre><p>This information is base-64 encoded because it&rsquo;s not human-readable in its original form. What is this form, you ask? It&rsquo;s a standard TLV-style binary data structure representing ASN.1 data, to be precise.</p><p>TLV (Tag-Length-Value) is a popular strategy for annotating binary data files. Imagine we want to encode some user data in a binary file. It might look something like this:</p><pre><code class=language-text>f0 10 75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d f1 0b 6d 79 5f 75 73 65 72 6e 61 6d 65
+</code></pre><p>If we hexdump it:</p><pre><code class=language-text>f0 10 75 73 65 72 40 65  78 61 6d 70 6c 65 2e 63  |..user@example.c|
 6f 6d f1 0b 6d 79 5f 75  73 65 72 6e 61 6d 65     |om..my_username|
-</code></pre>
-<p>The idea is that the first byte (or bytes, depending on the format) represent a <strong>tag</strong>. In the basic example above, the byte <code>f0</code> means email, and the byte <code>f1</code> means username. The next byte(s) indicates the <strong>length</strong> of the information. So, <code>f0 10</code> means that we&rsquo;re expecting a 16 byte long email next. So, we read the next 16 bytes <code>75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d</code> and that should be an email <strong>value</strong>. If we decode those bytes as ASCII, what do we get? <code>user@example.com</code>. <em>Voilà!</em> Now rinse and repeat for the next bytes: a <code>f1</code> username… that is <code>0b 10</code> bytes long… <code>6d 79 5f 75 73 65 72 6e 61 6d 65</code>—<code>my_username</code>!</p>
-<p>ASN.1 (Abstract Syntax Notation One) is a notation for describing data structures. It can represent integers, strings, sequences, booleans, etc. <a href="https://en.wikipedia.org/wiki/Abstract_Syntax_Notation_One#Encodings">There are lots of different ASN.1 encoding rules</a>, but we&rsquo;re interested in the ones for binary, specifically, the <a href="https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-der-encoding-of-asn-1-types">Distinguished Encoding Rules (DER)</a>.</p>
-<p>In ASN.1 DER, <code>30</code> (the first byte in our public key hexdump) is the tag for a sequence. The next byte, <code>82</code>, actually says that the length of this field is specified in the following two bytes (ASN.1 DER specifies rules to allow for field lengths to be longer than those that would only fit in one byte). Thus, the length of our sequence is actually <code>02 22</code>, or 546 bytes. You can look up many of the tags for ASN.1 DER at <a href="https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-der-encoding-of-asn-1-types">this link</a>.</p>
-<p>If we know that this public key is ASN.1 data, let&rsquo;s not do all the work ourselves and just stick it into a <a href="https://lapo.it/asn1js/#MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco721Wu_fXlCoZzI61Zz_Q7JPJdIzeaQ-zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWbYdg14nl-ZQLC0H6n-v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICwUUKTuKWBu_WJo_NjKWDGQQL4A2RfZW6u3DLc_BHlQzHgL9Ac3hM6n_aN1IcR0UpR4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6ClrEYA_DsuKMmbf2_hX__fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5KoEqCpW_LXT_Yrh_INKY9yQ7vruE_q417mJfbqfOmRitsgX4xm6IzWOb-D862Vr8yGt931gYvRBSyh2rjLJ_EkmQHMDQN_YbtnG7MlG6jpXehWkO-3XBDiDhfVqIO3fbXk2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij-IvUrmZQbDlS_p3WTGRt6yCtdLlbGPC6YZD-WLk58_9a_EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXniTbKw8sfeyccOKQgWbMAo8ECAwEAAQ">handy-dandy online parser</a>. <strong>Don&rsquo;t do this with sensitive data!!</strong></p>
-<p>This parser tells us our data looks something like this:</p>
-<pre><code class="language-text">SEQUENCE (2 elem)
+</code></pre><p>The idea is that the first byte (or bytes, depending on the format) represent a <strong>tag</strong>. In the basic example above, the byte <code>f0</code> means email, and the byte <code>f1</code> means username. The next byte(s) indicates the <strong>length</strong> of the information. So, <code>f0 10</code> means that we&rsquo;re expecting a 16 byte long email next. So, we read the next 16 bytes <code>75 73 65 72 40 65 78 61 6d 70 6c 65 2e 63 6f 6d</code> and that should be an email <strong>value</strong>. If we decode those bytes as ASCII, what do we get? <code>user@example.com</code>. <em>Voilà!</em> Now rinse and repeat for the next bytes: a <code>f1</code> username… that is <code>0b 10</code> bytes long… <code>6d 79 5f 75 73 65 72 6e 61 6d 65</code>—<code>my_username</code>!</p><p>ASN.1 (Abstract Syntax Notation One) is a notation for describing data structures. It can represent integers, strings, sequences, booleans, etc. <a href=https://en.wikipedia.org/wiki/Abstract_Syntax_Notation_One#Encodings>There are lots of different ASN.1 encoding rules</a>, but we&rsquo;re interested in the ones for binary, specifically, the <a href=https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-der-encoding-of-asn-1-types>Distinguished Encoding Rules (DER)</a>.</p><p>In ASN.1 DER, <code>30</code> (the first byte in our public key hexdump) is the tag for a sequence. The next byte, <code>82</code>, actually says that the length of this field is specified in the following two bytes (ASN.1 DER specifies rules to allow for field lengths to be longer than those that would only fit in one byte). Thus, the length of our sequence is actually <code>02 22</code>, or 546 bytes. You can look up many of the tags for ASN.1 DER at <a href=https://docs.microsoft.com/en-us/windows/win32/seccertenroll/about-der-encoding-of-asn-1-types>this link</a>.</p><p>If we know that this public key is ASN.1 data, let&rsquo;s not do all the work ourselves and just stick it into a <a href=https://lapo.it/asn1js/#MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApzCiydAXf4XajyD3PtiH79vH6t2VyqbRylqW6tosNeD0rH4yyMk1HIueas2YYFlOgt2hVrnNa5zFIEKoco721Wu_fXlCoZzI61Zz_Q7JPJdIzeaQ-zQECsyGTZqPyADoPRoadWUqZTn7ulwMcoWbYdg14nl-ZQLC0H6n-v3ufBFeLYB9869x7GsZkXwmrOFkVcdwzPQPObfF4CDkjICwUUKTuKWBu_WJo_NjKWDGQQL4A2RfZW6u3DLc_BHlQzHgL9Ac3hM6n_aN1IcR0UpR4yN6KOVy2BYuGqTl91KA9dO0OlXFJkoCSeBfsME1j6DuVOlmgCtnhrdC2gOhp6ClrEYA_DsuKMmbf2_hX__fjQ6wPKNho8izLlFMdd6ClwessTMNzemamGPQwxnUwa5KoEqCpW_LXT_Yrh_INKY9yQ7vruE_q417mJfbqfOmRitsgX4xm6IzWOb-D862Vr8yGt931gYvRBSyh2rjLJ_EkmQHMDQN_YbtnG7MlG6jpXehWkO-3XBDiDhfVqIO3fbXk2qcJewffn3NYfeFat1WXIxSKVeIiVFPliPdDXxFTIwb5Ij-IvUrmZQbDlS_p3WTGRt6yCtdLlbGPC6YZD-WLk58_9a_EydyzIaAo5z4K9TRj3ZOIY3V2XrEJQOF3ZXniTbKw8sfeyccOKQgWbMAo8ECAwEAAQ>handy-dandy online parser</a>. <strong>Don&rsquo;t do this with sensitive data!!</strong></p><p>This parser tells us our data looks something like this:</p><pre><code class=language-text>SEQUENCE (2 elem)
   SEQUENCE (2 elem)
     OBJECT IDENTIFIER 1.2.840.113549.1.1.1 [rsaEncryption (PKCS #1)]
     NULL
@@ -324,61 +150,21 @@ c1 02 03 01 00 01                                 |......|
     SEQUENCE (2 elem)
       INTEGER (4096 bit) 68207562626546916737438667056483633235...
       INTEGER 65537
-</code></pre>
-<p>To understand what&rsquo;s actually going on here, we need to look at <a href="https://tools.ietf.org/html/rfc5280#page-117">RFC 5280</a>, which defines the syntax for X.509 v3 certificates in ASN.1 DER notation:</p>
-<pre><code class="language-text">SubjectPublicKeyInfo  ::=  SEQUENCE  {
+</code></pre><p>To understand what&rsquo;s actually going on here, we need to look at <a href=https://tools.ietf.org/html/rfc5280#page-117>RFC 5280</a>, which defines the syntax for X.509 v3 certificates in ASN.1 DER notation:</p><pre><code class=language-text>SubjectPublicKeyInfo  ::=  SEQUENCE  {
      algorithm            AlgorithmIdentifier,
      subjectPublicKey     BIT STRING  }
-</code></pre>
-<p>This tells us the first bit of information that we need to parse what&rsquo;s going on here. We have two fields: an algorithm, and a public key. The type of the algorithm field <code>AlgorithmIdentifier</code> is defined in the same RFC, later on:</p>
-<pre><code class="language-text">AlgorithmIdentifier  ::=  SEQUENCE  {
+</code></pre><p>This tells us the first bit of information that we need to parse what&rsquo;s going on here. We have two fields: an algorithm, and a public key. The type of the algorithm field <code>AlgorithmIdentifier</code> is defined in the same RFC, later on:</p><pre><code class=language-text>AlgorithmIdentifier  ::=  SEQUENCE  {
      algorithm               OBJECT IDENTIFIER,
      parameters              ANY DEFINED BY algorithm OPTIONAL  }
-</code></pre>
-<p>Thus, we can determine that the algorithm identifier in the public key that we&rsquo;ve been using is <code>1.2.840.113549.1.1.1</code>, which happens to be the well-known object identifier (OID) for RSA.</p>
-<p>The next value in our public key is <code>NULL</code>, which means that the algorithm requires no parameters.</p>
-<p>Now we can move into the actual contents of the public key, that <code>BIT STRING</code> field. It contains an ASN.1 sequence which contains two integer values: a modulus and an exponent. <em>These two fields make up the public key.</em></p>
-<p>A note before I finish this up: before this particular format (which is called PKCS8) was used, PKCS1 was (and still is) common. The PKCS1 format is simply the contents of the <code>BIT STRING</code> from the PKCS8 format—the sequence containing the modulus and the exponent. See <a href="https://tools.ietf.org/html/rfc8017#appendix-A.1.1">RFC 8017</a>, which contains the definition:</p>
-<pre><code class="language-text">RSAPublicKey ::= SEQUENCE  {
+</code></pre><p>Thus, we can determine that the algorithm identifier in the public key that we&rsquo;ve been using is <code>1.2.840.113549.1.1.1</code>, which happens to be the well-known object identifier (OID) for RSA.</p><p>The next value in our public key is <code>NULL</code>, which means that the algorithm requires no parameters.</p><p>Now we can move into the actual contents of the public key, that <code>BIT STRING</code> field. It contains an ASN.1 sequence which contains two integer values: a modulus and an exponent. <em>These two fields make up the public key.</em></p><p>A note before I finish this up: before this particular format (which is called PKCS8) was used, PKCS1 was (and still is) common. The PKCS1 format is simply the contents of the <code>BIT STRING</code> from the PKCS8 format—the sequence containing the modulus and the exponent. See <a href=https://tools.ietf.org/html/rfc8017#appendix-A.1.1>RFC 8017</a>, which contains the definition:</p><pre><code class=language-text>RSAPublicKey ::= SEQUENCE  {
      modulus           INTEGER,  -- n
      publicExponent    INTEGER   -- e  }
-</code></pre>
-<p>That&rsquo;s all I have for now. I hope you learned something from reading this post; I certainly enjoyed writing it!</p>
-<hr>
-<p>On top of all the different sites I linked in this post, I&rsquo;d like to credit the following sources I used while doing research for this post:</p>
-<ul>
-<li><a href="https://medium.com/curiositypapers/carmichael-function-a-complete-guide-number-theory-7fa675e9e7ed">Carmichael Function: A Complete Guide—Number theory</a></li>
-<li><a href="https://cryptologie.net/article/262/what-are-x509-certificates-rfc-asn1-der/">What are x509 certificates? RFC? ASN.1? DER?</a></li>
-<li><a href="https://stackoverflow.com/questions/1193529/how-to-store-retrieve-rsa-public-private-key/13104466#13104466">How to store/retrieve RSA public/private key</a></li>
-<li><a href="https://github.com/rzcoder/node-rsa/blob/master/src/formats/pkcs8.js">node-rsa/src/formats/pkcs8.js</a></li>
-</ul>
-<hr>
-<p>I&rsquo;m a software engineer for <a href="https://near.org/">NEAR Protocol</a>, head of education at the <a
-    href="https://www.blockchainacceleration.org/">Blockchain Acceleration Foundation</a>, and a graduate
-  student at the <a href="https://www.titech.ac.jp/">Tokyo Institute of Technology</a>.</p>
-<p>Connect with me <a href="https://twitter.com/sudo_build">on Twitter</a>.</p>
-</div>
-</article>
-<footer class="py:24 f:fade-50 f:fade-60@dark f:14 d:flex flex:col gap:8"><p>
-        This work is licensed under <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
-    </p><p>&copy; Copyright 2022 Jacob Lindahl</p>
-    <p class="
-        d:flex
-        {p:5}_a
-        {w:18;fill:fade-50}_svg
-        {fill:fade-60}_svg@dark
-        {fill:fade-10}_a:hover_svg
-        {fill:fade-90}_a:hover_svg@dark
-    "><a href="https://youtube.com/GeekLaunch" title="YouTube"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-<span class="sr-only">YouTube channel</span>
-        </a><a href="https://twitter.com/Geek_Launch" title="Twitter"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Twitter</title><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
-<span class="sr-only">Twitter profile</span>
-        </a><a rel="me" href="https://techhub.social/@geeklaunch" title="Mastodon"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Mastodon</title><path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z"/></svg>
-<span class="sr-only">Mastodon profile</span>
-        </a></p>
-</footer>
-</div>
-    </div>
-</body>
-
-</html>
+</code></pre><p>That&rsquo;s all I have for now. I hope you learned something from reading this post; I certainly enjoyed writing it!</p><hr><p>On top of all the different sites I linked in this post, I&rsquo;d like to credit the following sources I used while doing research for this post:</p><ul><li><a href=https://medium.com/curiositypapers/carmichael-function-a-complete-guide-number-theory-7fa675e9e7ed>Carmichael Function: A Complete Guide—Number theory</a></li><li><a href=https://cryptologie.net/article/262/what-are-x509-certificates-rfc-asn1-der/>What are x509 certificates? RFC? ASN.1? DER?</a></li><li><a href=https://stackoverflow.com/questions/1193529/how-to-store-retrieve-rsa-public-private-key/13104466#13104466>How to store/retrieve RSA public/private key</a></li><li><a href=https://github.com/rzcoder/node-rsa/blob/master/src/formats/pkcs8.js>node-rsa/src/formats/pkcs8.js</a></li></ul><hr><p>I&rsquo;m a software engineer for <a href=https://near.org/>NEAR Protocol</a>, head of education at the <a href=https://www.blockchainacceleration.org/>Blockchain Acceleration Foundation</a>, and a graduate
+student at the <a href=https://www.titech.ac.jp/>Tokyo Institute of Technology</a>.</p><p>Connect with me <a href=https://twitter.com/sudo_build>on Twitter</a>.</p></div></article><footer class="py:24 f:fade-50 f:fade-60@dark f:14 d:flex flex:col gap:8"><p>This work is licensed under <a rel=license href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA 4.0</a>.</p><p>&copy; Copyright 2022 Jacob Lindahl</p><p class="d:flex
+{p:5}_a
+{w:18;fill:fade-50}_svg
+{fill:fade-60}_svg@dark
+{fill:fade-10}_a:hover_svg
+{fill:fade-90}_a:hover_svg@dark"><a href=https://youtube.com/GeekLaunch title=YouTube><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186A3.016 3.016.0 0021.376 4.05C19.505 3.545 12 3.545 12 3.545s-7.505.0-9.377.505A3.017 3.017.0 00.502 6.186C0 8.07.0 12 0 12s0 3.93.502 5.814a3.016 3.016.0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505.0 9.377-.505a3.015 3.015.0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span class=sr-only>YouTube channel</span></a>
+<a href=https://twitter.com/Geek_Launch title=Twitter><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Twitter</title><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958.0 002.163-2.723c-.951.555-2.005.959-3.127 1.184A4.92 4.92.0 0011.78 8.288C7.69 8.095 4.067 6.13 1.64 3.162A4.822 4.822.0 00.974 5.637c0 1.71.87 3.213 2.188 4.096A4.904 4.904.0 01.934 9.117v.06a4.923 4.923.0 003.946 4.827 4.996 4.996.0 01-2.212.085 4.936 4.936.0 004.604 3.417A9.867 9.867.0 011.17 19.611c-.39.0-.779-.023-1.17-.067a13.995 13.995.0 007.557 2.209c9.053.0 13.998-7.496 13.998-13.985.0-.21.0-.42-.015-.63A9.935 9.935.0 0024 4.59z"/></svg><span class=sr-only>Twitter profile</span></a>
+<a rel=me href=https://techhub.social/@geeklaunch title=Mastodon><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Mastodon</title><path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792.0 11.813.0h-.03c-3.98.0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057.0 00.023-.043v-1.809a.052.052.0 00-.02-.041.053.053.0 00-.046-.01 20.282 20.282.0 01-4.709.545c-2.73.0-3.463-1.284-3.674-1.818a5.593 5.593.0 01-.319-1.433.053.053.0 01.066-.054c1.517.363 3.072.546 4.632.546.376.0.75.0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23.0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112.0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311.0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13.0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z"/></svg><span class=sr-only>Mastodon profile</span></a></p></footer></div></div></body></html>

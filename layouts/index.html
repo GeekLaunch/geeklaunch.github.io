@@ -1,19 +1,17 @@
 {{ define "main" }}
 <div class="d:flex flex:col">
-    {{- partial "prose.html" . -}}
+    {{ partial "prose.html" . }}
 
     <h2 class="my:1em">Posts</h2>
 
     <ul>
-        {{- range first 10 (where site.RegularPages "Type" "in" site.Params.mainSections) -}}
-
-        {{- partial "li.html" (dict
+        {{ range first 10 (where site.RegularPages "Type" "in" site.Params.mainSections) }}
+        {{ partial "li.html" (dict
             "href" .Permalink
             "title" .Title
             "date" .Date
-        ) -}}
-
-        {{- end -}}
+        ) }}
+        {{ end }}
     </ul>
 </div>
 {{ end }}

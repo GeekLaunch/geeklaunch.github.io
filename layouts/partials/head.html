@@ -18,33 +18,33 @@
     <meta property="og:site_name" content="{{ site.Title }}" />
 
     <meta name="twitter:card" content="summary" />
-    {{- if isset site.Params "twitter" -}}
+    {{ if isset site.Params "twitter" }}
     <meta name="twitter:site" content="{{ site.Params.twitter }}" />
-    {{- end -}}
-    {{- if isset .Params "twitter" -}}
+    {{ end }}
+    {{ if isset .Params "twitter" }}
     <meta name="twitter:creator" content="{{ .Params.twitter }}" />
-    {{- end -}}
+    {{ end }}
 
-    {{- else -}}
+    {{ else }}
     <meta name="description" content="{{ site.Params.description }}" />
     <meta name="author" content="{{ site.Author.name }}" />
-    {{- end -}}
+    {{ end }}
 
     <link id="highlight-theme-light" rel="stylesheet"
-        href='{{ (resources.GetRemote "https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github.min.css" | resources.Minify).RelPermalink }}'>
+        href='{{ (resources.GetRemote "https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github.min.css").RelPermalink }}'>
     <link id="highlight-theme-dark" disabled rel="stylesheet"
-        href='{{ (resources.GetRemote "https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github-dark.min.css" | resources.Minify).RelPermalink }}'>
+        href='{{ (resources.GetRemote "https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/github-dark.min.css").RelPermalink }}'>
     <script
-        src='{{ (resources.GetRemote "https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js" | resources.Minify).RelPermalink }}'></script>
+        src='{{ (resources.GetRemote "https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js").RelPermalink }}'></script>
     <script
-        src='{{ (resources.GetRemote "https://unpkg.com/highlightjs-solidity@2.0.5/dist/solidity.min.js" | resources.Minify).RelPermalink }}'></script>
+        src='{{ (resources.GetRemote "https://unpkg.com/highlightjs-solidity@2.0.5/dist/solidity.min.js").RelPermalink }}'></script>
 
-    <link href='{{ (resources.GetRemote "https://unpkg.com/@master/normal.css@1" | resources.Minify).RelPermalink }}'
+    <link href='{{ (resources.GetRemote "https://unpkg.com/@master/normal.css@1").RelPermalink }}'
         rel="stylesheet">
     <script
-        src='{{ (resources.GetRemote "https://unpkg.com/@master/css@1" | resources.Minify).RelPermalink }}'></script>
+        src='{{ (resources.GetRemote "https://unpkg.com/@master/css@1").RelPermalink }}'></script>
     <script
-        src='{{ (resources.GetRemote "https://unpkg.com/themes.js@0.0.10" | resources.Minify).RelPermalink }}'></script>
+        src='{{ (resources.GetRemote "https://unpkg.com/themes.js@0.0.10").RelPermalink }}'></script>
 
-    {{- partial "head-extra.html" . -}}
+    {{ partial "head-extra.html" . }}
 </head>

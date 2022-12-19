@@ -13,26 +13,26 @@
         {fill:fade-10}_a:hover_svg
         {fill:fade-90}_a:hover_svg@dark
     ">
-        {{- if isset .Site.Params "youtube" -}}
+        {{ if isset .Site.Params "youtube" }}
         <a href="https://youtube.com/{{ .Site.Params.youtube }}" title="YouTube">
-            {{- partial "dl-svg-icon.html" (dict "icon" "youtube") -}}
+            {{ partial "dl-svg-icon.html" (dict "icon" "youtube") }}
             <span class="sr-only">YouTube channel</span>
         </a>
-        {{- end -}}
+        {{ end }}
 
-        {{- if isset .Site.Params "twitter" -}}
+        {{ if isset .Site.Params "twitter" }}
         <a href="https://twitter.com/{{ .Site.Params.twitter }}" title="Twitter">
-            {{- partial "dl-svg-icon.html" (dict "icon" "twitter") -}}
+            {{ partial "dl-svg-icon.html" (dict "icon" "twitter") }}
             <span class="sr-only">Twitter profile</span>
         </a>
-        {{- end -}}
+        {{ end }}
 
-        {{- if isset .Site.Params "mastodon" -}}
-        {{- $m_link := partial "mastodon-link.html" .Site.Params.mastodon -}}
+        {{ if isset .Site.Params "mastodon" }}
+        {{ $m_link := partial "mastodon-link.html" .Site.Params.mastodon }}
         <a rel="me" href="{{ $m_link }}" title="Mastodon">
-            {{- partial "dl-svg-icon.html" (dict "icon" "mastodon") -}}
+            {{ partial "dl-svg-icon.html" (dict "icon" "mastodon") }}
             <span class="sr-only">Mastodon profile</span>
         </a>
-        {{- end -}}
+        {{ end }}
     </p>
 </footer>

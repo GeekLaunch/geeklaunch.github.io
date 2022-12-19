@@ -1,390 +1,149 @@
-<!DOCTYPE html>
-<html><head>
-	<meta name="generator" content="Hugo 0.108.0">
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-    <title>GeekLaunch</title>
-
-    
-    <meta name="description" content="Tech tips and tutorials. Computer science educational videos, tutorials, guides, blog posts about Rust programming, blockchain, optimization problems, cybersecurity." />
-    <meta name="author" content="Jacob Lindahl" /><link id="highlight-theme-light" rel="stylesheet"
-        href='/github.min_4917475948316153746.min.css'>
-    <link id="highlight-theme-dark" disabled rel="stylesheet"
-        href='/github-dark.min_15794025392105988476.min.css'>
-    <script
-        src='/highlight.min_12813739840627204152.min.js'></script>
-    <script
-        src='/solidity.min_1698098518847126779.min.js'></script>
-
-    <link href='/normal_13953566615062847353.min.css'
-        rel="stylesheet">
-    <script
-        src='/css@1_15597864207408232852.min.js'></script>
-    <script
-        src='/themes.js@0.0_2721045479065658286.min.js'></script>
+<!doctype html><html><head><meta name=generator content="Hugo 0.108.0"><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>GeekLaunch</title><meta name=description content="Tech tips and tutorials. Computer science educational videos, tutorials, guides, blog posts about Rust programming, blockchain, optimization problems, cybersecurity."><meta name=author content="Jacob Lindahl"><link id=highlight-theme-light rel=stylesheet href=/github.min_4917475948316153746.css><link id=highlight-theme-dark disabled rel=stylesheet href=/github-dark.min_15794025392105988476.css><script src=/highlight.min_12813739840627204152.js></script>
+<script src=/solidity.min_1698098518847126779.js></script>
+<link href=/normal_13953566615062847353.css rel=stylesheet><script src=/css@1_15597864207408232852.js></script>
+<script src=/themes.js@0.0_2721045479065658286.js></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DMBPKLBF8X"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-DMBPKLBF8X', { 'anonymize_ip': false });
-}
-</script>
-
-<style>
-html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 2em;
-}
-
-@media (min-width: 768px) {
-    html {
-        scroll-padding-top: 64px;
-    }
-}
-
-.table {
-    display: initial;
-}
-
-@keyframes highlight {
-    0% {
-        background-color: rgba(226, 230, 30, 0.4);
-        outline: 0.2rem solid rgba(226, 230, 30, 0.4);
-    }
-
-    100% {
-        background-color: unset;
-        outline: 0.2rem solid transparent;
-    }
-}
-
-:target {
-    animation: highlight 1.2s forwards;
-}
-</style>
-<script>
-(() => {
-    document.addEventListener('DOMContentLoaded', () => {
-        hljs.highlightAll();
-
-        const themes = new window.Themes();
-        window.themes = themes;
-
-        const updateSyntaxTheme = () => {
-            const darkStylesheet = document.getElementById('highlight-theme-dark');
-            const lightStylesheet = document.getElementById('highlight-theme-light');
-            if (themes.documentTheme === 'dark') {
-                lightStylesheet.disabled = true;
-                darkStylesheet.disabled = false;
-            } else {
-                lightStylesheet.disabled = false;
-                darkStylesheet.disabled = true;
-            }
-        };
-
-        updateSyntaxTheme();
-
-        themes.onChange = (theme) => {
-            updateSyntaxTheme();
-        };
-
-        
-        const tableOfContents = document.getElementById('TableOfContents');
-
-        if (tableOfContents) {
-            const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
-
-            links.forEach(link => {
-                const linkTargetId = link.getAttribute('href').split('#')[1];
-                if (!linkTargetId) {
-                    return;
-                }
-
-                const target = document.getElementById(linkTargetId);
-                if (!target) {
-                    return;
-                }
-
-                const anchor = document.createElement('a');
-                anchor.href = '#' + linkTargetId;
-                anchor.className = 'headingAnchor';
-                anchor.innerText = '#';
-                target.insertAdjacentElement('afterbegin', anchor);
-            });
-        }
-    });
-})();
-</script>
-</head>
-<body class="bg:fade-16@dark font:fade-86@dark">
-    <nav id="mainNav" class="
-    w:full
-    fixed@sm
-    bg:white/.9
-    bg:fade-16/.9@dark
-    z:1000
-    backdrop-filter:blur(3px)
-">
-    <div class="
-        h:full
-        w:full
-        max-w:1200
-        mx:auto
-        px:32
-        d:flex
-        flex-direction:column
-        flex-direction:row@sm
-        align-items:center
-    ">
-        <a href="/" class="block mr:3 p:8 filter:brightness(1.5):hover ~filter|0.1s">
-            <img class="w:40" src="/img/geeklaunch.png" title="GeekLaunch" alt="GeekLaunch logo">
-        </a>
-
-        <div class="
-            ml:auto@sm
-            w:full
-            d:flex
-            flex-wrap:wrap
-            justify-content:space-between
-            justify-content:flex-end@sm
-
-            {font:semibold;font:fade}_a
-            font:fade-10_a:hover
-            font:fade-80_a@dark
-            font:fade-96_a:hover@dark
-            p:12_a
-            p:18_a@sm
-        "><a href="/about/" title="">About</a><a href="/blog/" title="">Posts</a><a href="https://www.youtube.com/c/GeekLaunch?sub_confirmation=1" title="">YouTube</a><a href="https://weareindy.com/app/shared/forms/634577ccb25f8365f4aa7f42/zw1Icw3aBtCI90eLSzQVkpZiigUEBLHeaNKmJobnx4kTaPYMixQM3gDZMCFDsSHC/" title="">Contact</a></div>
-    </div>
-</nav>
-<div class="d:flex flex:column@<=sm pt:90@sm px:24 jc:center gap:44 word-break:break-word">
-        <div class="max-w:700 w:full box:content-box">
-<div class="d:flex flex:col"><div class="
-    {text-decoration-color:fade-60}_:where(a):hover
-    {text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_:where(a)
-    {text-decoration-color:fade-30;color:fade-90}_:where(a)@dark
-    {bl:4|solid;b:fade-84;color:fade-34}_:where(blockquote)
-    {b:fade-38;color:fade-86}_:where(blockquote)@dark
-    {font:90%;color:blue-20}_:where(code)
-    {color:blue-86}_:where(code)@dark
-    {text-decoration:1;line-through;fade-68}_:where(del)
-    {text-decoration-color:red-64}_:where(del)@dark
-    {text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
-    {font:fade-57}_:where(figcaption)@dark
-    {font:40;font:extrabold}_:where(h1)
-    {mt:.5em}_:where(h1,h2,h3)+:where(h1,h2,h3)
-    {mt:2em}_:where(h1,h2,h3,h4,h5,h6)
-    {mb:1em;font:32}_:where(h2)
-    {font:24}_:where(h3)
-    {font:20}_:where(h4)
-    {font:16}_:where(h5)
-    {font:14}_:where(h6)
-    {font:fade-44}_:where(li)::marker
-    {font:fade-68}_:where(li)::marker@dark
-    {pl:.375em}_:where(li)
-    {text-decoration:underline;#fce016;bg:transparent;text-decoration-color:rgb(252;224;22/.5)@dark}_:where(mark)
-    {font:fade-36;font:16;line-height:1.65}_:where(p,li,details)
-    {font:fade-80}_:where(p,li,details)@dark
-    {my:0.125em}_:where(li>ul)
-    {my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
-    {mt:0!}>:first-child
-    {width:full;border-spacing:0}_:where(table)
-    {v:baseline}_:where(td)
-    {pl:0}_:where(td,th):first-child
-    {pr:0}_:where(td,th):last-child
-    {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
-    {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
-    {font:semibold}_:where(th,a,mark,:not(pre)>code)
-    {list-style-type:disc}_:where(ul)
-    {pl:1.5em}_:where(ul,ol,blockquote)
-    {max-width:full}_:where(video,img)
-    {text-underline-offset:3}_:where(a,mark)
-    {height:0.1rem;bg:fade-80;mx:40%;my:1.5rem}_:where(hr)
-    {bg:fade-40}_:where(hr)@dark
-    {cursor:pointer}_:where(details>summary)
-    {text-decoration:none;pr:16;font:medium;color:fade-80}_.headingAnchor
-    {color:fade-60}_.headingAnchor:hover
-    {opacity:0;position:absolute;translateX(-100%)}_.headingAnchor@sm
-    {opacity:1}_:hover>.headingAnchor
-    {opacity:1}_:target>.headingAnchor
-    {color:fade-50}_.headingAnchor@dark
-    {color:fade-70}_.headingAnchor:hover@dark
-    {border-radius:2;lh:1.5}_:where(pre>code)
-"><h1 id="geeklaunch">GeekLaunch</h1>
-<blockquote>
-<p><em>Not a geek? Start today!</em></p>
-</blockquote>
-<p>GeekLaunch produces free educational web development videos covering a variety of topics, including CSS, JavaScript (including TypeScript and Node.JS), PHP, Linux, Rust, and more!</p>
-<p>GeekLaunch was created and is managed by me, Jacob. I love teaching others how computers and software work, and GeekLaunch has given me a way to share that love with the world.</p>
-<p>I have produced over 100 videos for the <a href="https://www.youtube.com/c/GeekLaunch?sub_confirmation=1">GeekLaunch YouTube channel</a> since it started in October 2015. The source code to many of the videos is on <a href="https://github.com/GeekLaunch">GitHub</a>. Check out <a href="https://twitter.com/Geek_Launch">Twitter</a>, too.</p>
-</div>
-<h2 class="my:1em">Posts</h2>
-
-    <ul><div class="mb:12 py:8">
-    <a class="
-        f:18
-        font:semibold
-        f:fade-40
-        f:fade-70@dark
-        f:fade-10:hover
-        f:fade-90:hover@dark
-        text-decoration:none
-    " href="https://geeklaunch.io/blog/how-to-switch-github-pages-to-a-new-domain-for-free-using-cloudflare/">How to switch GitHub Pages to a new domain for free using Cloudflare</a>
-    <div class="mt:12 f:14 f:fade-60">
-        <time datetime="2022-12-16 00:00:00 &#43;0000 UTC">Dec 16, 2022</time>
-    </div>
-</div>
-<div class="mb:12 py:8">
-    <a class="
-        f:18
-        font:semibold
-        f:fade-40
-        f:fade-70@dark
-        f:fade-10:hover
-        f:fade-90:hover@dark
-        text-decoration:none
-    " href="https://geeklaunch.io/blog/%E3%82%A6%E3%82%A3%E3%82%B9%E3%82%B3%E3%83%B3%E3%82%B7%E3%83%B3%E5%B7%9E%E3%81%AE%E5%8C%97%E5%9C%B0%E6%96%B9/">ウィスコンシン州の北地方</a>
-    <div class="mt:12 f:14 f:fade-60">
-        <time datetime="2022-11-14 00:00:00 &#43;0000 UTC">Nov 14, 2022</time>
-    </div>
-</div>
-<div class="mb:12 py:8">
-    <a class="
-        f:18
-        font:semibold
-        f:fade-40
-        f:fade-70@dark
-        f:fade-10:hover
-        f:fade-90:hover@dark
-        text-decoration:none
-    " href="https://geeklaunch.io/blog/modern-dearth-of-intelligent-crypto/">The modern dearth of intelligent crypto</a>
-    <div class="mt:12 f:14 f:fade-60">
-        <time datetime="2022-11-13 00:00:00 &#43;0000 UTC">Nov 13, 2022</time>
-    </div>
-</div>
-<div class="mb:12 py:8">
-    <a class="
-        f:18
-        font:semibold
-        f:fade-40
-        f:fade-70@dark
-        f:fade-10:hover
-        f:fade-90:hover@dark
-        text-decoration:none
-    " href="https://geeklaunch.io/blog/fathomable-rust-macros/">Fathomable Rust Macros</a>
-    <div class="mt:12 f:14 f:fade-60">
-        <time datetime="2022-10-25 00:00:00 &#43;0000 UTC">Oct 25, 2022</time>
-    </div>
-</div>
-<div class="mb:12 py:8">
-    <a class="
-        f:18
-        font:semibold
-        f:fade-40
-        f:fade-70@dark
-        f:fade-10:hover
-        f:fade-90:hover@dark
-        text-decoration:none
-    " href="https://geeklaunch.io/blog/how-to-speed-up-your-code-using-graphs/">How to speed up your code 224,444,739% using graphs</a>
-    <div class="mt:12 f:14 f:fade-60">
-        <time datetime="2022-08-06 00:00:00 &#43;0000 UTC">Aug 6, 2022</time>
-    </div>
-</div>
-<div class="mb:12 py:8">
-    <a class="
-        f:18
-        font:semibold
-        f:fade-40
-        f:fade-70@dark
-        f:fade-10:hover
-        f:fade-90:hover@dark
-        text-decoration:none
-    " href="https://geeklaunch.io/blog/the-state-of-web3-in-2022/">The State of Web3 in 2022</a>
-    <div class="mt:12 f:14 f:fade-60">
-        <time datetime="2022-06-22 00:00:00 &#43;0000 UTC">Jun 22, 2022</time>
-    </div>
-</div>
-<div class="mb:12 py:8">
-    <a class="
-        f:18
-        font:semibold
-        f:fade-40
-        f:fade-70@dark
-        f:fade-10:hover
-        f:fade-90:hover@dark
-        text-decoration:none
-    " href="https://geeklaunch.io/blog/storage-locations-in-ethereum-vs-near/">Storage Locations in Ethereum vs. NEAR</a>
-    <div class="mt:12 f:14 f:fade-60">
-        <time datetime="2021-12-21 00:00:00 &#43;0000 UTC">Dec 21, 2021</time>
-    </div>
-</div>
-<div class="mb:12 py:8">
-    <a class="
-        f:18
-        font:semibold
-        f:fade-40
-        f:fade-70@dark
-        f:fade-10:hover
-        f:fade-90:hover@dark
-        text-decoration:none
-    " href="https://geeklaunch.io/blog/introducing-compulang-podcast/">Introducing the Compulang Podcast</a>
-    <div class="mt:12 f:14 f:fade-60">
-        <time datetime="2020-09-13 14:14:24 -0500 -0500">Sep 13, 2020</time>
-    </div>
-</div>
-<div class="mb:12 py:8">
-    <a class="
-        f:18
-        font:semibold
-        f:fade-40
-        f:fade-70@dark
-        f:fade-10:hover
-        f:fade-90:hover@dark
-        text-decoration:none
-    " href="https://geeklaunch.io/blog/how-to-verify-domain-name-on-github-with-namecheap/">How to Verify a Domain Name on GitHub with Namecheap</a>
-    <div class="mt:12 f:14 f:fade-60">
-        <time datetime="2020-01-27 17:10:36 -0600 -0600">Jan 27, 2020</time>
-    </div>
-</div>
-<div class="mb:12 py:8">
-    <a class="
-        f:18
-        font:semibold
-        f:fade-40
-        f:fade-70@dark
-        f:fade-10:hover
-        f:fade-90:hover@dark
-        text-decoration:none
-    " href="https://geeklaunch.io/blog/what-does-my-rsa-public-key-actually-mean/">What does my RSA public key actually mean?</a>
-    <div class="mt:12 f:14 f:fade-60">
-        <time datetime="2020-01-22 23:03:42 -0600 -0600">Jan 22, 2020</time>
-    </div>
-</div>
-</ul>
-</div>
-<footer class="py:24 f:fade-50 f:fade-60@dark f:14 d:flex flex:col gap:8"><p>&copy; Copyright 2022 Jacob Lindahl</p>
-    <p class="
-        d:flex
-        {p:5}_a
-        {w:18;fill:fade-50}_svg
-        {fill:fade-60}_svg@dark
-        {fill:fade-10}_a:hover_svg
-        {fill:fade-90}_a:hover_svg@dark
-    "><a href="https://youtube.com/GeekLaunch" title="YouTube"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-<span class="sr-only">YouTube channel</span>
-        </a><a href="https://twitter.com/Geek_Launch" title="Twitter"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Twitter</title><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
-<span class="sr-only">Twitter profile</span>
-        </a><a rel="me" href="https://techhub.social/@geeklaunch" title="Mastodon"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Mastodon</title><path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z"/></svg>
-<span class="sr-only">Mastodon profile</span>
-        </a></p>
-</footer>
-</div>
-    </div>
-</body>
-
-</html>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-DMBPKLBF8X",{anonymize_ip:!1})}</script><style>html{scroll-behavior:smooth;scroll-padding-top:2em}@media(min-width:768px){html{scroll-padding-top:64px}}.table{display:initial}@keyframes highlight{0%{background-color:rgba(226,230,30,.4);outline:.2rem solid rgba(226,230,30,.4)}100%{background-color:unset;outline:.2rem solid transparent}}:target{animation:highlight 1.2s forwards}</style><script>(()=>{document.addEventListener("DOMContentLoaded",()=>{hljs.highlightAll();const e=new window.Themes;window.themes=e;const t=()=>{const t=document.getElementById("highlight-theme-dark"),n=document.getElementById("highlight-theme-light");e.documentTheme==="dark"?(n.disabled=!0,t.disabled=!1):(n.disabled=!1,t.disabled=!0)};t(),e.onChange=e=>{t()};const n=document.getElementById("TableOfContents");if(n){const e=Array.from(n.querySelectorAll("a[href]"));e.forEach(e=>{const n=e.getAttribute("href").split("#")[1];if(!n)return;const s=document.getElementById(n);if(!s)return;const t=document.createElement("a");t.href="#"+n,t.className="headingAnchor",t.innerText="#",s.insertAdjacentElement("afterbegin",t)})}})})()</script></head><body class="bg:fade-16@dark font:fade-86@dark"><nav id=mainNav class="w:full
+fixed@sm
+bg:white/.9
+bg:fade-16/.9@dark
+z:1000
+backdrop-filter:blur(3px)"><div class="h:full
+w:full
+max-w:1200
+mx:auto
+px:32
+d:flex
+flex-direction:column
+flex-direction:row@sm
+align-items:center"><a href=/ class="block mr:3 p:8 filter:brightness(1.5):hover ~filter|0.1s"><img class=w:40 src=/img/geeklaunch.png title=GeekLaunch alt="GeekLaunch logo"></a><div class="ml:auto@sm
+w:full
+d:flex
+flex-wrap:wrap
+justify-content:space-between
+justify-content:flex-end@sm
+{font:semibold;font:fade}_a
+font:fade-10_a:hover
+font:fade-80_a@dark
+font:fade-96_a:hover@dark
+p:12_a
+p:18_a@sm"><a href=/about/ title>About</a>
+<a href=/blog/ title>Posts</a>
+<a href="https://www.youtube.com/c/GeekLaunch?sub_confirmation=1" title>YouTube</a>
+<a href=https://weareindy.com/app/shared/forms/634577ccb25f8365f4aa7f42/zw1Icw3aBtCI90eLSzQVkpZiigUEBLHeaNKmJobnx4kTaPYMixQM3gDZMCFDsSHC/ title>Contact</a></div></div></nav><div class="d:flex flex:column@<=sm pt:90@sm px:24 jc:center gap:44 word-break:break-word"><div class="max-w:700 w:full box:content-box"><div class="d:flex flex:col"><div class="{text-decoration-color:fade-60}_:where(a):hover
+{text-decoration:underline;text-decoration-color:fade-86;color:fade-40}_:where(a)
+{text-decoration-color:fade-30;color:fade-90}_:where(a)@dark
+{bl:4|solid;b:fade-84;color:fade-34}_:where(blockquote)
+{b:fade-38;color:fade-86}_:where(blockquote)@dark
+{font:90%;color:blue-20}_:where(code)
+{color:blue-86}_:where(code)@dark
+{text-decoration:1;line-through;fade-68}_:where(del)
+{text-decoration-color:red-64}_:where(del)@dark
+{text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
+{font:fade-57}_:where(figcaption)@dark
+{font:40;font:extrabold}_:where(h1)
+{mt:.5em}_:where(h1,h2,h3)+:where(h1,h2,h3)
+{mt:2em}_:where(h1,h2,h3,h4,h5,h6)
+{mb:1em;font:32}_:where(h2)
+{font:24}_:where(h3)
+{font:20}_:where(h4)
+{font:16}_:where(h5)
+{font:14}_:where(h6)
+{font:fade-44}_:where(li)::marker
+{font:fade-68}_:where(li)::marker@dark
+{pl:.375em}_:where(li)
+{text-decoration:underline;#fce016;bg:transparent;text-decoration-color:rgb(252;224;22/.5)@dark}_:where(mark)
+{font:fade-36;font:16;line-height:1.65}_:where(p,li,details)
+{font:fade-80}_:where(p,li,details)@dark
+{my:0.125em}_:where(li>ul)
+{my:1.125em}_:where(p,pre,blockquote,figure,ul,ol,table)
+{mt:0!}>:first-child
+{width:full;border-spacing:0}_:where(table)
+{v:baseline}_:where(td)
+{pl:0}_:where(td,th):first-child
+{pr:0}_:where(td,th):last-child
+{bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
+{font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
+{font:semibold}_:where(th,a,mark,:not(pre)>code)
+{list-style-type:disc}_:where(ul)
+{pl:1.5em}_:where(ul,ol,blockquote)
+{max-width:full}_:where(video,img)
+{text-underline-offset:3}_:where(a,mark)
+{height:0.1rem;bg:fade-80;mx:40%;my:1.5rem}_:where(hr)
+{bg:fade-40}_:where(hr)@dark
+{cursor:pointer}_:where(details>summary)
+{text-decoration:none;pr:16;font:medium;color:fade-80}_.headingAnchor
+{color:fade-60}_.headingAnchor:hover
+{opacity:0;position:absolute;translateX(-100%)}_.headingAnchor@sm
+{opacity:1}_:hover>.headingAnchor
+{opacity:1}_:target>.headingAnchor
+{color:fade-50}_.headingAnchor@dark
+{color:fade-70}_.headingAnchor:hover@dark
+{border-radius:2;lh:1.5}_:where(pre>code)"><h1 id=geeklaunch>GeekLaunch</h1><blockquote><p><em>Not a geek? Start today!</em></p></blockquote><p>GeekLaunch produces free educational web development videos covering a variety of topics, including CSS, JavaScript (including TypeScript and Node.JS), PHP, Linux, Rust, and more!</p><p>GeekLaunch was created and is managed by me, Jacob. I love teaching others how computers and software work, and GeekLaunch has given me a way to share that love with the world.</p><p>I have produced over 100 videos for the <a href="https://www.youtube.com/c/GeekLaunch?sub_confirmation=1">GeekLaunch YouTube channel</a> since it started in October 2015. The source code to many of the videos is on <a href=https://github.com/GeekLaunch>GitHub</a>. Check out <a href=https://twitter.com/Geek_Launch>Twitter</a>, too.</p></div><h2 class=my:1em>Posts</h2><ul><div class="mb:12 py:8"><a class="f:18
+font:semibold
+f:fade-40
+f:fade-70@dark
+f:fade-10:hover
+f:fade-90:hover@dark
+text-decoration:none" href=https://geeklaunch.io/blog/how-to-switch-github-pages-to-a-new-domain-for-free-using-cloudflare/>How to switch GitHub Pages to a new domain for free using Cloudflare</a><div class="mt:12 f:14 f:fade-60"><time datetime="2022-12-16 00:00:00 +0000 UTC">Dec 16, 2022</time></div></div><div class="mb:12 py:8"><a class="f:18
+font:semibold
+f:fade-40
+f:fade-70@dark
+f:fade-10:hover
+f:fade-90:hover@dark
+text-decoration:none" href=https://geeklaunch.io/blog/%E3%82%A6%E3%82%A3%E3%82%B9%E3%82%B3%E3%83%B3%E3%82%B7%E3%83%B3%E5%B7%9E%E3%81%AE%E5%8C%97%E5%9C%B0%E6%96%B9/>ウィスコンシン州の北地方</a><div class="mt:12 f:14 f:fade-60"><time datetime="2022-11-14 00:00:00 +0000 UTC">Nov 14, 2022</time></div></div><div class="mb:12 py:8"><a class="f:18
+font:semibold
+f:fade-40
+f:fade-70@dark
+f:fade-10:hover
+f:fade-90:hover@dark
+text-decoration:none" href=https://geeklaunch.io/blog/modern-dearth-of-intelligent-crypto/>The modern dearth of intelligent crypto</a><div class="mt:12 f:14 f:fade-60"><time datetime="2022-11-13 00:00:00 +0000 UTC">Nov 13, 2022</time></div></div><div class="mb:12 py:8"><a class="f:18
+font:semibold
+f:fade-40
+f:fade-70@dark
+f:fade-10:hover
+f:fade-90:hover@dark
+text-decoration:none" href=https://geeklaunch.io/blog/fathomable-rust-macros/>Fathomable Rust Macros</a><div class="mt:12 f:14 f:fade-60"><time datetime="2022-10-25 00:00:00 +0000 UTC">Oct 25, 2022</time></div></div><div class="mb:12 py:8"><a class="f:18
+font:semibold
+f:fade-40
+f:fade-70@dark
+f:fade-10:hover
+f:fade-90:hover@dark
+text-decoration:none" href=https://geeklaunch.io/blog/how-to-speed-up-your-code-using-graphs/>How to speed up your code 224,444,739% using graphs</a><div class="mt:12 f:14 f:fade-60"><time datetime="2022-08-06 00:00:00 +0000 UTC">Aug 6, 2022</time></div></div><div class="mb:12 py:8"><a class="f:18
+font:semibold
+f:fade-40
+f:fade-70@dark
+f:fade-10:hover
+f:fade-90:hover@dark
+text-decoration:none" href=https://geeklaunch.io/blog/the-state-of-web3-in-2022/>The State of Web3 in 2022</a><div class="mt:12 f:14 f:fade-60"><time datetime="2022-06-22 00:00:00 +0000 UTC">Jun 22, 2022</time></div></div><div class="mb:12 py:8"><a class="f:18
+font:semibold
+f:fade-40
+f:fade-70@dark
+f:fade-10:hover
+f:fade-90:hover@dark
+text-decoration:none" href=https://geeklaunch.io/blog/storage-locations-in-ethereum-vs-near/>Storage Locations in Ethereum vs. NEAR</a><div class="mt:12 f:14 f:fade-60"><time datetime="2021-12-21 00:00:00 +0000 UTC">Dec 21, 2021</time></div></div><div class="mb:12 py:8"><a class="f:18
+font:semibold
+f:fade-40
+f:fade-70@dark
+f:fade-10:hover
+f:fade-90:hover@dark
+text-decoration:none" href=https://geeklaunch.io/blog/introducing-compulang-podcast/>Introducing the Compulang Podcast</a><div class="mt:12 f:14 f:fade-60"><time datetime="2020-09-13 14:14:24 -0500 -0500">Sep 13, 2020</time></div></div><div class="mb:12 py:8"><a class="f:18
+font:semibold
+f:fade-40
+f:fade-70@dark
+f:fade-10:hover
+f:fade-90:hover@dark
+text-decoration:none" href=https://geeklaunch.io/blog/how-to-verify-domain-name-on-github-with-namecheap/>How to Verify a Domain Name on GitHub with Namecheap</a><div class="mt:12 f:14 f:fade-60"><time datetime="2020-01-27 17:10:36 -0600 -0600">Jan 27, 2020</time></div></div><div class="mb:12 py:8"><a class="f:18
+font:semibold
+f:fade-40
+f:fade-70@dark
+f:fade-10:hover
+f:fade-90:hover@dark
+text-decoration:none" href=https://geeklaunch.io/blog/what-does-my-rsa-public-key-actually-mean/>What does my RSA public key actually mean?</a><div class="mt:12 f:14 f:fade-60"><time datetime="2020-01-22 23:03:42 -0600 -0600">Jan 22, 2020</time></div></div></ul></div><footer class="py:24 f:fade-50 f:fade-60@dark f:14 d:flex flex:col gap:8"><p>&copy; Copyright 2022 Jacob Lindahl</p><p class="d:flex
+{p:5}_a
+{w:18;fill:fade-50}_svg
+{fill:fade-60}_svg@dark
+{fill:fade-10}_a:hover_svg
+{fill:fade-90}_a:hover_svg@dark"><a href=https://youtube.com/GeekLaunch title=YouTube><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186A3.016 3.016.0 0021.376 4.05C19.505 3.545 12 3.545 12 3.545s-7.505.0-9.377.505A3.017 3.017.0 00.502 6.186C0 8.07.0 12 0 12s0 3.93.502 5.814a3.016 3.016.0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505.0 9.377-.505a3.015 3.015.0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span class=sr-only>YouTube channel</span></a>
+<a href=https://twitter.com/Geek_Launch title=Twitter><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Twitter</title><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958.0 002.163-2.723c-.951.555-2.005.959-3.127 1.184A4.92 4.92.0 0011.78 8.288C7.69 8.095 4.067 6.13 1.64 3.162A4.822 4.822.0 00.974 5.637c0 1.71.87 3.213 2.188 4.096A4.904 4.904.0 01.934 9.117v.06a4.923 4.923.0 003.946 4.827 4.996 4.996.0 01-2.212.085 4.936 4.936.0 004.604 3.417A9.867 9.867.0 011.17 19.611c-.39.0-.779-.023-1.17-.067a13.995 13.995.0 007.557 2.209c9.053.0 13.998-7.496 13.998-13.985.0-.21.0-.42-.015-.63A9.935 9.935.0 0024 4.59z"/></svg><span class=sr-only>Twitter profile</span></a>
+<a rel=me href=https://techhub.social/@geeklaunch title=Mastodon><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Mastodon</title><path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792.0 11.813.0h-.03c-3.98.0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057.0 00.023-.043v-1.809a.052.052.0 00-.02-.041.053.053.0 00-.046-.01 20.282 20.282.0 01-4.709.545c-2.73.0-3.463-1.284-3.674-1.818a5.593 5.593.0 01-.319-1.433.053.053.0 01.066-.054c1.517.363 3.072.546 4.632.546.376.0.75.0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23.0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112.0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311.0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13.0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z"/></svg><span class=sr-only>Mastodon profile</span></a></p></footer></div></div></body></html>
