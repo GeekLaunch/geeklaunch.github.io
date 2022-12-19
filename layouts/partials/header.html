@@ -18,7 +18,13 @@
         align-items:center
     ">
         <a href="/" class="block mr:3 p:8 filter:brightness(1.5):hover ~filter|0.1s">
-            <img class="w:40" src="{{ .Site.Params.logo }}" title="{{ .Site.Title }}" alt="{{ .Site.Title }} logo">
+            {{ $logo := resources.Get .Site.Params.logo }}
+            {{ $logo_4x := $logo.Resize "160x" }}
+            {{ $logo_2x := $logo.Resize "80x" }}
+            {{ $logo_1x := $logo.Resize "40x" }}
+            {{ $srcset := printf "%s, %s 2x, %s 4x" $logo_1x.RelPermalink $logo_2x.RelPermalink $logo_4x.RelPermalink }}
+            <img width="40" srcset="{{ $srcset }}" src="{{ $logo_1x.RelPermalink }}" title="{{ .Site.Title }}"
+                alt="{{ .Site.Title }} logo">
         </a>
 
         <div class="
