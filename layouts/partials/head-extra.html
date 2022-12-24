@@ -1,86 +1,75 @@
 {{ template "_internal/google_analytics.html" . }}
 <style>
-html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 2em;
-}
-
-@media (min-width: 768px) {
     html {
-        scroll-padding-top: 64px;
-    }
-}
-
-.table {
-    display: initial;
-}
-
-@keyframes highlight {
-    0% {
-        background-color: rgba(226, 230, 30, 0.4);
-        outline: 0.2rem solid rgba(226, 230, 30, 0.4);
+        scroll-behavior: smooth;
+        scroll-padding-top: 2em;
     }
 
-    100% {
-        background-color: unset;
-        outline: 0.2rem solid transparent;
+    @media (min-width: 768px) {
+        html {
+            scroll-padding-top: 64px;
+        }
     }
-}
 
-:target {
-    animation: highlight 1.2s forwards;
-}
+    .table {
+        display: initial;
+    }
+
+    @keyframes highlight {
+        0% {
+            background-color: rgba(226, 230, 30, 0.4);
+            outline: 0.2rem solid rgba(226, 230, 30, 0.4);
+        }
+
+        100% {
+            background-color: unset;
+            outline: 0.2rem solid transparent;
+        }
+    }
+
+    :target {
+        animation: highlight 1.2s forwards;
+    }
+
 </style>
 <script>
-(() => {
-    document.addEventListener('DOMContentLoaded', () => {
-        hljs.highlightAll();
+    (() => {
+        document.addEventListener('DOMContentLoaded', () => {
+            hljs.highlightAll();
 
-        const themes = new window.Themes();
-        window.themes = themes;
+            const themes = new window.Themes();
+            window.themes = themes;
 
-        const updateSyntaxTheme = () => {
-            const darkStylesheet = document.getElementById('highlight-theme-dark');
-            const lightStylesheet = document.getElementById('highlight-theme-light');
-            if (themes.documentTheme === 'dark') {
-                lightStylesheet.disabled = true;
-                darkStylesheet.disabled = false;
-            } else {
-                lightStylesheet.disabled = false;
-                darkStylesheet.disabled = true;
-            }
-        };
+            const updateSyntaxTheme = () => {
+                const darkStylesheet = document.getElementById('highlight-theme-dark');
+                const lightStylesheet = document.getElementById('highlight-theme-light');
+                if (themes.documentTheme === 'dark') {
+                    lightStylesheet.disabled = true;
+                    darkStylesheet.disabled = false;
+                } else {
+                    lightStylesheet.disabled = false;
+                    darkStylesheet.disabled = true;
+                }
+            };
 
-        updateSyntaxTheme();
-
-        themes.onChange = (theme) => {
             updateSyntaxTheme();
-        };
 
-        // Create individual header links
-        const tableOfContents = document.getElementById('TableOfContents');
+            themes.onChange = (theme) => {
+                updateSyntaxTheme();
+            };
 
-        if (tableOfContents) {
-            const links = Array.from(tableOfContents.querySelectorAll('a[href]'));
-
-            links.forEach(link => {
-                const linkTargetId = link.getAttribute('href').split('#')[1];
-                if (!linkTargetId) {
-                    return;
-                }
-
-                const target = document.getElementById(linkTargetId);
-                if (!target) {
-                    return;
-                }
-
-                const anchor = document.createElement('a');
-                anchor.href = '#' + linkTargetId;
-                anchor.className = 'headingAnchor';
-                anchor.innerText = '#';
-                target.insertAdjacentElement('afterbegin', anchor);
+            // Copy code button
+            const copyCodeButtons = document.getElementsByClassName('copy-code-button');
+            Array.from(copyCodeButtons).forEach(e => {
+                e.style.display = '';
             });
-        }
-    });
-})();
+            const clip = new ClipboardJS(copyCodeButtons);
+            clip.on('success', e => {
+                e.trigger.textContent = 'Copied!';
+                e.trigger.addEventListener('blur', () => {
+                    e.trigger.textContent = 'Copy';
+                }, { once: true });
+            });
+        });
+    })();
 </script>

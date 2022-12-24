@@ -1,0 +1,6 @@
+{{ partial "imgset.html" (dict
+    "factors" (slice 1.5 2 4)
+    "resource" (resources.Get (printf "img/blog/%s" .Destination))
+    "alt" .Text
+    "title" .Title
+) }}

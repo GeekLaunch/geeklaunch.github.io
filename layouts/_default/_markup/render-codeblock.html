@@ -1,0 +1,7 @@
+{{ $class := .Attributes.class | default "" }}
+{{ $lang := .Attributes.lang | default .Type }}
+{{ $id := printf "codeblock-%v" .Ordinal }}
+<div class="codeblock ">
+    <button style="display:none" class="copy-code-button" data-clipboard-target="#{{ $id }}">Copy</button>
+    <pre><code class="{{ $class }} language-{{ $lang }}" id="{{ $id }}">{{ .Inner }}</code></pre>
+</div>

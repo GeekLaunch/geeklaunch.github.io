@@ -1,7 +1,9 @@
 baseURL = "https://geeklaunch.io"
 copyright = "Jacob Lindahl"
+defaultContentLanguage = "en"
 disableKinds = ["taxonomy", "taxonomyTerm"]
 googleAnalytics = "G-DMBPKLBF8X"
+hasCJKLanguage = true
 ignoreFiles = ["\\.psd$"]
 languageCode = "en-us"
 title = "GeekLaunch"
@@ -22,7 +24,6 @@ unsafe = true
 [markup]
 [markup.highlight]
 anchorLineNos = false
-codeFences = false
 guessSyntax = false
 hl_Lines = ""
 lineAnchors = ""

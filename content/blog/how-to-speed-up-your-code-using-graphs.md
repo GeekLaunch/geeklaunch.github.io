@@ -38,11 +38,13 @@ We could store a word as a hash set, array, or vector of characters, or a string
 
 Let's think of our integer as a list of 32 on-off switches. We can assign each letter of the alphabet to a switch (a = 0, b = 1, &hellip;), and encode a word by switching on the bits corresponding to the letters in the word. We'll have 6 bits left over, since the alphabet only contains 26 letters.
 
-    "bread" = 0b100000000000011011 = 131099
-             ...rqponmlkjihgfedcba
+```text
+"bread" = 0b100000000000011011      = 131099
+         ...rqponmlkjihgfedcba
 
-    "chunk" = 0b100000010010010000100 = 1057924
-             ...utsrqponmlkjihgfedcba
+"chunk" = 0b100000010010010000100   = 1057924
+         ...utsrqponmlkjihgfedcba
+```
 
 Bitwise operations will come in handy now!
 
@@ -52,13 +54,17 @@ Not only are bitwise operations useful, they're also _really freaking fast_. The
 
 To calculate a solution, we'll progressively create a bitmask of the words in the solution so far.
 
-    "bread" | "chunk" = 0b100100010010010011111 = 1189023
-                       ...utsrqponmlkjihgfedcba
+```text
+"bread" | "chunk" = 0b100100010010010011111 = 1189023
+                   ...utsrqponmlkjihgfedcba
+```
 
 Then we'll check new words against the bitmask to see if they're allowed to join the partial solution.
 
-    ("bread" | "chunk") & "witch" == 0 ? ❌
-    ("bread" | "chunk") & "imply" == 0 ? ✅
+```text
+("bread" | "chunk") & "witch" == 0 ? ❌
+("bread" | "chunk") & "imply" == 0 ? ✅
+```
 
 ## Graphs
 
@@ -66,13 +72,13 @@ How do we decide which words to try to add to our solution? If we try _every sin
 
 To do this, we'll create a [graph](<https://en.wikipedia.org/wiki/Graph_(abstract_data_type)>). Specifically, we'll be creating a [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph). Each node in the graph will be a word. Edges will point from a word (A) to a later word (B) when the words (A) and (B) are disjoint. Our words have a well-defined ordering (since they are just numbers), so a "later word" is a word whose 32-bit integer encoding represents a higher number.
 
-    Node            Encoding        Edges
-
-    "bread"         131099          ["chunk", "imply"]
-    "anger"         139345          ["witch", "imply"]
-    "chunk"         1057924         ["imply"]
-    "witch"         4718980         []
-    "imply"         16816384        []
+| Node      | Encoding   | Edges                |
+| --------- | ---------- | -------------------- |
+| `"bread"` | `131099`   | `["chunk", "imply"]` |
+| `"anger"` | `139345`   | `["witch", "imply"]` |
+| `"chunk"` | `1057924`  | `["imply"]`          |
+| `"witch"` | `4718980`  | `[]`                 |
+| `"imply"` | `16816384` | `[]`                 |
 
 We only need to have edges pointing to later disjoint words (and not to _all_ disjoint words) because the order of the words in the solution doesn't matter. If a solution contains word (A) and word (B), our algorithm will discover the solution regardless of which word it encounters first. Having only the single edge from (A) to (B) and not also vice-versa means that the algorithm can still discover the solution containing both (A) and (B) when it encounters (A), but when it traverses (B), it excludes (A) from future (duplicate) traversals.
 
@@ -101,16 +107,18 @@ panic = "abort"
 
 ## Final Product
 
-    $ time ./target/release/jotto-problem
+```text
+$ time ./target/release/jotto-problem
 
-    [solutions output]
+[solutions output]
 
-    Found 537 solutions that are 5 words long
+Found 537 solutions that are 5 words long
 
-    ________________________________________________________
-    Executed in    1.23 secs    fish           external
-       usr time    1.28 secs    0.14 millis    1.28 secs
-       sys time    0.04 secs    1.05 millis    0.04 secs
+________________________________________________________
+Executed in    1.23 secs    fish           external
+    usr time    1.28 secs    0.14 millis    1.28 secs
+    sys time    0.04 secs    1.05 millis    0.04 secs
+```
 
 Not bad for a laptop!
 

@@ -54,4 +54,4 @@
 {{- end -}}
 {{- $srcsetStr := delimit $srcset ", " -}}
 <img width="{{ .width }}" height="{{ .height }}" {{ printf "srcset=\"%s\"" $srcsetStr | safeHTMLAttr }}
-    src="{{ $base }}" alt="{{ .alt | default "" }}">
+    src="{{ $base }}" alt="{{ .alt | default "" }}" title="{{ .title | default "" }}">
