@@ -11,59 +11,48 @@ My professional software engineering experience includes two medical software co
 
 I'm experienced with many technologies and programming languages, including:
 
-<details>
-  <summary>Front-end web</summary>
-  <ul>
-    <li>HTML/CSS/JavaScript</li>
-    <li>TypeScript</li>
-    <li>Angular</li>
-    <li>React</li>
-    <li>Vue</li>
-    <li>Sass/SCSS</li>
-  </ul>
-</details>
-<details>
-  <summary>Server-side</summary>
-  <ul>
-    <li>Node.js</li>
-    <li>Microsoft SQL</li>
-    <li>MySQL</li>
-    <li>PostgreSQL</li>
-  </ul>
-</details>
-<details>
-  <summary>Applications programming</summary>
-  <ul>
-    <li>Rust</li>
-    <li>WebAssembly</li>
-    <li>AssemblyScript</lI>
-    <li>C#</li>
-    <li>Java</li>
-    <li>Python 3</li>
-    <li>C</li>
-    <li>Ocaml</li>
-  </ul>
-</details>
-<details>
-  <summary>Distributed ledger technology &amp; smart contract development</summary>
-  <ul>
-    <li><a href="https://ethereum.org/">Ethereum</a> blockchain</li>
-    <li>Solidity</li>
-    <li><a href="https://near.org/">NEAR</a> blockchain</li>
-    <li><a href="https://algorand.org/">Algorand</a> blockchain</li>
-    <li>TEAL/PyTEAL</li>
-  </ul>
-</details>
-<details>
-  <summary>Other technologies</summary>
-  <ul>
-    <li>Linux</li>
-    <li>Hugo</li>
-    <li>Git</li>
-    <li>GitHub</li>
-    <li>JIRA</li>
-  </ul>
-</details>
+{{%collapse title="Front-end web" %}}
+  - HTML/CSS/JavaScript
+  - TypeScript
+  - Angular
+  - React
+  - Vue
+  - Sass/SCSS
+{{%/collapse%}}
+
+{{%collapse title="Server-side" %}}
+  - Node.js
+  - Microsoft SQL
+  - MySQL
+  - PostgreSQL
+{{%/collapse%}}
+
+{{%collapse title="Applications programming" %}}
+  - Rust
+  - WebAssembly
+  - [AssemblyScript](https://www.assemblyscript.org/)
+  - C#
+  - Java
+  - Python 3
+  - C
+  - Ocaml
+{{%/collapse%}}
+
+{{%collapse title="Distributed ledger technology & smart contract development" %}}
+  - [Ethereum](https://ethereum.org/) blockchain
+  - Solidity
+  - [NEAR](https://near.org/) blockchain
+  - [Algorand](https://algorand.org/) blockchain
+  - [TEAL](https://developer.algorand.org/docs/get-details/dapps/avm/teal/)/[PyTEAL](https://github.com/algorand/pyteal)
+{{%/collapse%}}
+
+{{%collapse title="Other technologies" %}}
+  - Linux
+  - [Hugo](https://gohugo.io/)
+  - Git
+  - GitHub
+  - JIRA
+{{%/collapse%}}
 
 I use the [Hugo static site generator](https://gohugo.io/) to maintain this website.
 

@@ -34,9 +34,6 @@
     <aside>
         <details class="
             ml:12_ul
-            bl:2
-            bl:fade-86
-            bl:fade-40@dark
             mb:24
             py:4
             pl:12
@@ -49,14 +46,15 @@
             {text-decoration-color:fade-60;color:fade-90}_a:hover@dark
         ">
             <summary class="
+                mb:4
                 cursor:pointer
                 font-weight:semibold
                 color:fade-40
                 color:fade-80@dark
                 color:fade-70::marker
                 color:fade-50::marker@dark
-            ">Contents</summary>
-            {{ .TableOfContents }}
+            ">Outline</summary>
+            {{- .TableOfContents -}}
         </details>
     </aside>
     {{ end }}
