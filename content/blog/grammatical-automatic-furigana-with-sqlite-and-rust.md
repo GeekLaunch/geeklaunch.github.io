@@ -1,8 +1,8 @@
 ---
-title: "Fast, grammatical, automatic furigana with SQLite and Rust"
-date: 2022-12-29
-draft: true
-description: "Autoruby: An exercise in fast text processing."
+title: "Grammatical, automatic furigana with SQLite and Rust"
+date: 2023-02-01
+draft: false
+description: "`autoruby`: an exercise in text processing."
 author: Jacob Lindahl
 twitter: sudo_build
 license:
@@ -10,9 +10,9 @@ license:
   link: https://creativecommons.org/licenses/by-sa/4.0/
 ---
 
-I started working on a personal project that I'm calling [`autoruby`](https://github.com/encody/autoruby). Its target user is somewhat niche: the tech-savvy, non-fluent reader of the Japanese language. Therefore, although I will briefly explain the problem the project is trying to solve, don't be too worried if it isn't entirely clear: at its core, we're just storing and looking up data in a relatively uncomplicated fashion, and the point of this article is not to teach Japanese, but to describe a solution to an interesting problem.
+I started working on a personal project that I'm calling [`autoruby`](https://github.com/encody/autoruby). Its target user is somewhat niche: the tech-savvy, non-fluent reader of the Japanese language. Therefore, although I will briefly explain the problem the project is trying to solve, don't be too worried if it isn't entirely clear: at its core, we're just storing and looking up data, and the point of this article is not to teach Japanese, but to describe a solution to an interesting problem.
 
-(There's a decent amount of introductory material to this post that you're more than welcome to read if you want to get the full context, but if you're just here for some juicy, _"blazingly fast"_ Rust content, [skip down to here](#furigana-acquisition).)
+(There's a decent amount of introductory material to this post that you're more than welcome to read if you want to get the full context, but if you're just here for some juicy, marginally _"blazingly fast"_ Rust content, [skip down to here](#furigana-acquisition).)
 
 ## The problem
 
@@ -68,7 +68,7 @@ A single kanji may be a word all by itself, or part of a larger word:
 
 All of these factors mean that it can sometimes be difficult to discern what the intended reading of a particular word is. Maybe it's ambiguous, rare, or a word the author constructed. On top of that, if you're a learner of Japanese, maybe you simply haven't learned that character yet, so you don't know how it's pronounced.
 
-Therefore, sometimes authors will add pronunciation guides to their documents. In Japanese, pronunciation guides are placed above (in horizontal LTR texts) or to the right of (in vertical RTL texts) the words they are describing. The pronunciation guides are called "furigana." Furigana is typeset using [ruby annotations](https://en.wikipedia.org/wiki/Ruby_character).
+Therefore, sometimes authors will add pronunciation guides to their documents. In Japanese, pronunciation guides are placed above (in horizontal LTR texts) or to the right of (in vertical RTL texts) the words they are describing. The pronunciation guides are called "furigana." Furigana are typeset using [ruby annotations](https://en.wikipedia.org/wiki/Ruby_character).
 
 If your browser supports the [`<ruby>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ruby) element, the below text should appear with furigana in the correct position:
 
@@ -132,11 +132,16 @@ Believe it or not, this is the easy part, since a Rust library already exists fo
 
 A better solution would probably use some combination of word and kanji frequency lists or a user-defined reader proficiency level to automatically choose which words need furigana, and a user-defined flag to indicate when a word should get a custom reading would be good, too.
 
-However, for the basic version of this tool, we'll simply blindly apply furigana to every single word that contains a kanji character. Since kanji are pretty easy to detect (just by [Unicode code point](http://www.rikai.com/library/kanjitables/kanji_codes.unicode.shtml)), this will be our fast-and-easy, "good enough for now" solution.
+For the most basic version of this tool, we could simply blindly apply furigana to every single word that contains a kanji character. Since kanji are pretty easy to detect (just by [Unicode code point](http://www.rikai.com/library/kanjitables/kanji_codes.unicode.shtml)), this would be a fast-and-easy, "good enough for now" solution.
+
+Of course, we can do a _little_ bit better than that. At the time of writing, the de-facto standard dictionary for open-source Japanese/English language projects is [JMdict](http://jmdict.org/), and it contains a lot of information, from furigana (which we'll be using later) to word frequency. Since the average reader is more likely to know how to read more frequently-used words, we'll assume that a common word is an easy-to-read word. Actually, JMdict provides quite a few different [frequency rankings](https://www.edrdg.org/wiki/index.php/JMdict-EDICT_Dictionary_Project#Word_Priority_Marking). To reduce cognitive load on the user, `autoruby` will have two modes:
+
+1. Add furigana to every word with kanji characters.
+2. Add furigana to words with kanji characters that are determined to not be common.
 
 ### Furigana acquisition
 
-Now that we know for which words we must generate readings, and what the uninflected forms of those words are, we can simply look them up in a furigana dictionary.[^assumptions]
+Now that we know for which words we must generate readings, and what the uninflected forms of those words are, we can simply look them up in a furigana dictionary.[^assumptions] The furigana data from JMdict have been extracted as part of [the JmdictFurigana project on GitHub](https://github.com/Doublevil/JmdictFurigana).
 
 [^assumptions]: The solution I'm proposing assumes:
 
@@ -144,8 +149,6 @@ Now that we know for which words we must generate readings, and what the uninfle
     - Inflections only change the end of a word.
 
     These are by-and-large true, but I'm not sure whether they are always true.
-
-At the time of writing, the de-facto standard dictionary for open-source Japanese/English language projects is [JMdict](http://jmdict.org/). This dictionary contains more than enough information for our purposes. In fact, way _too_ much: we only need the furigana information. Luckily, this data has been extracted as part of [the JmdictFurigana project on GitHub](https://github.com/Doublevil/JmdictFurigana).
 
 Great! So we can just use these files, right?
 
@@ -157,11 +160,11 @@ Whatever shall we do?
 
 ## The _speedy_
 
-Here's the plane: we'll parse the data out of the text file and insert it into an SQLite database, which can be queried faster than a text file can be scanned.
+Here's the plan: we'll parse the data out of the text file and insert it into an SQLite database, which can be queried faster than a text file can be scanned.
 
 ### Parsing the text file
 
-Even though this is a step we really only have to do once (or, only as often as the source dictionary is updated), we're still going to make it fast.
+Even though this is a step we really only have to do once (or, only as often as the source dictionary is updated), we're still going to try to make it fast.
 
 #### A brief introduction to `nom`
 
@@ -282,7 +285,7 @@ Each line of the text looks like this:
    2. A colon `:`.
    3. A hiragana string: the pronunciation of the [lower bound, upper bound] substring of the word with kanji.
 
-Luckily, it is not difficult to write a parser for this pattern. The most complex bit is the numerical range parsing, which has already been shown in the second code listing.
+Luckily, it is not difficult to write [a parser for this pattern](https://github.com/encody/autoruby/blob/8b19b85a96c0ed7d5c48c0ea7ff7f837e578cad7/autoruby/src/parse.rs). The most complex bit is the numerical range parsing, which has already been shown in the second code listing.
 
 ### Inserting into a database
 
@@ -300,7 +303,7 @@ for line in text_file.lines():
 
 {{%/collapse%}}
 
-Instead, we'll stream in the contents of the input file, reading it line-by-line. This is the kind of thing that `std::io::BufReader` was built for. As the lines are streaming in, we'll build up an SQL transaction of insert statements. Individual insert statements take too long to execute, so we'll batch them in groups of 1000 inserts per transaction.
+Instead, we'll stream in the contents of the input file, reading it line-by-line. This is the kind of thing that [`std::io::BufReader`](https://doc.rust-lang.org/std/io/struct.BufReader.html) was built for. As the lines are streaming in, we'll build up an SQL transaction of insert statements. Individual insert statements take too long to execute, so we'll batch them in groups of 1000 inserts per transaction.
 
 {{%collapse title="Listing: Better insertion algorithm (pseudocode)"%}}
 
@@ -321,3 +324,53 @@ commit_database_transaction()
 ```
 
 {{%/collapse%}}
+
+### Finding the correct readings
+
+Our work is far from over. We can't just go looking up words in our database and applying the readings willy-nilly!
+
+Our morphological analyzer has a bit of an issue: sometimes it can be a bit _too_ aggressive with tokenizing the input. Here's an example of what I mean. If we give the tokenizer `"方程式"` ("ほうていしき" / "houteishiki" / equation) as input, it correctly returns a single token `["方程式"]`, which we can then look up in our dictionary. However, if we give it `"全単射"` ("ぜんたんしゃ" / "zentansha" / bijection), it divides it up into its constituent characters, returning each as a separate token: `["全", "単", "射"]`.
+
+This is a problem because, [as discussed previously](#kanji), the way that kanji characters are combined affects how they are pronounced, so the tokenizer occasionally giving us back individual characters as tokens somewhat hampers our ability to look them up in the furigana dictionary.
+
+I don't intend to write my own morphological analyzer, as that is way beyond my realm of expertise. Instead, we'll make do with what we have.
+
+Here's the idea: buffer consecutive kanji tokens until their concatenation no longer appears as a prefix of any of the entries in our furigana dictionary, then find the longest concatenation of the buffered tokens that is a complete entry in the dictionary. [Here's the actual implementation of this algorithm at the time of writing](https://github.com/encody/autoruby/blob/07fe8c4cebb3aa70fbd4902b02b12ab56e264403/autoruby/src/annotate.rs#L338-L425). (I'll be honest: this is the closest I've come to writing manual pointer arithmetic in Rust.)
+
+## The result
+
+I also wrote a simple CLI that makes the tool a little easier to use. Below are the results of processing [an arbitrary book from Project Gutenberg](https://www.gutenberg.org/ebooks/36358). The test data is 100,845 bytes.
+
+```text
+time autoruby annotate in.txt out.md --mode markdown
+
+real    20m31.788s
+user    0m0.015s
+sys     0m0.062s
+```
+
+Well, that's disappointing.
+
+Actually, it's just the database thrashing around. If we implement [some basic memoization](https://github.com/encody/autoruby/blob/07fe8c4cebb3aa70fbd4902b02b12ab56e264403/autoruby/src/annotate.rs#L196-L198), the speed-up is tremendous:
+
+```text
+time autoruby annotate in.txt out.md --mode markdown
+
+real    1m53.411s
+user    0m0.000s
+sys     0m0.000s
+```
+
+That's only about 889 bytes per second, which still isn't great, but at least it's usable.
+
+## The future
+
+I'm trying to read more e-books in Japanese, so I think this tool could come in handy. Therefore, adding support for EPUB files is on the agenda. (Right now, only extremely basic text-based formats are supported.) It would also be neat to add an interactive CLI, so the user could manually select which readings to apply where and when. Finally, the long-shot is to make a browser extension that integrates with Google Docs and _finally_ makes it support furigana.
+
+This is also a highly-parallelizable task&mdash;so long as we split up the text at known sentence separators, there should be no effect on the generated readings, so this should be a fairly easy application to make multithreaded.
+
+Until then, this was a really fun project, and I'm planning to continue working on it in my spare time going forward.
+
+If you haven't already, I'd appreciate it if you'd [check out the project](https://github.com/encody/autoruby), maybe try it out, and give it a star?
+
+{{% bio %}}
