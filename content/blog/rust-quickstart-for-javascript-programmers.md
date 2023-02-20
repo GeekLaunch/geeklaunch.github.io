@@ -194,6 +194,23 @@ let currency_symbol: char = '$';
 let kanji_character: char = '字';
 ```
 
+#### Strings
+
+This can be a bit of a tricky topic in Rust, because there are a few different string types to think about. However, you usually only need to worry about two:
+
+- `String` is a heap-allocated string that can be mutated in-place. This is called an "owned string".
+- `&str` is a fixed-length (sometimes stack-allocated) string that cannot be mutated. This can be called a "string slice" or "string reference".
+
+(Technically this is a bit of an oversimplification, but it will get you 90% of the way there. Once we've gone over [references](#references) and ownership we can come back to this topic.)
+
+For now, you can convert between the two string types fairly easily:
+
+```rust
+let my_str: &str = "hello";
+let my_string: String = my_str.to_string();
+let another_str: &str = &my_string;
+```
+
 #### Arrays
 
 Arrays are fixed-length, homogenous collections delimited by square brackets `[]` with elements separated by commas `,`. Note the type signature takes the form of `[<element-type>; <length>]`.
@@ -265,15 +282,221 @@ This can be useful when you wish to change the type or mutability of an identifi
 
 #### Scoping
 
-### Control flow
+Identifiers in Rust are block-scoped, meaning that an identifier declared within a set of curly braces `{}` is inaccessible outside of the braces.
 
-#### Operators
+```rust
+fn main() {
+    let x = 0;
+    { // `y` only exists in this scope
+        let y = 1;
+        println!("{} {}", x, y);
+    } // scope ends
+    println!("{} {}", x, y); // `y` is out of scope
+}
+```
 
-### Custom data structures
+Output:
+
+```text
+error[E0425]: cannot find value `y` in this scope
+ --> src/main.rs:7:26
+  |
+7 |     println!("{} {}", x, y); // `y` is out of scope
+  |                          ^ help: a local variable with a similar name exists: `x`
+```
+
+### More data structures
+
+If you wanted to, you could probably do most of your programming with just the primitive data structures described above (arrays, tuples, and primitives). However, Rust still has more to offer.
 
 #### Structs
 
+To a programmer familiar with an object-oriented or classical style of programming, structs should feel familiar. They look and often feel very similar to a class or dictionary-esque value.
+
+First, we define the type:
+
+```rust
+struct BlogPost {
+    title: String,
+    text: String,
+    author: String,
+    timestamp: u64,
+}
+```
+
+Then, to create an instance:
+
+```rust
+let mut post = BlogPost {
+    title: "Rust quickstart for JavaScript programmers".to_string(),
+    text: "So, you want to learn Rust, and fast...".to_string(),
+    author: "Jacob Lindahl".to_string(),
+    timestamp: 1600000000000,
+};
+```
+
+Member access:
+
+```rust
+// read
+println!("{}", post.title);
+
+// mutate
+post.author = "John Doe".to_string();
+```
+
+Now, really, structs are just a way to give nice labels to pieces of a tuple. This is evident in some of the other ways you can declare a struct type:
+
+```rust
+struct MyTupleStruct(u8);
+struct RGBColor(u8, u8, u8);
+struct RGBAColor(u8, u8, u8, u8);
+```
+
+If you're familiar with [the newtype pattern](https://wiki.haskell.org/Newtype), this is usually how it is implemented in Rust.
+
+If you really want, you can also create [completely empty structs](https://stackoverflow.com/q/50162597):
+
+```rust
+struct LiterallyNothing;
+```
+
+While these may not initially seem to be useful, implementing some [traits](#traits) on them may change that.
+
 #### Enums
+
+[Rust's enums are one of its most powerful features](https://www.youtube.com/watch?v=Epwlk4B90vk). Although languages like Java and TypeScript offer a primitive form of enum, Rust's are fully-featured sum types, implemented as tagged unions.
+
+If you're coming from a language like Java, the most basic enum will look pretty familiar:
+
+```rust
+enum LogLevel {
+    Error,
+    Warn,
+    Info,
+    Debug,
+}
+```
+
+However, Rust is just getting started. Each variant of an enum can contain data, just like a struct or a tuple.
+
+```rust
+enum ImageFilter {
+    InvertColors,
+    Blur(f64),
+    HueRotate(f64),
+    DropShadow {
+        x: f64,
+        y: f64,
+        blur: f64,
+        color: String,
+    },
+}
+```
+
+The power doesn't end there: keep reading for more!
+
+### Control flow
+
+Rust has most of the control flow expressions you may expect, and a few you may not.
+
+#### `if`
+
+Compared to other curly-brace languages (like C++, Java, and JavaScript), Rust's `if` statements have two notable differences:
+
+- Lack of the requirement for the condition expression to be enclosed in parentheses.
+  {{%collapse title="Example"%}}
+  **Rust**
+  ```rust
+  if a > b {
+      // ...
+  }
+  ```
+  **JavaScript, etc.**
+  ```javascript
+  if (a > b) {
+    // ...
+  }
+  ```
+  {{%/collapse%}}
+- `if` structures in Rust can be expressions as well as just normal statements. That is, they can resolve to a value like a ternary expression in JavaScript.
+  {{%collapse title="Example"%}}
+  **Rust**
+  ```rust
+  let value = if a > b { a + b } else { a * b };
+  ```
+  **JavaScript**
+  ```javascript
+  let value = a > b ? a + b : a * b;
+  ```
+  {{%/collapse%}}
+
+#### `while` & `loop`
+
+Rust has two looping structures. `loop` is the simplest: it just loops forever until it hits a `break`. `while`, like its namesake in other languages, loops while a condition holds (or until it hits a `break`). Similarly in style to the `if` statement, the `while` condition does not need to be enclosed in parentheses.
+
+```rust
+let mut x = 0;
+loop {
+    if x >= 10 {
+        break;
+    }
+    x += 1;
+}
+```
+
+```rust
+let mut x = 0;
+while x < 10 {
+    x += 1;
+}
+```
+
+#### `match`
+
+Instead of the `switch` statement found in many other common languages, Rust opted for the more "functional" `match` construct.
+
+While matching against input cases using [Rust's pattern matching syntax](https://doc.rust-lang.org/book/ch18-03-pattern-syntax.html), you can also extract pieces from the input data using [destructuring](https://doc.rust-lang.org/rust-by-example/flow_control/match/destructuring.html).
+
+```rust
+enum MediaType {
+    Movie,
+    Series { episodes: u32 },
+}
+
+let media_type: MediaType = /* ... */;
+
+match media_type {
+    MediaType::Movie => println!("It's a movie!"), // single line terminated with comma
+    MediaType::Series { episodes } => { // multi-line enclosed in curly braces
+        println!("It's a TV show!");
+        println!("It has {episodes} episodes!");
+    }
+}
+```
+
+`match` expressions, since they are _expressions_, can also resolve to a value:
+
+```rust
+let unit_count = match media_type {
+    MediaType::Series { episodes } => episodes,
+    _ => 1, // `_` is the catch-all pattern
+};
+```
+
+#### `if let`
+
+[A special version of the `if` expression](https://doc.rust-lang.org/rust-by-example/flow_control/if_let.html) can perform destructuring as well. It's like a conditional `let`.
+
+This is equivalent to the previous listing:
+
+```rust
+let unit_count = if let MediaType::Series { episodes } = media_type {
+    episodes
+} else {
+    1
+};
+```
 
 ### Traits
 
