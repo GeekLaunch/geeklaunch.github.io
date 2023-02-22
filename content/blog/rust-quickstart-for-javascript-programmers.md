@@ -433,7 +433,7 @@ Compared to other curly-brace languages (like C++, Java, and JavaScript), Rust's
 
 #### `while` & `loop`
 
-Rust has two looping structures. `loop` is the simplest: it just loops forever until it hits a `break`. `while`, like its namesake in other languages, loops while a condition holds (or until it hits a `break`). Similarly in style to the `if` statement, the `while` condition does not need to be enclosed in parentheses.
+Rust has three looping structures. `loop` is the simplest: it just loops forever until it hits a `break`. `while`, like its namesake in other languages, loops while a condition holds (or until it hits a `break`). Similarly in style to the `if` statement, the `while` condition does not need to be enclosed in parentheses.
 
 ```rust
 let mut x = 0;
@@ -451,6 +451,45 @@ while x < 10 {
     x += 1;
 }
 ```
+
+The third looping structure is the `for` loop. It operates on any iterable type.
+
+Arrays:
+
+```rust
+for i in [2, 4, 6, 8] {
+    println!("{i}");
+}
+```
+
+Output:
+
+```text
+2
+4
+6
+8
+```
+
+Ranges:
+
+```rust
+for i in 0..5 {
+    println!("{i}");
+}
+```
+
+Output:
+
+```text
+0
+1
+2
+3
+4
+```
+
+There are other iterable structures, like [`Vec`](https://doc.rust-lang.org/std/vec/struct.Vec.html) and [`HashSet`](https://doc.rust-lang.org/std/collections/struct.HashSet.html), which you can explore if you wish.
 
 #### `match`
 
@@ -510,7 +549,94 @@ let unit_count = if let MediaType::Series { episodes } = media_type {
 };
 ```
 
-### Traits
+### Adding behavior
+
+#### `impl` blocks
+
+We can add behavior to individual types with a simple `impl` block:
+
+```rust
+struct BasicGreeter {
+    greeting: String,
+}
+
+impl BasicGreeter {
+    fn greet(&self, name: &str) {
+        println!("{}, {name}!", self.greeting);
+    }
+}
+
+let g = BasicGreeter {
+    greeting: "Welcome".to_string(),
+};
+g.greet("John");
+```
+
+Output:
+
+```text
+Welcome, John!
+```
+
+The `&self` parameter is special: it causes a function to be a method, operating on an instance of a type, as opposed to an associated function, which does not necessarily operate on an instance. In object-oriented terms, functions that take a `self` parameter (or any of the variants) are like instance methods, and functions that do not are like static methods.
+
+#### Traits
+
+Traits are the primary form of abstraction in Rust. A trait describes a set of behaviors that a type implements. It's very similar to an interface in a language like Java. Actually, we've been using some traits already, in a subtle sort of way.
+
+Remember how to print things to the screen? `println!(...)`? As you probably noticed by now, we can print a bunch of different things. Numbers, strings, booleans, etc.
+
+```rust
+println!("{}, {}, {}, {}", "hello", 42, 3.14, true);
+```
+
+This is an example of abstraction: all of the different types all support the behavior of "being printed."
+
+In Rust, this behavior is described by the [`Display`](https://doc.rust-lang.org/std/fmt/trait.Display.html) trait, which is like adding a `toString` method to a class in Java.[^tostring]
+
+[^tostring]: Technically, there is a separate [`ToString`](https://doc.rust-lang.org/std/string/trait.ToString.html) trait in Rust, but everything that implements `Display` will automatically implement `ToString` as well, so it usually isn't implemented manually.
+
+All of these types (`String`, `&str`, `u32`, `f32`, `bool`, &hellip;) implement `Display`.
+
+Let's take a look at writing a trait and implementing it.
+
+```rust
+// create a trait
+trait Greeter {
+    fn greet(&self, name: &str);
+}
+
+struct MorningGreeter;
+
+// implement the trait on MorningGreeter
+impl Greeter for MorningGreeter {
+    fn greet(&self, name: &str) {
+        println!("Good morning, {name}!");
+    }
+}
+
+struct EveningGreeter;
+
+// implement the trait on EveningGreeter
+impl Greeter for EveningGreeter {
+    fn greet(&self, name: &str) {
+        println!("Good evening, {name}!");
+    }
+}
+
+let m = MorningGreeter;
+m.greet("Alice");
+
+let e = EveningGreeter;
+e.greet("Bob");
+```
+
+Output:
+
+```text
+Good morning, Alice!
+Good evening, Bob!
+```
 
 ### Nothing
 
