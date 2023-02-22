@@ -57,7 +57,7 @@ rustup update stable
 
 ### Creating a project with Cargo
 
-Let's get up-and-running as quickly as possible. If you're familiar with Node.JS, Cargo may feel a bit similar.
+Let's get up-and-running as quickly as possible. If you're familiar with Node.js, Cargo may feel a bit similar.
 
 Create a new project in the directory `hello-rust`:
 
@@ -276,7 +276,7 @@ You may have noticed that [a previous example](#tuples) re-bound the `my_tuple` 
 Uncaught SyntaxError: redeclaration of let my_tuple
 ```
 
-In Rust, however, this syntax is allowed. It simply defines another (new, discrete) identifier that just happens to _shadow_ (override the name of) another identifier.
+In Rust, however, this is allowed. It simply defines another (new, discrete) identifier that just happens to _shadow_ (override the name of) another identifier.
 
 This can be useful when you wish to change the type or mutability of an identifier.
 
@@ -456,6 +456,18 @@ while x < 10 {
 
 Instead of the `switch` statement found in many other common languages, Rust opted for the more "functional" `match` construct.
 
+```rust
+let operator = "*";
+
+match operator {
+    "+" => println!("add"),
+    "-" => println!("subtract"),
+    "*" => println!("multiply"),
+    "/" => println!("divide"),
+    _ => println!("unknown"), // `_` is the catch-all pattern
+}
+```
+
 While matching against input cases using [Rust's pattern matching syntax](https://doc.rust-lang.org/book/ch18-03-pattern-syntax.html), you can also extract pieces from the input data using [destructuring](https://doc.rust-lang.org/rust-by-example/flow_control/match/destructuring.html).
 
 ```rust
@@ -480,7 +492,7 @@ match media_type {
 ```rust
 let unit_count = match media_type {
     MediaType::Series { episodes } => episodes,
-    _ => 1, // `_` is the catch-all pattern
+    _ => 1,
 };
 ```
 
