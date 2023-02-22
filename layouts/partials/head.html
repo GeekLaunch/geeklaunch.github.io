@@ -15,7 +15,7 @@
     <meta property="og:title" content="{{ .Title }}" />
     <meta property="og:description" content="{{ .Description }}" />
     <meta property="og:url" content="{{ .Permalink }}" />
-    <meta property="og:image" content="{{ absURL site.Params.logo }}" />
+    <meta property="og:image" content="{{ (resources.Get site.Params.logo).Permalink }}" />
     <meta property="og:site_name" content="{{ site.Title }}" />
 
     <meta name="twitter:card" content="summary" />
@@ -40,7 +40,8 @@
     <script
         src='{{ (resources.GetRemote "https://cdn.jsdelivr.net/npm/highlightjs-solidity@2.0.5/dist/solidity.min.js").RelPermalink }}'></script>
 
-    <link href='{{ (resources.GetRemote "https://cdn.jsdelivr.net/npm/@master/normal.css@1.9.7/index.min.css").RelPermalink }}'
+    <link
+        href='{{ (resources.GetRemote "https://cdn.jsdelivr.net/npm/@master/normal.css@1.9.7/index.min.css").RelPermalink }}'
         rel="stylesheet">
     <script
         src='{{ (resources.GetRemote "https://cdn.jsdelivr.net/npm/@master/css@1.37.8/index.min.js").RelPermalink }}'></script>
