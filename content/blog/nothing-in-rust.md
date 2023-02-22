@@ -46,11 +46,14 @@ Rust is designed in such a way that you rarely, if ever, need to delve into the 
 
 The standard library provides the `Option` enum, with its two variants `Some` and `None`. This is the recommended way to represent a value that [may or may not be present](https://www.youtube.com/watch?v=CyxnkPOMfyQ), instead of using a null pointer. It's like a little safety wrapper, and you should probably use it unless you know what you're doing and are prepared for the consequences, or are working alone.
 
-However, there are significant differences between using a null pointer and using `None`. Aside from the use of `unsafe` and all the other things you have to be careful of when using raw pointers, `None` can vary in size, adapting to size of the thing it's surrounding. It's just a variant of an enum `Option<T>`, and if `T` is `Sized`, any `Option<T>` value will be at least as large as `T`, including `None`. `*const T` (when `T: Sized`) is always the same size as `usize`.
+However, there are significant differences between using a null pointer and using `None`. For one, `Option<T>` is an owned type, whereas a raw pointer is, well, a pointer to some space in memory.[^pointer_not_owned] This means that, aside from the use of `unsafe` and all the other things you have to be careful of when using raw pointers, `None` can vary in size, adapting to size of the thing it's surrounding. It's just a variant of an enum `Option<T>`, and if `T` is `Sized`, any `Option<T>` value will be at least as large as `T`, including `None`. `*const T` (when `T: Sized`) is always the same size as `usize`.
+
+[^pointer_not_owned]: Clarification as requested by [dkopgerpgdolfg](https://old.reddit.com/r/rust/comments/118tzzu/nothing_in_rust/j9j57n7/). It could be argued that `Option<&T>` is a closer analogue to `*const T`, depending on the situation.
 
 | Type                                                                                         | Size                     |
 | -------------------------------------------------------------------------------------------- | ------------------------ |
-| `*const u8`                                                                                  | `8` (platform-dependent) |
+| `*const T`                                                                                   | `8` (platform-dependent) |
+| `Option<&T>`                                                                                 | `8` (platform-dependent) |
 | [`Option<std::num::NonZeroU8>`](https://doc.rust-lang.org/std/num/struct.NonZeroU8.html)     | `1`                      |
 | `Option<u8>`                                                                                 | `2`                      |
 | [`Option<std::num::NonZeroU32>`](https://doc.rust-lang.org/std/num/struct.NonZeroU32.html)   | `4`                      |
