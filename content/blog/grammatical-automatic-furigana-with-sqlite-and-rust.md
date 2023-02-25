@@ -10,6 +10,8 @@ license:
   link: https://creativecommons.org/licenses/by-sa/4.0/
 ---
 
+_(Note: There is a [follow-up post]({{< ref "blog/dumping-databases-for-faster-furigana" >}}) with some optimizations to this project.)_
+
 I started working on a personal project that I'm calling [`autoruby`](https://github.com/encody/autoruby). Its target user is somewhat niche: the tech-savvy, non-fluent reader of the Japanese language. Therefore, although I will briefly explain the problem the project is trying to solve, don't be too worried if it isn't entirely clear: at its core, we're just storing and looking up data, and the point of this article is not to teach Japanese, but to describe a solution to an interesting problem.
 
 (There's a decent amount of introductory material to this post that you're more than welcome to read if you want to get the full context, but if you're just here for some juicy, marginally _"blazingly fast"_ Rust content, [skip down to here](#furigana-acquisition).)
@@ -361,7 +363,7 @@ user    0m0.000s
 sys     0m0.000s
 ```
 
-That's only about 889 bytes per second, which still isn't great, but at least it's usable.
+That's only about 889 bytes per second, which still isn't great, but at least it's usable. **(Update: See the [follow-up post]({{< ref "blog/dumping-databases-for-faster-furigana" >}}) for a significant optimization.)**
 
 ## The future
 
