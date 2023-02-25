@@ -13,13 +13,56 @@ This is a short anthology of the ways that nothing can be expressed in Rust.
 
 The idea of "nothing" has a few different interpretations when it comes to programming:
 
+- "I'm pretending like there's something here, but there actually isn't."
 - "There is nothing here now."
 - "There will never be anything here."
 - "I'm going to leave you, waiting here, empty-handed, until the end of time."
 
 While this may sound like the last thing my ex said to me, I am fine.
 
-## Null
+## "I'm pretending like there's something here, but there actually isn't."
+
+### `PhantomData`
+
+The Rust standard library is full of some really high-quality code, but there are few examples so pristine as [`std::marker::PhantomData`](https://doc.rust-lang.org/std/marker/struct.PhantomData.html).[^phantomdata_credit] (Its implementation is as elegant and pure as [`std::mem::drop`](https://doc.rust-lang.org/std/mem/fn.drop.html).)
+
+[^phantomdata_credit]: Thanks to [ksion](https://old.reddit.com/r/rust/comments/118tzzu/nothing_in_rust/j9kl6nn/) for the suggestion to discuss `PhantomData`.
+
+`PhantomData<T>` is a zero-sized type, regardless of `T`. It's like telling a small lie to the compiler: you're claiming to hold a `T` when you don't actually. Unlike _some_ lies, this actually serves a beneficial purpose.
+
+In practice, I've seen it used in two main ways:
+
+1. To hold a lifetime specifier, restricting the lifetime of its containing struct. This can be useful to artificially attach lifetimes to raw pointers.
+
+   ```rust
+   struct PointerWithLifetime<'a, T> {
+       pointer: *const T,
+       _marker: std::marker::PhantomData<&'a ()>,
+   }
+   ```
+
+2. To simulate holding a value of type `T`, when the actual value is held (or managed) by another system. You might see this when interacting with unconventional storage models or FFI.
+
+   ```rust
+   mod external {
+       pub fn get(location: u64) -> Vec<u8> { /* ... */ }
+   }
+
+   struct Slot<T> {
+       location: u64,
+       _marker: std::marker::PhantomData<T>,
+   }
+
+   impl<T: From<Vec<u8>>> Slot<T> {
+       fn get(&self) -> T {
+           T::from(external::get(self.location))
+       }
+   }
+   ```
+
+## "There is nothing here now."
+
+### Null
 
 > [There's no null in Rust.](https://www.youtube.com/watch?v=p9fLLl339iE)
 
@@ -42,7 +85,7 @@ unsafe {
 
 Rust is designed in such a way that you rarely, if ever, need to delve into the depths of pointer manipulation. You might encounter raw pointers (`*const` and `*mut` types) when interacting with C code, or if you're re[writing Quake III](https://www.youtube.com/watch?v=p8u_k2LIZyo) in Rust.
 
-## `Option::None`
+### `Option::None`
 
 The standard library provides the `Option` enum, with its two variants `Some` and `None`. This is the recommended way to represent a value that [may or may not be present](https://www.youtube.com/watch?v=CyxnkPOMfyQ), instead of using a null pointer. It's like a little safety wrapper, and you should probably use it unless you know what you're doing and are prepared for the consequences, or are working alone.
 
@@ -61,7 +104,9 @@ However, there are significant differences between using a null pointer and usin
 | [`Option<std::num::NonZeroU128>`](https://doc.rust-lang.org/std/num/struct.NonZeroU128.html) | `16`                     |
 | `Option<u128>`                                                                               | `24`                     |
 
-## The empty tuple
+## "There will never be anything here."
+
+### The empty tuple
 
 The empty tuple is written as an empty set of parentheses `()`.
 
@@ -102,7 +147,9 @@ impl Partner {
 }
 ```
 
-## The never type
+## "I'm going to leave you, waiting here, empty-handed, until the end of time."
+
+### The never type
 
 How do you call the return type of a function that doesn't just _not return a value_, but straight-up [_never returns at all_](https://www.youtube.com/watch?v=dQw4w9WgXcQ)? Well, you can try all the traditional methods to no avail&mdash;you'll never be able to continue past that point, so it requires some delicate treatment.
 
