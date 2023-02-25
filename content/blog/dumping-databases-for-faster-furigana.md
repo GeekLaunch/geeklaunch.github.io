@@ -81,11 +81,11 @@ Whenever we need to use the dictionary, we can simply `Rc::clone(&*DICTIONARY)` 
 ```text
 $ time autoruby annotate -m markdown ./test.txt ./test.md
 
-real    0m0.650s
+real    0m0.359s
 user    0m0.000s
 sys     0m0.000s
 ```
 
-Much better! The test document is 100,845 bytes, so this is a processing speed of about 155,146 bytes/second. For reference, the SQLite version took over 1m53s to annotate the same document (889 bytes/second). That's a 174x speed-up!
+Much better! The test document is 100,845 bytes, so this is a processing speed of about 280,905 bytes/second. For reference, the SQLite version took over 1m53s to annotate the same document (889 bytes/second). That's a 315x speed-up!
 
 {{%bio%}}
