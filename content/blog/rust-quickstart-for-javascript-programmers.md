@@ -16,14 +16,14 @@ Why _another_ Rust guide? This is a rough outline that I have used in the past w
 
 ## Rust in a sentence
 
-> Rust is a general-purpose, statically-typed, functionally-inspired, low-level programming language that specializes in memory safety and speed and features an algebraic type system.
+> Rust is a general-purpose, statically-typed, functionally-inspired, high-level programming language that specializes in memory safety and speed and features an algebraic type system.
 
 - **General-purpose** &mdash; Not limited to a particular application or platform, Rust can be used to build a diverse variety of solutions.
 - **Statically-typed** &mdash; Data types are known (or computed) and enforced at compile time.
 - **Functionally-inspired** &mdash; Many features are imported from, or are derivatives of features from FP-paradigm languages like Ocaml and Haskell.
-- **Low-level** &mdash; With the absence of a garbage collector, or really any runtime to speak of, memory is managed by the programmer, albeit within the strict bounds enforced by the compiler's memory safety features, notwithstanding [`unsafe` blocks](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html).
+- **High-level** &mdash; Rust provides a large degree of abstraction from assembler code.
 - **Memory safety** &mdash; All safe code (that which does not use the `unsafe` keyword) is guaranteed by the compiler to not contain memory safety issues such as dangling pointers, null dereferencing, or accidental memory leaks.[^memory_leaks]
-- **Speed** &mdash; Rust code compiles directly to machine code with zero or near-zero[^refcell] runtime overhead. It can fairly easily interoperate directly with C code.[^ffi]
+- **Speed** &mdash; Rust code compiles directly to machine code with zero or near-zero[^refcell] runtime overhead. It can fairly easily interoperate directly with C code.[^ffi] With the absence of a garbage collector, or really any runtime to speak of, memory is managed by the programmer, albeit within the strict bounds enforced by the compiler's memory safety features, notwithstanding [`unsafe` blocks](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html).
 - **Algebraic type system** &mdash; While most modern programming languages include some form of [product type](<https://en.wikipedia.org/wiki/Record_(computer_science)>), Rust also includes a fully-featured [sum type](https://en.wikipedia.org/wiki/Sum_type) as well, in the form of a discriminated union ([`enum`](https://doc.rust-lang.org/rust-by-example/custom_types/enum.html)).
 
 [^memory_leaks]: There exist some ways to [intentionally leak memory in safe code](https://doc.rust-lang.org/std/boxed/struct.Box.html#method.leak), but it is quite explicit.
@@ -624,37 +624,67 @@ impl Greeter for EveningGreeter {
     }
 }
 
-let m = MorningGreeter;
-m.greet("Alice");
+let g1 = MorningGreeter;
+g1.greet("Alice"); // -> Good morning, Alice!
 
-let e = EveningGreeter;
-e.greet("Bob");
+let g2 = EveningGreeter;
+g2.greet("Bob"); // -> Good evening, Bob!
 ```
 
-Output:
+This isn't terribly interesting yet. Let's spice it up some.
 
-```text
-Good morning, Alice!
-Good evening, Bob!
+```rust
+fn greet_wizard<G: Greeter>(g: G) {
+    g.greet("Gandalf");
+}
+
+greet_wizard(EveningGreeter); // -> Good evening, Gandalf!
 ```
 
-### Nothing
+This uses a [generic type parameter](https://doc.rust-lang.org/book/ch10-01-syntax.html) to allow us to pass it any parameter that implements the `Greeter` trait. If you're familiar with Java, etc., the angle bracket `<>` syntax might look familiar.
 
-#### The empty tuple
+The colon in `G: Greeter` means "`G` _implements_ `Greeter`." You can specify multiple [trait bounds](https://doc.rust-lang.org/reference/trait-bounds.html) using a `+`, like so: `T: Debug + Display`.
 
-#### `Option`
+If you have too many generic parameters, or if the bounds are too complex, you can move them to a `where` clause to organize your function signature a little:
 
-#### The never type
+```rust
+fn my_function<T>(t: T) where T: Send + Sync {}
+```
+
+If you don't need to refer to the generic parameter by name, you can use a shorthand:
+
+```rust
+fn greet_wizard(g: impl Greeter) {
+    g.greet("Gandalf");
+}
+
+greet_wizard(EveningGreeter); // -> Good evening, Gandalf!
+```
+
+This code is identical to the previous `greet_wizard` example, but it's a little easier to read, since there's no `G` generic parameter floating around.
+
+#### Trait objects
+
+There's another way to accept parameters based on what traits they implement, as opposed to by concrete type. Using the `dyn` keyword, we can create a [trait object](https://doc.rust-lang.org/reference/types/trait-object.html). It's a bit of a hairy topic if you dive deeply into it, but for now, keep in mind the following properties:
+
+- `dyn Trait` is [unsized](https://doc.rust-lang.org/reference/dynamically-sized-types.html), meaning you usually can't work with it directly, since the compiler cannot know how big it is.
+- Therefore, trait objects are usually used behind some form of pointer, either regular (`&dyn Trait`) or smart (`Box<dyn Trait>`).
+- Trait objects include a [vtable](https://en.wikipedia.org/wiki/Virtual_method_table), which can make function access a tiny bit slower. Usually, Rust's [monomorphized](https://en.wikipedia.org/wiki/Monomorphization) generics are preferred, since they can be optimized per-type, and also preserve type information across the codebase.
 
 ### References
 
 ### Lifetimes
 
-### Macros
-
 ## Resources
 
 ### Reading materials
+
+#### More posts for learning Rust
+
+- [Fathomable Rust Macros]({{< ref "blog/fathomable-rust-macros" >}}). Rust procedural macros.
+- [Nothing in Rust]({{< ref "blog/nothing-in-rust" >}}). Different ways of representing nonexistence in Rust.
+
+#### External resources
 
 - [The Rust Book](https://doc.rust-lang.org/stable/book/). Everyone should read.
 - [The Rustonomicon](https://doc.rust-lang.org/nomicon/). Advanced and specific topics. Often more useful as a reference than a read-through.
