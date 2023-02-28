@@ -7,7 +7,7 @@
     {font:90%;color:blue-20}_:where(code)
     {color:blue-86}_:where(code)@dark
     {text-decoration:1;line-through;fade-68}_:where(del)
-    {text-decoration-color:red-64}_:where(del)@dark
+    {text-decoration-color:fade-64}_:where(del)@dark
     {text:14;p:10;20;0;width:fit;mx:auto;font:fade-56}_:where(figcaption)
     {font:fade-57}_:where(figcaption)@dark
     {font:40;font:bold}_:where(h1)
@@ -35,7 +35,7 @@
     {pr:0}_:where(td,th):last-child
     {bb:1;solid;fade-92/.06;p:6;b:fade-4/.04@dark}_:where(td,th)
     {font:fade-78;font:14;text:left;font:fade-12@dark}_:where(th)
-    {font:semibold}_:where(th,a,:not(pre)>code)
+    {font-weight:semibold}_:where(th,:not(strong,b)>a,:not(pre)>code)
     {list-style-type:disc}_:where(ul)
     {pl:1.5em}_:where(ul,ol,blockquote)
     {max-width:full}_:where(video,img)
