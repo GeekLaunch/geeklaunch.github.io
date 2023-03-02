@@ -31,6 +31,10 @@
     <meta name="author" content="{{ site.Author.name }}" />
     {{ end }}
 
+    {{ range .AlternativeOutputFormats -}}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+    {{ end -}}
+
     <link id="highlight-theme-light" rel="stylesheet"
         href='{{ (resources.GetRemote "https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.7.0/styles/googlecode.min.css").RelPermalink }}'>
     <link id="highlight-theme-dark" disabled rel="stylesheet"
