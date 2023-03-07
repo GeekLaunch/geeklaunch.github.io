@@ -1,8 +1,7 @@
 ---
 title: "Rust quickstart for JavaScript programmers"
-date: 2023-01-01
-description: ""
-draft: true
+date: 2023-03-07
+description: "The essentials of the Rust programming language in one post"
 author: Jacob Lindahl
 twitter: sudo_build
 license:
@@ -201,7 +200,7 @@ This can be a bit of a tricky topic in Rust, because there are a few different s
 - `String` is a heap-allocated string that can be mutated in-place. This is called an "owned string".
 - `&str` is a fixed-length (sometimes stack-allocated) string that cannot be mutated. This can be called a "string slice" or "string reference".
 
-(Technically this is a bit of an oversimplification, but it will get you 90% of the way there. Once we've gone over [references](#references) and ownership we can come back to this topic.)
+(Technically this is a bit of an oversimplification, but it will get you 90% of the way there. Once we've gone over [references](#references--ownership) and ownership we can come back to this topic.)
 
 For now, you can convert between the two string types fairly easily:
 
@@ -304,6 +303,8 @@ error[E0425]: cannot find value `y` in this scope
 7 |     println!("{} {}", x, y); // `y` is out of scope
   |                          ^ help: a local variable with a similar name exists: `x`
 ```
+
+More on this later, when we talk about [ownership](#references--ownership).
 
 ### More data structures
 
@@ -671,9 +672,206 @@ There's another way to accept parameters based on what traits they implement, as
 - Therefore, trait objects are usually used behind some form of pointer, either regular (`&dyn Trait`) or smart (`Box<dyn Trait>`).
 - Trait objects include a [vtable](https://en.wikipedia.org/wiki/Virtual_method_table), which can make function access a tiny bit slower. Usually, Rust's [monomorphized](https://en.wikipedia.org/wiki/Monomorphization) generics are preferred, since they can be optimized per-type, and also preserve type information across the codebase.
 
-### References
+### References & ownership
+
+If you've worked with a systems programming language like C++ or C before, you've probably heard of "pointers." Rust also has an equivalent construct, also called (raw) pointers. However, as any C++ or C developer would tell you, you need to be careful when dealing with pointers. There are a lot of potential issues that arise when working with pointers:
+
+- Null pointers
+- Dangling pointers / use after free
+- Double free
+- Data races
+- Buffer overflow
+- [etc.](https://en.wikipedia.org/wiki/Memory_safety#Types_of_memory_errors)
+
+However, because pointers provide a layer of indirection invaluable to programmers, Rust didn't discard the concept in its pursuit of memory safety. Instead, it vastly improved upon it with its notion of references and the borrow checker.
+
+At runtime, references serve the same purpose as pointers: a layer of indirection to some desired data. However, Rust applies a set of rules to how references can be used in valid Rust code to ensure memory safety and avoid all of the issues mentioned above.
+
+The ownership rules look like this:
+
+- Every value has one single owner.
+- When the owner goes out of scope, the value is dropped.
+
+Here's an example:
+
+```rust
+{ // begin
+    let x = 6;
+} // end
+```
+
+In this example, `x` is the owner of the value `6`. Once `x` goes out of scope (at the line marked `// end`), the `6` ceases to exist as well.
+
+Ownership of a value can be transferred:
+
+```rust
+let my_string: String = "Hello, world!".to_string();
+let moved_string: String = my_string;
+```
+
+At first, `my_string` is the owner of the string. Then, the string is _moved_ into `moved_string`. "Moving" is Rust-speak for transferring ownership.
+
+What happens now that the string has been moved out of `my_string` and into `moved_string`? Can we still use `my_string`? Let's try:
+
+```rust
+let my_string = "Hello, world!".to_string();
+let moved_string = my_string;
+println!("{}", my_string);
+```
+
+Output:
+
+```text
+error[E0382]: borrow of moved value: `my_string`
+ --> src/main.rs:4:16
+  |
+2 | let my_string = "Hello, world!".to_string();
+  |     --------- move occurs because `my_string` has type `String`, which does not implement the `Copy` trait
+3 | let moved_string = my_string;
+  |                    --------- value moved here
+4 | println!("{}", my_string);
+  |                ^^^^^^^^^ value borrowed here after move
+```
+
+Let's walk through the error message:
+
+- `` borrow of moved value: `my_string` ``
+
+  To "borrow" a value is to take a reference to it. This says that we're trying to create a reference to a value that has been moved away: the container that used to hold the value&mdash;`my_string`&mdash;is empty!
+
+- `` move occurs because `my_string` has type `String`, which does not implement the `Copy` trait ``
+
+  There are some values that don't really need the power of move semantics. These are usually small, stack-allocated, statically-sized values like many of the primitives. Instead of getting moved from one owner to another, these values are just copied from one place to another, since it's so cheap to do. Types like this implement the `Copy` trait. References are also `Copy`!
+
+- `value moved here`
+
+  The Rust compiler shows us exactly where in the code the value was moved out of `my_string`.
+
+- `value borrowed here after move`
+
+  The `println!(...)` macro borrows the values it prints out, since it only needs to read them.
+
+Since a value can only have one owner, references give us a way to pass around a _reference_ to a value that someone else owns, allowing that value to be used in more than one place at a time. A normal `&` reference is read-only[^readonlyref], so holding one does not allow you to mutate the underlying value. The exclusive `&mut` reference, on the other hand, allows the owner of the reference to change the underlying value without the value's owner having to give up ownership.
+
+[^readonlyref]: There are a few ways to get around this restriction using [some special types](https://doc.rust-lang.org/std/cell/index.html) that allow "interior mutability" and enforce the borrow-checking rules at runtime instead of compile time.
+
+References also have a few special rules to go along with them:
+
+- There can be an unlimited number of normal `&` references alive at one time, _OR_
+- There can be a maximum of one exclusive `&mut` reference (also known as a "mutable reference") alive at one time.
 
 ### Lifetimes
+
+Let's write a function that takes two string references and returns the longer of the two:[^tried_and_true]
+
+[^tried_and_true]: This is a tried-and-true example that I'm shamelessly stealing from [the Rust Book](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html#generic-lifetimes-in-functions) because it illustrates the concept so simply.
+
+```rust
+fn longest(a: &str, b: &str) -> &str {
+    if a.len() > b.len() {
+        a
+    } else {
+        b
+    }
+}
+```
+
+This code doesn't actually compile!
+
+Output:
+
+```text
+error[E0106]: missing lifetime specifier
+ --> src/main.rs:2:37
+  |
+2 |     fn longest(a: &str, b: &str) -> &str {
+  |                   ----     ----     ^ expected named lifetime parameter
+  |
+  = help: this function's return type contains a borrowed value, but the signature does not say whether it is borrowed from `a` or `b`
+help: consider introducing a named lifetime parameter
+  |
+2 |     fn longest<'a>(a: &'a str, b: &'a str) -> &'a str {
+  |               ++++     ++          ++          ++
+```
+
+#### Memory safety
+
+The Rust compiler is your friend. It's trying to make sure that your code is memory safe (and a lot of other things), so it's not going to compile code for you that might be memory-unsafe.
+
+This function signature says "I'm taking in two string references as input, and I'm returning a string reference." Where could the reference that the function returns come from? Functions can access data from three places:
+
+- Values provided in the function arguments.
+- Values generated in the body of the function.
+- Global values.
+
+So, if a function is returning a _reference_ to a value, the owner of the value must be from one of those three places.
+
+Actually, we can rule out one of the places entirely. Due to the ownership rules that dictate that a value is dropped when its owner goes out of scope, _all_ values that are generated by (and therefore, owned by) the function are dropped when the function ends (unless they are returned or ownership is otherwise transferred). Therefore, a function can _never_ return a reference to a value that is owned by the function, since this would create a dangling pointer.
+
+Therefore, a function that returns a reference can _only_ be referencing data that is either static/global or passed in via the arguments.
+
+In order to prevent use-after-free errors, the Rust compiler also needs to know for how long a reference is valid. If you have a reference to value X and the owner of X goes out of scope, X will be dropped, so Rust needs to ensure that all references to X will not be used after that occurs.
+
+#### Lifetime annotations
+
+In order to provide this assurance, Rust uses the concept of lifetimes. A value's lifetime tells you for how long it is OK to hold onto and use that value. Global values and owned values can be held onto for as long as you want, so they have a static lifetime. This is a specially-named lifetime in Rust, and it's denoted as `'static`. It means "you can hold onto this value for as long as you want."
+
+However, if you receive a reference to a value, you're not the owner of that value, so it could go out of scope at some point&mdash;a point in time that you do not control. So, when a function returns a reference, it needs to tell the Rust compiler how long it is OK to hold onto that reference.
+
+We do this using lifetime annotations. Here's a super-simple example:
+
+```rust
+fn str_identity<'a>(s: &'a str) -> &'a str {
+    s
+}
+```
+
+This function simply returns the exact string reference it was given. But let's look at the new syntax.
+
+First, we instantiate a lifetime specifier `<'a>`.[^naming_lifetimes] All lifetime specifiers begin with the tick/apostrophe/prime character `'`. You'll notice that lifetime specifiers are declared in the same place as generic type parameters, and this is because lifetimes are actually a kind of generic variable: this function can be called on any string reference, not just one specific "lifetime" of string reference. (There are many more powerful ways to create bounds on and with lifetime specifiers, but we'll skip that.)[^elision]
+
+[^naming_lifetimes]: It is common for lifetime names to be a single character (`'a`), since most of the time code will only need one, and it is usually very obvious what it is doing. However, the names can be as long as you want, and if it makes the code easier to understand, please do not hesitate to use a longer name!
+[^elision]: The Rust compiler is smart enough to figure out simple uses of lifetimes, like in this `str_identity` function, through a process called [lifetime elision](https://doc.rust-lang.org/nomicon/lifetime-elision.html). However, it is still perfectly valid Rust to still write out the lifetimes, if a little bit noisier to read.
+
+Next, we use the lifetime specifier in two places:
+
+- `s: &'a str`
+
+  `s` is a reference to a value that has some lifetime, and the `'a` lifetime specifier will represent a lifetime that lives _no longer than_ the value that `s` references. The Rust compiler will try to choose the longest possible lifetime here.[^long]
+
+[^long]: A rather complicated task, actually. There are still [some instances when the borrow checker is a bit overzealous](https://doc.rust-lang.org/nomicon/borrow-splitting.html).
+
+- `-> &'a str`
+
+  This function will return a reference to a string value that is guaranteed to live _at least as long as_ `'a`.
+
+Let's look back at that error message:
+
+```text
+error[E0106]: missing lifetime specifier
+ --> src/main.rs:2:37
+  |
+2 |     fn longest(a: &str, b: &str) -> &str {
+  |                   ----     ----     ^ expected named lifetime parameter
+  |
+  = help: this function's return type contains a borrowed value, but the signature does not say whether it is borrowed from `a` or `b`
+help: consider introducing a named lifetime parameter
+  |
+2 |     fn longest<'a>(a: &'a str, b: &'a str) -> &'a str {
+  |               ++++     ++          ++          ++
+```
+
+We see that the Rust compiler is suggesting that we add some lifetime specifiers to our code. It's telling us to add a lifetime specifier to our return value that is bounded by (lasts no longer than) the values referenced by `a` and `b`. That tells the compiler that the value returned by `longest` is guaranteed to be valid while both `a` and `b` are valid.
+
+If a struct contains a reference, it is required to use lifetime specifiers:
+
+```rust
+struct StringWrapper<'a>(&'a str);
+```
+
+Of course, to maintain memory safety, the struct can only be used while `'a` is valid (that is, so long as the contained reference refers to a value that is still alive).
+
+Note: Lifetimes is a somewhat stubborn topic that can take a little bit of work to understand, so don't worry if it doesn't click the first time around!
 
 ## Resources
 
@@ -692,5 +890,8 @@ There's another way to accept parameters based on what traits they implement, as
 
 ### Exercises
 
+- [Rust Playground](https://play.rust-lang.org/) is not actually a source of exercises, but it is a good place to try out some code without having to spin up an editor and new project.
 - [Rustlings](https://github.com/rust-lang/rustlings) is a repository of all sorts of exercises to help you get comfortable using Rust.
 - [Exercism](https://exercism.org/tracks/rust) provides a variety of online exercises and other resources.
+
+{{% bio %}}
