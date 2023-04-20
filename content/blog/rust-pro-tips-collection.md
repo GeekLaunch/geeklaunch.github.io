@@ -65,7 +65,9 @@ match e {
 
 [Docs](https://doc.rust-lang.org/reference/attributes/type_system.html#the-non_exhaustive-attribute)
 
-## [Union types](https://twitter.com/sudo_build/status/1644270712100900864)
+## Union types
+
+[Tweet](https://twitter.com/sudo_build/status/1644270712100900864)
 
 One of Rust's lesser-known composite types is the union. While they might look like structs at first, each field is actually the same piece of memory, allowing you to reinterpret bytes as a different type. Of course, this requires `unsafe` code.
 
@@ -91,7 +93,9 @@ assert_eq!(unsafe { o.uint }, 0xDEADBEEF);
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=ab1034fdf89e71064bea9c1211d45926) \
 [Docs](https://doc.rust-lang.org/reference/items/unions.html)
 
-## [Struct update operator `..`](https://twitter.com/sudo_build/status/1640782008652791810)
+## Struct update operator `..`
+
+[Tweet](https://twitter.com/sudo_build/status/1640782008652791810)
 
 Use the struct update operator `..` to easily copy a struct with a few minor modifications. This can be useful when a struct implements `Default`.
 
@@ -118,7 +122,9 @@ assert_eq!(p.tags, Vec::<String>::new());
 
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=fc1f617a87fbc2d46f5a590d8a848872)
 
-## [The `@` operator](https://twitter.com/sudo_build/status/1639322229635973120)
+## The `@` operator
+
+[Tweet](https://twitter.com/sudo_build/status/1639322229635973120)
 
 Use the `@` operator to bind an identifier to a value that matches a pattern.
 
@@ -139,7 +145,9 @@ if let User { age: a @ ..=35, .. } = u {
 [Documentation](https://doc.rust-lang.org/reference/patterns.html#identifier-patterns) \
 [Rust by Example](https://doc.rust-lang.org/rust-by-example/flow_control/match/binding.html)
 
-## [Create your own iterators](https://twitter.com/sudo_build/status/1587820368923746304)
+## Create your own iterators
+
+[Tweet](https://twitter.com/sudo_build/status/1587820368923746304)
 
 Rust's `Iterator` trait is super useful! Here's how to implement it:
 
@@ -207,7 +215,9 @@ And that's it! Now you can easily implement `Iterator` on your own types.
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=e8fe920cdf97a3d2dc2dd0599fdc1e3e) \
 [Docs](https://doc.rust-lang.org/std/iter/trait.Iterator.html)
 
-## [Use longer names for lifetimes and generic parameters](https://twitter.com/sudo_build/status/1585699823067418625)
+## Use longer names for lifetimes and generic parameters
+
+[Tweet](https://twitter.com/sudo_build/status/1585699823067418625)
 
 Lifetimes and generic parameters don't have to be just one character long. When you're deep in the weeds, working your Rust magic, keep your code comprehensible.
 
@@ -218,7 +228,9 @@ struct View<'source, Element: Deserialize> {
 }
 ```
 
-## [`PhantomData` 👻](https://twitter.com/sudo_build/status/1590277738224848896)
+## `PhantomData` 👻
+
+[Tweet](https://twitter.com/sudo_build/status/1590277738224848896)
 
 [`PhantomData`](https://doc.rust-lang.org/std/marker/struct.PhantomData.html) has a dead-simple definition, but fascinating use-cases. `PhantomData` makes it _look_ like your type contains another type even if it really doesn't. It's zero-sized, so it costs you nothing to use!
 
@@ -250,7 +262,9 @@ impl<'a> From<&'a Vec<u8>> for FP<'a> {
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=3028c55bf3422a1b083f5c16c064727a) \
 More in [Nomicon](https://doc.rust-lang.org/nomicon/phantom-data.html).
 
-## [`String`s are collections](https://twitter.com/sudo_build/status/1610855444901396480)
+## `String`s are collections
+
+[Tweet](https://twitter.com/sudo_build/status/1610855444901396480)
 
 A `String` is a collection that can be built from an iterator:
 
@@ -263,7 +277,9 @@ let my_string = vec![1, 2, 3, 4]
 assert_eq!(my_string, "2468");
 ```
 
-## [Enforce Clippy lints in a workspace](https://twitter.com/sudo_build/status/1567168431094468608)
+## Enforce Clippy lints in a workspace
+
+[Tweet](https://twitter.com/sudo_build/status/1567168431094468608)
 
 Enforce a consistent set of Clippy lints across multiple crates in one workspace by adding to `.cargo/config.toml` at the project root.
 
@@ -276,7 +292,9 @@ rustflags = [
 
 (Otherwise you'd need to have a `#![warn(...)]` directive in every crate.)
 
-## [The never type `!`](https://twitter.com/sudo_build/status/1565738760465453056)
+## The never type `!`
+
+[Tweet](https://twitter.com/sudo_build/status/1565738760465453056)
 
 The never type in Rust (denoted by `!`) represents a type that will never exist. Called the ["bottom type"](https://en.wikipedia.org/wiki/Bottom_type) in type theory, it's used as the type of expressions that never resolve (e.g. panics or infinite loops) or the type of a return or break statement.
 
@@ -291,7 +309,9 @@ let x: u32 = panic!();
 [`Infallible` documentation](https://doc.rust-lang.org/std/convert/enum.Infallible.html) \
 [Nothing in Rust]({{% ref "nothing-in-rust" %}})
 
-## [Recursive declarative macros](https://twitter.com/sudo_build/status/1569282411070115840)
+## Recursive declarative macros
+
+[Tweet](https://twitter.com/sudo_build/status/1569282411070115840)
 
 Build quick-and-dirty parsers with recursive declarative macros.
 
@@ -305,7 +325,9 @@ macro_rules! m {
 assert!(m!(y xor n xor n));
 ```
 
-## [Rustdoc link shorthand](https://twitter.com/sudo_build/status/1571975420073095169)
+## Rustdoc link shorthand
+
+[Tweet](https://twitter.com/sudo_build/status/1571975420073095169)
 
 Link to a module, struct, or enum directly in rustdoc comments with the shorthand syntax:
 
@@ -321,7 +343,9 @@ Works for external crates too!
 
 (Links to <https://docs.rs/serde/latest/serde/ser/trait.Serialize.html>.) Backticks are optional, they just format it nicely.
 
-## [More precise access control](https://twitter.com/sudo_build/status/1566036137679785984)
+## More precise access control
+
+[Tweet](https://twitter.com/sudo_build/status/1566036137679785984)
 
 Specify item visibility with the `pub(restricted)` syntax:
 
@@ -334,7 +358,9 @@ Specify item visibility with the `pub(restricted)` syntax:
 
 [Docs](https://doc.rust-lang.org/reference/visibility-and-privacy.html#pubin-path-pubcrate-pubsuper-and-pubself)
 
-## [Reuse code in `build.rs` with `#[path]`](https://twitter.com/sudo_build/status/1620745579914752000)
+## Reuse code in `build.rs` with `#[path]`
+
+[Tweet](https://twitter.com/sudo_build/status/1620745579914752000)
 
 Easily reuse code from your project in the `build.rs` file by using the `#[path]` directive:
 
@@ -357,7 +383,9 @@ let feature_gated = /* ... */;
 [`build.rs` documentation](https://doc.rust-lang.org/cargo/reference/build-scripts.html) \
 [The `#[path]` attribute](https://doc.rust-lang.org/reference/items/modules.html#the-path-attribute)
 
-## [Reduce unnecessary allocations with cows 🐮](https://twitter.com/sudo_build/status/1571209960759132163)
+## Reduce unnecessary allocations with cows 🐮
+
+[Tweet](https://twitter.com/sudo_build/status/1571209960759132163)
 
 The clone-on-write smart pointer [`std::borrow::Cow`](https://doc.rust-lang.org/std/borrow/enum.Cow.html) creates owned values only when necessary. It's useful when you want to work with both owned and borrowed values, and it can help you dynamically prevent unnecessary allocations.
 
@@ -377,7 +405,9 @@ assert!(v.is_owned());
 
 [Playground](https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=566eaaa7e277841ff3d9bb5c0e819be9)
 
-## [Additional trait bounds per-function](https://twitter.com/sudo_build/status/1572671282688438272)
+## Additional trait bounds per-function
+
+[Tweet](https://twitter.com/sudo_build/status/1572671282688438272)
 
 Did you know you can add additional trait bounds to a type parameter for a single function when writing traits or `impl` blocks?
 
@@ -395,7 +425,9 @@ trait MyTrait<T: Debug> {
 
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=e45d1a98e6c217ceb5e0b2bbb7bb7e65)
 
-## [Use the `AsRef` trait to convert references](https://twitter.com/sudo_build/status/1572676898559528961)
+## Use the `AsRef` trait to convert references
+
+[Tweet](https://twitter.com/sudo_build/status/1572676898559528961)
 
 `Vec<T>`? 😢 \
 `AsRef<[T]>`? 😄
@@ -413,13 +445,17 @@ sum_is_even([1]);
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=c28f23e491f08b4aa537c89a0c9d12db) \
 [Docs](https://doc.rust-lang.org/std/convert/trait.AsRef.html)
 
-## [Use `syn` and `quote` when writing procedural macros](https://twitter.com/sudo_build/status/1585700625030950912)
+## Use `syn` and `quote` when writing procedural macros
+
+[Tweet](https://twitter.com/sudo_build/status/1585700625030950912)
 
 The crates [`syn`](https://crates.io/crates/syn) and [`quote`](https://crates.io/crates/quote) make parsing and generating streams of Rust tokens a breeze&mdash;super handy when writing procedural macros!
 
 [More about writing procedural macros in Rust]({{% ref "fathomable-rust-macros" %}}).
 
-## [Use the `dbg!(...)` macro for better debugging](https://twitter.com/sudo_build/status/1564945355023663104)
+## Use the `dbg!(...)` macro for better debugging
+
+[Tweet](https://twitter.com/sudo_build/status/1564945355023663104)
 
 Still using `println!()` debugging in Rust?
 
