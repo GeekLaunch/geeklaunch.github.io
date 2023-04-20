@@ -11,6 +11,22 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## Write better tests with `#[should_panic]`
+
+[Tweet](https://twitter.com/sudo_build/status/1649109301753937927)
+
+Require tests to panic with `#[should_panic]`. This is useful for testing *un*happy paths. Optionally include a substring to match against the panic message.
+
+```rust
+#[test]
+#[should_panic = "attempt to divide by zero"]
+fn div_zero() {
+    let val = 1i32.div(0);
+}
+```
+
+[Docs](https://doc.rust-lang.org/book/ch11-01-writing-tests.html#checking-for-panics-with-should_panic)
+
 ## Use `#[non_exhaustive]` to prevent breaking changes
 
 Use the `#[non_exhaustive]` attribute to prevent breaking changes when adding new fields to a struct or enum variant.
