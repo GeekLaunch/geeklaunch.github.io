@@ -11,6 +11,67 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## Closure traits
+
+[Tweet](https://twitter.com/sudo_build/status/1651431413491863552)
+
+Rule of thumb: the _more_ a closure does with captured variables, the _fewer_ traits it implements.
+
+Only reads? `Fn + FnMut + FnOnce`. \
+Mutates? `FnMut + FnOnce`. \
+Moves? `FnOnce`.
+
+No captures at all? Function pointer coercion, too!
+
+```rust
+fn impl_fn_once(_: &impl FnOnce() -> ()) {}
+fn impl_fn_mut(_: &impl FnMut() -> ()) {}
+fn impl_fn(_: &impl Fn() -> ()) {}
+fn fn_pointer(_: fn() -> ()) {}
+
+#[derive(Debug)]
+struct Var(i32);
+
+{ // A
+    let mut var = Var(0);
+    let f = || drop(var);
+    impl_fn_once(&f);
+    impl_fn_mut(&f);
+    impl_fn(&f);
+    fn_pointer(f);
+}
+
+{ // B
+    let f = || println!("{:?}", Var(0));
+    impl_fn_once(&f);
+    impl_fn_mut(&f);
+    impl_fn(&f);
+    fn_pointer(f);
+}
+
+{ // C
+    let mut var = Var(0);
+    let f = || println!("{:?}", var);
+    impl_fn_once(&f);
+    impl_fn_mut(&f);
+    impl_fn(&f);
+    fn_pointer(f);
+}
+
+{ // D
+    let mut var = Var(0);
+    let f = || var.0 += 1;
+    impl_fn_once(&f);
+    impl_fn_mut(&f);
+    impl_fn(&f);
+    fn_pointer(f);
+}
+```
+
+[Rust Book](https://doc.rust-lang.org/book/ch13-01-closures.html) \
+[Rust Reference](https://doc.rust-lang.org/reference/types/closure.html#call-traits-and-coercions) \
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=8fb56d1dff43dba3dfe958df21222e08)
+
 ## Write better tests with `#[should_panic]`
 
 [Tweet](https://twitter.com/sudo_build/status/1649109301753937927)
