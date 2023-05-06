@@ -11,6 +11,94 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## `impl` vs. `dyn` in assembler
+
+[Tweet](https://twitter.com/sudo_build/status/1654822176686755841)
+
+Use `impl` for generic monomorphization, `dyn` for dynamic dispatch.
+
+```rust
+fn with_impl<'a>(v: &'a impl AsRef<[u8]>) -> &'a str {
+    std::str::from_utf8(v.as_ref()).unwrap()
+}
+
+fn with_dyn<'a>(v: &'a dyn AsRef<[u8]>) -> &'a str {
+    std::str::from_utf8(v.as_ref()).unwrap()
+}
+
+pub fn main() {
+    let array = [72, 101, 108, 108, 111];
+    let vector = vec![72, 101, 108, 108, 111];
+    assert_eq!("Hello", with_impl(&array));
+    assert_eq!("Hello", with_dyn(&array));
+    assert_eq!("Hello", with_impl(&vector));
+    assert_eq!("Hello", with_dyn(&vector));
+}
+```
+
+See the effect in the [generated assembly](https://godbolt.org/z/dGW4vdsfK). `with_impl` is generated once for each parameterization. `with_dyn` is generated once, but a vtable is required at runtime.
+
+```x86asm
+; with_impl(&[u8; 5]) implementation (monomorphized)
+_ZN7example9with_impl17h38cd8c9aec305c25E:
+        sub     rsp, 40
+        ; constant lookup
+        mov     rax, qword ptr [rip + _ZN4core5array92_$LT$impl$u20$core..convert..AsRef$LT$$u5b$T$u5d$$GT$$u20$for$u20$$u5b$T$u3b$$u20$N$u5d$$GT$6as_ref17h86d8b288e84fcf8aE@GOTPCREL]
+        call    rax
+        mov     rsi, rax
+        ; [[snip]]
+
+; with_impl(&Vec<u8>) implementation (monomorphized)
+_ZN7example9with_impl17hd50582b2776df596E:
+        sub     rsp, 40
+        ; constant lookup
+        mov     rax, qword ptr [rip + _ZN88_$LT$alloc..vec..Vec$LT$T$C$A$GT$$u20$as$u20$core..convert..AsRef$LT$$u5b$T$u5d$$GT$$GT$6as_ref17h56f6b2151f0bc49cE@GOTPCREL]
+        call    rax
+        mov     rsi, rax
+        ; [[snip]]
+
+; with_dyn(&dyn AsRef<[u8]>) fat pointer implementation
+_ZN7example8with_dyn17h88123f4b1a0b56e4E:
+        sub     rsp, 40
+        ; get vtable entry
+        mov     rax, qword ptr [rsi + 24]
+        call    rax
+        mov     rsi, rax
+        ; [[snip]]
+```
+
+When invoking `with_dyn`, the computer must construct the vtable at runtime.
+
+```x86asm
+        ; [[snip]]
+        ; with_dyn(&Vec<u8>) invocation
+        ; load the vtable
+        lea     rsi, [rip + .L__unnamed_14]
+        lea     rdi, [rsp + 176]
+        call    _ZN7example8with_dyn17h88123f4b1a0b56e4E
+        ; [[snip]]
+
+.L__unnamed_14:
+        .quad   _ZN4core3ptr46drop_in_place$LT$alloc..vec..Vec$LT$u8$GT$$GT$17hec70dc68d599b27eE
+        .asciz  "\030\000\000\000\000\000\000\000\b\000\000\000\000\000\000"
+        .quad   _ZN88_$LT$alloc..vec..Vec$LT$T$C$A$GT$$u20$as$u20$core..convert..AsRef$LT$$u5b$T$u5d$$GT$$GT$6as_ref17h56f6b2151f0bc49cE
+```
+
+Compare this to the invocation of a monomorphized function:
+
+```x86asm
+        ; [[snip]]
+        ; with_impl(&Vec<u8>) invocation
+        lea     rdi, [rsp + 176]
+        call    _ZN7example9with_impl17hd50582b2776df596E
+        ; [[snip]]
+```
+
+No vtable required!
+
+[`dyn` docs](https://doc.rust-lang.org/std/keyword.dyn.html) \
+[`impl` docs](https://doc.rust-lang.org/std/keyword.impl.html)
+
 ## Closure traits
 
 [Tweet](https://twitter.com/sudo_build/status/1651431413491863552)
