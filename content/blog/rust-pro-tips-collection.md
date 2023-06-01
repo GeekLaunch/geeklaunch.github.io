@@ -13,7 +13,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## Declaratively create `HashMap`s from iterables
 
-<!-- [Tweet](https://twitter.com/sudo_build/status/0000000000000000000) -->
+[Tweet](https://twitter.com/sudo_build/status/1664101178479898624)
 
 `HashMap`s can be built from iterators of key-value tuples:
 
