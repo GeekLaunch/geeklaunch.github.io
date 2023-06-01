@@ -11,6 +11,27 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+# Declaratively create `HashMap`s from iterables
+
+<!-- [Tweet](https://twitter.com/sudo_build/status/0000000000000000000) -->
+
+`HashMap`s can be built from iterators of key-value tuples:
+
+```rust
+use std::collections::HashMap;
+
+let map: HashMap<&str, i32> = [
+    ("a", 1),
+    ("b", 2),
+    ("c", 3),
+    ("d", 4),
+]
+.into();
+```
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=cfa3d57767aed32f6720e2c5d4f0cd88) \
+[Docs](https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.from)
+
 ## `impl` vs. `dyn` in assembler
 
 [Tweet](https://twitter.com/sudo_build/status/1654822176686755841)
