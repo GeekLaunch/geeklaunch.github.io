@@ -11,7 +11,7 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
-# Declaratively create `HashMap`s from iterables
+## Declaratively create `HashMap`s from iterables
 
 <!-- [Tweet](https://twitter.com/sudo_build/status/0000000000000000000) -->
 
