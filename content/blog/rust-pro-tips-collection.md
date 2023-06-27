@@ -13,7 +13,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## Conditional compilation
 
-<!-- [Tweet]() -->
+[Tweet](https://twitter.com/sudo_build/status/1673726139339251712)
 
 Use the `cfg` and `cfg_attr` attributes to compile different code based on the build environment. This is useful for feature-gating, platform-specific code, etc.
 
@@ -29,7 +29,7 @@ fn main() {
     let person = "Bill Gates";
     #[cfg(target_os = "macos")]
     let person = "Tim Apple";
-    
+
     // Approval-seeking!
     println!("Hi there, {person}!");
 }
