@@ -11,6 +11,33 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## Conditional compilation
+
+<!-- [Tweet]() -->
+
+Use the `cfg` and `cfg_attr` attributes to compile different code based on the build environment. This is useful for feature-gating, platform-specific code, etc.
+
+```rust
+// Implements Serialize if the crate is built with the "serde" feature enabled
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+struct Point2(f64, f64);
+
+fn main() {
+    #[cfg(target_os = "linux")]
+    let person = "Linus Torvalds";
+    #[cfg(target_os = "windows")]
+    let person = "Bill Gates";
+    #[cfg(target_os = "macos")]
+    let person = "Tim Apple";
+    
+    // Approval-seeking!
+    println!("Hi there, {person}!");
+}
+```
+
+[Docs](https://doc.rust-lang.org/reference/conditional-compilation.html) \
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=05bef59f5aac574cb610c42d49c54b81)
+
 ## Closure traits
 
 [Tweet](https://twitter.com/sudo_build/status/1651431413491863552)
