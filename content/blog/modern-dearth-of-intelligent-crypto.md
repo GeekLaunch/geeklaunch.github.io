@@ -130,6 +130,7 @@ Creating a good set of types for any system can be difficult, but it can also se
 
 There's a great deal of prior writing on this topic, and as diving much deeper would entail specific examples, I will instead suggest the following resources:
 
+- [Make invalid states unrepresentable: the untaught revelation](https://www.youtube.com/watch?v=3WE5L0OnqIU) (a video I made on the topic) or [the accompanying post on this site]({{< ref "blog/make-invalid-states-unrepresentable" >}}).
 - [Designing with types: Making illegal states unrepresentable (Scott Wlaschin)](https://fsharpforfunandprofit.com/posts/designing-with-types-making-illegal-states-unrepresentable/)
 - [Building a space station in Rust (Simple Rust patterns) [RUST-8] (No Boilerplate)](https://www.youtube.com/watch?v=7GzQArrek7A)
 - [Why type-first development matters (Tomas Petricek)](https://tomasp.net/blog/type-first-development.aspx/)
