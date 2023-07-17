@@ -70,7 +70,7 @@ Types delineate the set of _legally representable states_ $\mathbb{R}$ in your a
 
 Then, there's your business logic. Business logic leverages data that conform to the representable states defined by your types, manipulates those data, and delivers some output. The data that your business logic can handle comprises the set of valid states $\mathbb{V}$ (i.e. "handleable" states), and critically, _the set of valid states is not necessarily equal to the set of representable states_.
 
-$$|\mathbb{R}| \supseteq |\mathbb{V}|$$
+$$|\mathbb{R}| \ge |\mathbb{V}|$$
 
 In fact, $|\mathbb{R}|$ is often _significantly_ larger than $|\mathbb{V}|$, i.e. the code can handle far fewer states than are actually representable.
 
