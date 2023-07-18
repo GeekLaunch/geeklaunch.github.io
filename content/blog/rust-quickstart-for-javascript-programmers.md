@@ -265,7 +265,7 @@ For more information about this error, try `rustc --explain E0384`.
 
 Do you see it? The Rust compiler itself suggests a way to fix our code by using the `mut` keyword!
 
-Having to use a whole additional keyword just to make a variable mutable may seem kind of inconvenient at first. However, immutable-by-default variable declarations make it easier for you to let the compiler make certain guarantees about your code, which can help detecting bugs early, for instance.
+Having to use a whole additional keyword just to make a variable mutable may seem kind of inconvenient at first. However, immutable-by-default variable declarations facilitate certain compile-time guarantees about your code, which can help detecting bugs early and make code more flexible (e.g. for concurrent programming).
 
 #### Shadowing
 
