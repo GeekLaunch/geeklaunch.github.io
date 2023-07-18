@@ -11,6 +11,32 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## Static type size assertion
+
+<!-- [Tweet]() -->
+
+Use `std::mem::transmute::<S, D>` to assert that two types have the same size at _compile_ time.
+
+```rust
+use std::mem::transmute;
+
+struct TwoBytes(u8, u8);
+
+let _ = transmute::<TwoBytes, u16>; // ok
+let _ = transmute::<TwoBytes, u32>; // error!
+```
+
+The compiler will complain if the types are not the same size:
+
+```txt
+error[E0512]: cannot transmute between types of different sizes, or dependently-sized types
+```
+
+Warning: Memory layout, alignment, etc. is often [not guaranteed](https://doc.rust-lang.org/reference/type-layout.html), so be careful!
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=651556514aeefaf1c3468ba13b573661) \
+[Docs](https://doc.rust-lang.org/std/mem/fn.transmute.html)
+
 ## Conditional compilation
 
 [Tweet](https://twitter.com/sudo_build/status/1673726139339251712)
