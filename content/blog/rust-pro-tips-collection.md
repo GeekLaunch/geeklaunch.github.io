@@ -13,7 +13,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## Static type size assertion
 
-<!-- [Tweet]() -->
+[Tweet](https://twitter.com/sudo_build/status/1681191747584655361)
 
 Use `std::mem::transmute::<S, D>` to assert that two types have the same size at _compile_ time.
 
