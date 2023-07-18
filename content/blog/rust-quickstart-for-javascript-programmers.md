@@ -113,7 +113,7 @@ fn function_name(param1: Type1, param2: Type2) -> ReturnType {
 }
 ```
 
-where the parameter list (everything inside the round brackets `(...)`) and return type (everything between the closing parenthesis `)` and the opening curly bracket `{`) is optional, depending on the needs of your function.
+where the parameter list (everything inside the round brackets `(...)`) and return type (everything between the closing parenthesis `)` and the opening curly bracket `{`) are optional, depending on the needs of your function.
 
 From here on, all of the code we'll be discussing can go directly inside the `main` function body (although some things, like `struct`s and other function definitions, can, and are usually recommended to be placed outside).
 

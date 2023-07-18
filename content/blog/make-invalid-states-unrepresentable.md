@@ -58,7 +58,7 @@ error: Ferris cannot be used as an identifier
 error: could not compile `invalid-state` due to previous error
 ```
 
-And here, it suggests changing an invalid identifier. (Side note: this is possibly my favorite `rustc` error message.)
+And here, it suggests changing an invalid identifier (side note: this is possibly my favorite `rustc` error message).
 
 The Rust compiler is _smart_, and in conjunction with the language's powerful type system, you have a useful tool at your disposal.
 
