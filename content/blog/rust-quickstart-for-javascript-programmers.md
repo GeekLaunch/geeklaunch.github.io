@@ -197,8 +197,8 @@ let kanji_character: char = '字';
 
 This can be a bit of a tricky topic in Rust, because there are a few different string types to think about. However, you usually only need to worry about two:
 
-- `String` is a heap-allocated string that can be mutated in-place. This is called an "owned string".
-- `&str` is a fixed-length (sometimes stack-allocated) string that cannot be mutated. This can be called a "string slice" or "string reference".
+- `String` is a heap-allocated string that can be mutated in-place. This is called an "owned string". When learning Rust, this is the string type you should probably reach for first, to save on headaches.
+- `&str` is a fixed-length string that cannot be mutated. This can be called a "string slice" or "string reference".
 
 (Technically this is a bit of an oversimplification, but it will get you 90% of the way there. Once we've gone over [references](#references--ownership) and ownership we can come back to this topic.)
 
