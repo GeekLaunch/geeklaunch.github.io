@@ -371,4 +371,14 @@ impl TryFrom<Vpn<Connecting>> for Vpn<Connected> {
 
 I do not hope to convince you that your set of types is only good if it cannot represent invalid states, i.e. $\mathbb{R} = \mathbb{V}$. However, I do hope to demonstrate that putting a little more thought into the design of your data structures _could_ help you to avoid _more_ bugs _earlier_ in development.
 
+---
+
+I would be remiss if I failed to mention the body of work preceding me on this topic:
+
+- [Designing with types: Making illegal states unrepresentable (fsharpforfunandprofit.com)](https://fsharpforfunandprofit.com/posts/designing-with-types-making-illegal-states-unrepresentable/)
+- [Effective ML Revisited (blog.janestreet.com)](https://blog.janestreet.com/effective-ml-revisited/)
+- [Make Illegal States Unrepresentable! - Domain-Driven Design w/ TypeScript (khalilstemmler.com)](https://khalilstemmler.com/articles/typescript-domain-driven-design/make-illegal-states-unrepresentable/)
+- [Making Invalid State Unrepresentable (hugotunius.se)](https://hugotunius.se/2020/05/16/making-invalid-state-unrepresentable.html)
+- [Making illegal states unrepresentable (oleb.net)](https://oleb.net/blog/2018/03/making-illegal-states-unrepresentable/)
+
 {{% bio %}}
