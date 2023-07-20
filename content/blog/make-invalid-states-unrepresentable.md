@@ -380,5 +380,6 @@ I would be remiss if I failed to mention the body of work preceding me on this t
 - [Make Illegal States Unrepresentable! - Domain-Driven Design w/ TypeScript (khalilstemmler.com)](https://khalilstemmler.com/articles/typescript-domain-driven-design/make-illegal-states-unrepresentable/)
 - [Making Invalid State Unrepresentable (hugotunius.se)](https://hugotunius.se/2020/05/16/making-invalid-state-unrepresentable.html)
 - [Making illegal states unrepresentable (oleb.net)](https://oleb.net/blog/2018/03/making-illegal-states-unrepresentable/)
+- [CppCon 2016: Ben Deane “Using Types Effectively" (CppCon on youtube.com)](https://www.youtube.com/watch?v=ojZbFIQSdl8)
 
 {{% bio %}}
