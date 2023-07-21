@@ -1,6 +1,7 @@
 ---
 title: "Nothing in Rust"
 date: 2023-02-22
+lastmod: 2023-02-25
 description: "My heart is empty and broken."
 author: Jacob Lindahl
 twitter: sudo_build

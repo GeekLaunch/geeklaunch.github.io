@@ -1,7 +1,6 @@
 ---
 title: "How to speed up your code 224,444,739% using graphs"
 date: 2022-08-06
-draft: false
 description: "Using Rust and some clever CS tricks, can we write a better algorithm than a famous YouTuber?"
 author: Jacob Lindahl
 twitter: sudo_build

@@ -1,6 +1,7 @@
 ---
 title: "Make invalid states unrepresentable"
 date: 2023-07-17
+lastmod: 2023-07-21
 description: '"Type-driven development"'
 math: true
 author: Jacob Lindahl

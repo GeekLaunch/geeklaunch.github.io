@@ -1,6 +1,7 @@
 ---
 title: "Rust quickstart for JavaScript programmers"
 date: 2023-03-07
+lastmod: 2023-07-18
 description: "The essentials of the Rust programming language in one post"
 author: Jacob Lindahl
 twitter: sudo_build

@@ -1,7 +1,7 @@
 ---
 title: "Fathomable Rust Macros"
 date: 2022-10-25
-draft: false
+lastmod: 2022-10-26
 description: "A breakdown of the inner workings and authorship of macros in Rust"
 author: Jacob Lindahl
 twitter: sudo_build

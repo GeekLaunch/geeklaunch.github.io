@@ -3,7 +3,8 @@
     <header class="mb:32">
         <h1 class="font:40 font:bold">{{ .Title }}</h1>
         {{ if isset .Params "description" }}
-        <p class="font:18 mt:12 lh:1.4 font:semibold color:fade-30 color:fade-70@dark">{{ .Params.description | markdownify }}</p>
+        <p class="font:18 mt:12 lh:1.4 font:semibold color:fade-30 color:fade-70@dark">{{ .Params.description |
+            markdownify }}</p>
         {{ end }}
         <div class="mt:16 f:fade-60@dark f:fade-50 text-decoration:underline_:where(a):hover">
             <p>
@@ -17,14 +18,16 @@
 
                 {{- if isset .Params "date" -}}
                 <span class="mx:10">&mdash;</span><a href="{{ .Permalink }}">
-                    {{- if eq .Lastmod .Date -}}
                     {{- $t := .Date | time.Format (":date_long") -}}
-                    <time pubdate datetime="{{ .Date }}" title="{{ $t }}">{{ .Date | time.Format (":date_medium")
-                        }}</time>
-                    {{- else -}}
-                    <time>{{ .Lastmod | time.Format (":date_medium") }}</time>
-                    {{- end -}}
-                </a>
+                    <time itemprop="datePublished" pubdate datetime="{{ .Date }}" title="Published {{ $t }}">
+                        {{- .Date | time.Format (":date_medium") -}}
+                    </time></a>
+                {{- if ne .Lastmod .Date -}}
+                {{- $l := .Lastmod | time.Format (":date_long") -}}
+                &nbsp;<time itemprop="dateModified" datetime="{{ .Lastmod }}" class="italic" title="Updated {{ $l }}">(
+                    {{- .Lastmod | time.Format (":date_medium") -}}
+                    )</time>
+                {{- end -}}
                 {{- end -}}
             </p>
         </div>

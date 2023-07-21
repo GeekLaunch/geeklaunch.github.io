@@ -1,7 +1,7 @@
 ---
 title: "Grammatical, automatic furigana with SQLite and Rust"
 date: 2023-02-01
-draft: false
+lastmod: 2023-02-26
 description: "`autoruby`: an exercise in text processing."
 author: Jacob Lindahl
 twitter: sudo_build

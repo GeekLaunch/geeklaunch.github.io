@@ -1,7 +1,7 @@
 ---
 title: "The modern dearth of intelligent crypto"
 date: 2022-11-13
-draft: false
+lastmod: 2023-07-17
 description: "Save yourself billions of dollars with these security tips"
 author: Jacob Lindahl
 twitter: sudo_build
