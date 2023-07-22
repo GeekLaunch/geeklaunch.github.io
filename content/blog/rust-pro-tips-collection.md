@@ -1,7 +1,7 @@
 ---
 title: "Rust Pro Tips (collection)"
 date: 2023-04-08
-lastmod: 2023-07-18
+lastmod: 2023-07-22
 description: "Level up your Rust skills."
 author: Jacob Lindahl
 twitter: sudo_build
@@ -12,7 +12,7 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
-## Sealed traits
+## 26. Sealed traits
 
 <!-- [Tweet]() -->
 
@@ -46,7 +46,7 @@ impl my_crate::private::Sealed for String {}
 
 [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/future-proofing.html#sealed-traits-protect-against-downstream-implementations-c-sealed)
 
-## Static type size assertion
+## 25. Static type size assertion
 
 [Tweet](https://twitter.com/sudo_build/status/1681191747584655361)
 
@@ -72,7 +72,7 @@ Warning: Memory layout, alignment, etc. is often [not guaranteed](https://doc.ru
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=651556514aeefaf1c3468ba13b573661) \
 [Docs](https://doc.rust-lang.org/std/mem/fn.transmute.html)
 
-## Conditional compilation
+## 24. Conditional compilation
 
 [Tweet](https://twitter.com/sudo_build/status/1673726139339251712)
 
@@ -99,7 +99,7 @@ fn main() {
 [Docs](https://doc.rust-lang.org/reference/conditional-compilation.html) \
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=05bef59f5aac574cb610c42d49c54b81)
 
-## Declaratively create `HashMap`s from iterables
+## 23. Declaratively create `HashMap`s from iterables
 
 [Tweet](https://twitter.com/sudo_build/status/1664101178479898624)
 
@@ -120,7 +120,7 @@ let map: HashMap<&str, i32> = [
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=cfa3d57767aed32f6720e2c5d4f0cd88) \
 [Docs](https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.from)
 
-## `impl` vs. `dyn` in assembler
+## 22. `impl` vs. `dyn` in assembler
 
 [Tweet](https://twitter.com/sudo_build/status/1654822176686755841)
 
@@ -208,7 +208,7 @@ No vtable required!
 [`dyn` docs](https://doc.rust-lang.org/std/keyword.dyn.html) \
 [`impl` docs](https://doc.rust-lang.org/std/keyword.impl.html)
 
-## Closure traits
+## 21. Closure traits
 
 [Tweet](https://twitter.com/sudo_build/status/1651431413491863552)
 
@@ -269,7 +269,7 @@ struct Var(i32);
 [Rust Reference](https://doc.rust-lang.org/reference/types/closure.html#call-traits-and-coercions) \
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=8fb56d1dff43dba3dfe958df21222e08)
 
-## Write better tests with `#[should_panic]`
+## 20. Write better tests with `#[should_panic]`
 
 [Tweet](https://twitter.com/sudo_build/status/1649109301753937927)
 
@@ -285,7 +285,7 @@ fn div_zero() {
 
 [Docs](https://doc.rust-lang.org/book/ch11-01-writing-tests.html#checking-for-panics-with-should_panic)
 
-## Use `#[non_exhaustive]` to prevent breaking changes
+## 19. Use `#[non_exhaustive]` to prevent breaking changes
 
 Use the `#[non_exhaustive]` attribute to prevent breaking changes when adding new fields to a struct or enum variant.
 
@@ -323,7 +323,7 @@ match e {
 
 [Docs](https://doc.rust-lang.org/reference/attributes/type_system.html#the-non_exhaustive-attribute)
 
-## Union types
+## 18. Union types
 
 [Tweet](https://twitter.com/sudo_build/status/1644270712100900864)
 
@@ -351,7 +351,7 @@ assert_eq!(unsafe { o.uint }, 0xDEADBEEF);
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=ab1034fdf89e71064bea9c1211d45926) \
 [Docs](https://doc.rust-lang.org/reference/items/unions.html)
 
-## Struct update operator `..`
+## 17. Struct update operator `..`
 
 [Tweet](https://twitter.com/sudo_build/status/1640782008652791810)
 
@@ -380,7 +380,7 @@ assert_eq!(p.tags, Vec::<String>::new());
 
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=fc1f617a87fbc2d46f5a590d8a848872)
 
-## The `@` operator
+## 16. The `@` operator
 
 [Tweet](https://twitter.com/sudo_build/status/1639322229635973120)
 
@@ -403,7 +403,7 @@ if let User { age: a @ ..=35, .. } = u {
 [Documentation](https://doc.rust-lang.org/reference/patterns.html#identifier-patterns) \
 [Rust by Example](https://doc.rust-lang.org/rust-by-example/flow_control/match/binding.html)
 
-## Create your own iterators
+## 15. Create your own iterators
 
 [Tweet](https://twitter.com/sudo_build/status/1587820368923746304)
 
@@ -473,7 +473,7 @@ And that's it! Now you can easily implement `Iterator` on your own types.
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=e8fe920cdf97a3d2dc2dd0599fdc1e3e) \
 [Docs](https://doc.rust-lang.org/std/iter/trait.Iterator.html)
 
-## Use longer names for lifetimes and generic parameters
+## 14. Use longer names for lifetimes and generic parameters
 
 [Tweet](https://twitter.com/sudo_build/status/1585699823067418625)
 
@@ -486,7 +486,7 @@ struct View<'source, Element: Deserialize> {
 }
 ```
 
-## `PhantomData` 👻
+## 13. `PhantomData` 👻
 
 [Tweet](https://twitter.com/sudo_build/status/1590277738224848896)
 
@@ -520,7 +520,7 @@ impl<'a> From<&'a Vec<u8>> for FP<'a> {
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=3028c55bf3422a1b083f5c16c064727a) \
 More in [Nomicon](https://doc.rust-lang.org/nomicon/phantom-data.html).
 
-## `String`s are collections
+## 12. `String`s are collections
 
 [Tweet](https://twitter.com/sudo_build/status/1610855444901396480)
 
@@ -535,7 +535,7 @@ let my_string = vec![1, 2, 3, 4]
 assert_eq!(my_string, "2468");
 ```
 
-## Enforce Clippy lints in a workspace
+## 11. Enforce Clippy lints in a workspace
 
 [Tweet](https://twitter.com/sudo_build/status/1567168431094468608)
 
@@ -550,7 +550,7 @@ rustflags = [
 
 (Otherwise you'd need to have a `#![warn(...)]` directive in every crate.)
 
-## The never type `!`
+## 10. The never type `!`
 
 [Tweet](https://twitter.com/sudo_build/status/1565738760465453056)
 
@@ -567,7 +567,7 @@ let x: u32 = panic!();
 [`Infallible` documentation](https://doc.rust-lang.org/std/convert/enum.Infallible.html) \
 [Nothing in Rust]({{% ref "nothing-in-rust" %}})
 
-## Recursive declarative macros
+## 9. Recursive declarative macros
 
 [Tweet](https://twitter.com/sudo_build/status/1569282411070115840)
 
@@ -583,7 +583,7 @@ macro_rules! m {
 assert!(m!(y xor n xor n));
 ```
 
-## Rustdoc link shorthand
+## 8. Rustdoc link shorthand
 
 [Tweet](https://twitter.com/sudo_build/status/1571975420073095169)
 
@@ -601,7 +601,7 @@ Works for external crates too!
 
 (Links to <https://docs.rs/serde/latest/serde/ser/trait.Serialize.html>.) Backticks are optional, they just format it nicely.
 
-## More precise access control
+## 7. More precise access control
 
 [Tweet](https://twitter.com/sudo_build/status/1566036137679785984)
 
@@ -616,7 +616,7 @@ Specify item visibility with the `pub(restricted)` syntax:
 
 [Docs](https://doc.rust-lang.org/reference/visibility-and-privacy.html#pubin-path-pubcrate-pubsuper-and-pubself)
 
-## Reuse code in `build.rs` with `#[path]`
+## 6. Reuse code in `build.rs` with `#[path]`
 
 [Tweet](https://twitter.com/sudo_build/status/1620745579914752000)
 
@@ -641,7 +641,7 @@ let feature_gated = /* ... */;
 [`build.rs` documentation](https://doc.rust-lang.org/cargo/reference/build-scripts.html) \
 [The `#[path]` attribute](https://doc.rust-lang.org/reference/items/modules.html#the-path-attribute)
 
-## Reduce unnecessary allocations with cows 🐮
+## 5. Reduce unnecessary allocations with cows 🐮
 
 [Tweet](https://twitter.com/sudo_build/status/1571209960759132163)
 
@@ -663,7 +663,7 @@ assert!(v.is_owned());
 
 [Playground](https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=566eaaa7e277841ff3d9bb5c0e819be9)
 
-## Additional trait bounds per-function
+## 4. Additional trait bounds per-function
 
 [Tweet](https://twitter.com/sudo_build/status/1572671282688438272)
 
@@ -683,7 +683,7 @@ trait MyTrait<T: Debug> {
 
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=e45d1a98e6c217ceb5e0b2bbb7bb7e65)
 
-## Use the `AsRef` trait to convert references
+## 3. Use the `AsRef` trait to convert references
 
 [Tweet](https://twitter.com/sudo_build/status/1572676898559528961)
 
@@ -703,7 +703,7 @@ sum_is_even([1]);
 [Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=c28f23e491f08b4aa537c89a0c9d12db) \
 [Docs](https://doc.rust-lang.org/std/convert/trait.AsRef.html)
 
-## Use `syn` and `quote` when writing procedural macros
+## 2. Use `syn` and `quote` when writing procedural macros
 
 [Tweet](https://twitter.com/sudo_build/status/1585700625030950912)
 
@@ -711,7 +711,7 @@ The crates [`syn`](https://crates.io/crates/syn) and [`quote`](https://crates.io
 
 [More about writing procedural macros in Rust]({{% ref "fathomable-rust-macros" %}}).
 
-## Use the `dbg!(...)` macro for better debugging
+## 1. Use the `dbg!(...)` macro for better debugging
 
 [Tweet](https://twitter.com/sudo_build/status/1564945355023663104)
 
