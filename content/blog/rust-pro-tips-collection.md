@@ -12,6 +12,40 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## Sealed traits
+
+<!-- [Tweet]() -->
+
+If a public trait requires the implementation of a private trait, the public trait is "sealed" and can only be implemented within the crate that defines it.
+
+```rust
+// my_crate/src/lib.rs
+
+mod private {
+    pub trait Sealed {}
+
+    impl Sealed for u8 {}
+}
+
+pub trait PublicTrait: private::Sealed {}
+
+impl PublicTrait for u8 {}
+```
+
+```rust
+// another_crate/src/lib.rs
+
+use my_crate::PublicTrait;
+
+// error: requires private::Sealed implementation
+impl PublicTrait for String {}
+
+// error: my_crate::private::Sealed is private
+impl my_crate::private::Sealed for String {}
+```
+
+[Rust API Guidelines](https://rust-lang.github.io/api-guidelines/future-proofing.html#sealed-traits-protect-against-downstream-implementations-c-sealed)
+
 ## Static type size assertion
 
 [Tweet](https://twitter.com/sudo_build/status/1681191747584655361)
