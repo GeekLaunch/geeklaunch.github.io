@@ -14,7 +14,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 26. Sealed traits
 
-<!-- [Tweet]() -->
+[Tweet](https://twitter.com/sudo_build/status/1682766520534069249)
 
 If a public trait requires the implementation of a private trait, the public trait is "sealed" and can only be implemented within the crate that defines it.
 
