@@ -377,10 +377,12 @@ I do not hope to convince you that your set of types is only good if it cannot r
 I would be remiss if I failed to mention the body of work preceding me on this topic:
 
 - [Designing with types: Making illegal states unrepresentable (fsharpforfunandprofit.com)](https://fsharpforfunandprofit.com/posts/designing-with-types-making-illegal-states-unrepresentable/)
-- [Effective ML Revisited (blog.janestreet.com)](https://blog.janestreet.com/effective-ml-revisited/)
+- [Effective ML Revisited (blog.janestreet.com)](https://blog.janestreet.com/effective-ml-revisited/)[^minsky]
 - [Make Illegal States Unrepresentable! - Domain-Driven Design w/ TypeScript (khalilstemmler.com)](https://khalilstemmler.com/articles/typescript-domain-driven-design/make-illegal-states-unrepresentable/)
 - [Making Invalid State Unrepresentable (hugotunius.se)](https://hugotunius.se/2020/05/16/making-invalid-state-unrepresentable.html)
 - [Making illegal states unrepresentable (oleb.net)](https://oleb.net/blog/2018/03/making-illegal-states-unrepresentable/)
 - [CppCon 2016: Ben Deane “Using Types Effectively" (CppCon on youtube.com)](https://www.youtube.com/watch?v=ojZbFIQSdl8)
+
+[^minsky]: The author, Yaron Minsky, actually [coined the phrase "make illegal states unrepresentable."](https://twitter.com/yminsky/status/1034947939364425731) Thanks to [u/dist1ll on Reddit](https://www.reddit.com/r/rust/comments/155b6qc/comment/jsup7ju/?utm_source=share&utm_medium=web2x&context=3) for pointing this out.
 
 {{% bio %}}
