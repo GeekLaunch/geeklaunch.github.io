@@ -14,7 +14,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 27. Testing for compilation failure
 
-<!-- [Tweet]() -->
+[Tweet](https://twitter.com/sudo_build/status/1683855149956218881)
 
 Create tests intended to fail compilation with the `compile_fail` attribute on documentation tests.
 
