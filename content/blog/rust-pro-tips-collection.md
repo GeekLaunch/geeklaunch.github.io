@@ -1,7 +1,7 @@
 ---
 title: "Rust Pro Tips (collection)"
 date: 2023-04-08
-lastmod: 2023-07-22
+lastmod: 2023-07-26
 description: "Level up your Rust skills."
 author: Jacob Lindahl
 twitter: sudo_build
@@ -27,12 +27,12 @@ pub fn my_function(value: u8) {}
 
 The compilation error is `error[E0308]: mismatched types`, which you can check for specifically:
 
-```rust
+````rust
 /// ```compile_fail,E0308
 /// my_function("hello");
 /// ```
 pub fn my_function(value: u8) {}
-```
+````
 
 [Docs](https://doc.rust-lang.org/rustdoc/write-documentation/documentation-tests.html#attributes)
 
