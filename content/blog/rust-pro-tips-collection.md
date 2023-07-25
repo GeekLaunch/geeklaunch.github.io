@@ -12,6 +12,30 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## 27. Testing for compilation failure
+
+<!-- [Tweet]() -->
+
+Create tests intended to fail compilation with the `compile_fail` attribute on documentation tests.
+
+````rust
+/// ```compile_fail
+/// my_function("hello");
+/// ```
+pub fn my_function(value: u8) {}
+````
+
+The compilation error is `error[E0308]: mismatched types`, which you can check for specifically:
+
+```rust
+/// ```compile_fail,E0308
+/// my_function("hello");
+/// ```
+pub fn my_function(value: u8) {}
+```
+
+[Docs](https://doc.rust-lang.org/rustdoc/write-documentation/documentation-tests.html#attributes)
+
 ## 26. Sealed traits
 
 [Tweet](https://twitter.com/sudo_build/status/1682766520534069249)
