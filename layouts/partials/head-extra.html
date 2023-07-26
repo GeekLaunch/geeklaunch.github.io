@@ -32,7 +32,6 @@
     :target {
         animation: highlight 1.2s forwards;
     }
-
 </style>
 <script>
     (() => {
@@ -72,6 +71,13 @@
                     e.trigger.textContent = 'Copy';
                 }, { once: true });
             });
+
+            // Browser message
+            const browserMessage = document.getElementById('browserMessage');
+            const browserIsChromiumBased = !!window.chrome;
+            if (browserMessage && browserIsChromiumBased) {
+                browserMessage.style.display = '';
+            }
         });
     })();
 </script>
