@@ -2,7 +2,6 @@ baseURL = "https://geeklaunch.io"
 copyright = "Jacob Lindahl"
 defaultContentLanguage = "en"
 disableKinds = ["taxonomy", "taxonomyTerm"]
-googleAnalytics = "G-DMBPKLBF8X"
 hasCJKLanguage = true
 ignoreFiles = ["\\.psd$"]
 languageCode = "en-us"
