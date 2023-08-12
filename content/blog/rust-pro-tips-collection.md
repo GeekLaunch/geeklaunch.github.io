@@ -14,7 +14,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 28. Workspace dependencies
 
-<!-- [Tweet]() -->
+[Tweet](https://twitter.com/sudo_build/status/1690286028555423744) [Toot](https://infosec.exchange/@hatchet/110875801320226379)
 
 Easily specify a uniform dependency version for all crates in a workspace with the `[workspace.dependencies]` table in `Cargo.toml`.
 
