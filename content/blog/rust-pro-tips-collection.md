@@ -12,6 +12,31 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## 28. Workspace dependencies
+
+<!-- [Tweet]() -->
+
+Easily specify a uniform dependency version for all crates in a workspace with the `[workspace.dependencies]` table in `Cargo.toml`.
+
+```toml
+# Cargo.toml
+
+[workspace]
+members = ["my_crate"]
+
+[workspace.dependencies]
+serde = "1.0.183"
+```
+
+```toml
+# my_crate/Cargo.toml
+
+[dependencies]
+serde.workspace = true # -> 1.0.183
+```
+
+[Docs](https://doc.rust-lang.org/cargo/reference/workspaces.html#the-dependencies-table)
+
 ## 27. Testing for compilation failure
 
 [Tweet](https://twitter.com/sudo_build/status/1683855149956218881)
