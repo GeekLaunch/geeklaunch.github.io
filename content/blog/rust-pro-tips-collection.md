@@ -12,6 +12,20 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## 29. Include README in documentation
+
+<!-- [Tweet]() [Toot]() -->
+
+Insert the README into a crate's documentation by putting `#![doc = include_str!("../README.md")]` in `lib.rs`. This can help avoid duplicating information between the README and the documentation, and will also test README examples as doctests.
+
+```rust
+// lib.rs
+#![doc = include_str!("../README.md")]
+```
+
+[Docs](https://doc.rust-lang.org/rustdoc/write-documentation/the-doc-attribute.html) \
+[Documentation from a crate that does this](https://docs.rs/size-trait/)
+
 ## 28. Workspace dependencies
 
 [Tweet](https://twitter.com/sudo_build/status/1690286028555423744) [Toot](https://infosec.exchange/@hatchet/110875801320226379)
