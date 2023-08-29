@@ -1,7 +1,7 @@
 ---
 title: "Rust Pro Tips (collection)"
 date: 2023-04-08
-lastmod: 2023-08-12
+lastmod: 2023-08-29
 description: "Level up your Rust skills."
 author: Jacob Lindahl
 twitter: sudo_build
@@ -14,7 +14,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 29. Include README in documentation
 
-<!-- [Tweet]() [Toot]() -->
+[Tweet](https://twitter.com/sudo_build/status/1696353871088803917) [Toot](https://infosec.exchange/@hatchet/110970596795877242)
 
 Insert the README into a crate's documentation by putting `#![doc = include_str!("../README.md")]` in `lib.rs`. This can help avoid duplicating information between the README and the documentation, and will also test README examples as doctests.
 
