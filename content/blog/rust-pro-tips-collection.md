@@ -14,7 +14,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 30. Create a slice from a reference without copying
 
-<!-- [Tweet]() [Toot]() -->
+[Tweet](https://twitter.com/sudo_build/status/1702009293850165747) [Toot](https://infosec.exchange/@hatchet/111058977026865657)
 
 If you have a reference to some data and you want to pass it to a function that takes a slice, you can use [`std::array::from_ref`](https://doc.rust-lang.org/std/array/fn.from_ref.html) to cheaply create a slice without copying.
 
