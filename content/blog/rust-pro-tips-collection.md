@@ -1,7 +1,7 @@
 ---
 title: "Rust Pro Tips (collection)"
 date: 2023-04-08
-lastmod: 2023-08-29
+lastmod: 2023-09-14
 description: "Level up your Rust skills."
 author: Jacob Lindahl
 twitter: sudo_build
@@ -11,6 +11,30 @@ license:
 ---
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
+
+## 30. Create a slice from a reference without copying
+
+<!-- [Tweet]() [Toot]() -->
+
+If you have a reference to some data and you want to pass it to a function that takes a slice, you can use [`std::array::from_ref`](https://doc.rust-lang.org/std/array/fn.from_ref.html) to cheaply create a slice without copying.
+
+```rust
+struct Thing;
+
+fn takes_slice(_: &[Thing]) {
+    // ...
+}
+
+fn my_function(arg: &Thing) {
+    takes_slice(std::array::from_ref(arg));
+}
+
+fn main() {
+    my_function(&Thing);
+}
+```
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=76925f46c4aaceb7c39c3d58030ae0a4)
 
 ## 29. Include README in documentation
 
