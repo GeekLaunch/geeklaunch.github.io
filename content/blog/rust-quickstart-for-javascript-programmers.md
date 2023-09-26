@@ -740,7 +740,7 @@ Let's walk through the error message:
 
   To "borrow" a value is to take a reference to it. This says that we're trying to create a reference to a value that has been moved away: the container that used to hold the value&mdash;`my_string`&mdash;is empty!
 
-- `` move occurs because `my_string` has type `String`, which does not implement the `Copy` trait ``
+- ``move occurs because `my_string` has type `String`, which does not implement the `Copy` trait``
 
   There are some values that don't really need the power of move semantics. These are usually small, stack-allocated, statically-sized values like many of the primitives. Instead of getting moved from one owner to another, these values are just copied from one place to another, since it's so cheap to do. Types like this implement the `Copy` trait. References are also `Copy`!
 

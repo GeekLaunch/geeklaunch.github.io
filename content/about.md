@@ -12,46 +12,56 @@ My professional software engineering experience includes two medical software co
 I'm experienced with many technologies and programming languages, including:
 
 {{%collapse title="Front-end web" %}}
-  - HTML/CSS/JavaScript
-  - TypeScript
-  - Angular
-  - React
-  - Vue
-  - Sass/SCSS
+
+- HTML/CSS/JavaScript
+- TypeScript
+- Angular
+- React
+- Vue
+- Sass/SCSS
+
 {{%/collapse%}}
 
 {{%collapse title="Server-side" %}}
-  - Node.js
-  - Microsoft SQL
-  - MySQL
-  - PostgreSQL
+
+- Node.js
+- Microsoft SQL
+- MySQL
+- PostgreSQL
+
 {{%/collapse%}}
 
 {{%collapse title="Applications programming" %}}
-  - Rust
-  - WebAssembly
-  - [AssemblyScript](https://www.assemblyscript.org/)
-  - C#
-  - Java
-  - Python 3
-  - C
-  - Ocaml
+
+- Rust
+- WebAssembly
+- [AssemblyScript](https://www.assemblyscript.org/)
+- C#
+- Java
+- Python 3
+- C
+- Ocaml
+
 {{%/collapse%}}
 
 {{%collapse title="Distributed ledger technology & smart contract development" %}}
-  - [Ethereum](https://ethereum.org/) blockchain
-  - Solidity
-  - [NEAR](https://near.org/) blockchain
-  - [Algorand](https://algorand.org/) blockchain
-  - [TEAL](https://developer.algorand.org/docs/get-details/dapps/avm/teal/)/[PyTEAL](https://github.com/algorand/pyteal)
+
+- [Ethereum](https://ethereum.org/) blockchain
+- Solidity
+- [NEAR](https://near.org/) blockchain
+- [Algorand](https://algorand.org/) blockchain
+- [TEAL](https://developer.algorand.org/docs/get-details/dapps/avm/teal/)/[PyTEAL](https://github.com/algorand/pyteal)
+
 {{%/collapse%}}
 
 {{%collapse title="Other technologies" %}}
-  - Linux
-  - [Hugo](https://gohugo.io/)
-  - Git
-  - GitHub
-  - JIRA
+
+- Linux
+- [Hugo](https://gohugo.io/)
+- Git
+- GitHub
+- JIRA
+
 {{%/collapse%}}
 
 I use the [Hugo static site generator](https://gohugo.io/) to maintain this website.
