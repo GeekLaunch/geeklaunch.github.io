@@ -1,7 +1,7 @@
 baseURL = "https://geeklaunch.io"
 copyright = "Jacob Lindahl"
 defaultContentLanguage = "en"
-disableKinds = ["taxonomy", "taxonomyTerm"]
+disableKinds = ["taxonomy"]
 hasCJKLanguage = true
 ignoreFiles = ["\\.psd$"]
 languageCode = "en-us"
@@ -16,6 +16,10 @@ logo = "img/geeklaunch.png"
 mastodon = "geeklaunch@techhub.social"
 twitter = "Geek_Launch"
 youtube = "GeekLaunch"
+
+[params.plausible]
+host = "plausible.c0d3r.dev"
+domain = "geeklaunch.io"
 
 [markup.goldmark.renderer]
 unsafe = true

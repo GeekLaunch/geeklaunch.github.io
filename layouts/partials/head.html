@@ -31,6 +31,11 @@
     <meta name="author" content="{{ site.Author.name }}" />
     {{ end }}
 
+    {{ if isset site.Params "plausible" }}
+    <script defer data-domain="{{ site.Params.plausible.domain }}"
+        src="https://{{ site.Params.plausible.host }}/js/script.js"></script>
+    {{ end }}
+
     {{ range .AlternativeOutputFormats -}}
     {{ printf `
     <link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
