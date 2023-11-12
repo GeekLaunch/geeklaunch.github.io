@@ -7,15 +7,15 @@ ignoreFiles = ["\\.psd$"]
 languageCode = "en-us"
 title = "GeekLaunch"
 
-[author]
-name = "Jacob Lindahl"
-
 [params]
 description = "Tech tips and tutorials. Computer science educational videos, tutorials, guides, blog posts about Rust programming, blockchain, optimization problems, cybersecurity."
 logo = "img/geeklaunch.png"
 mastodon = "geeklaunch@techhub.social"
 twitter = "Geek_Launch"
 youtube = "GeekLaunch"
+
+[params.author]
+name = "Jacob Lindahl"
 
 [params.plausible]
 host = "plausible.c0d3r.dev"
