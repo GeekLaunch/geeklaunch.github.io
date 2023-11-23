@@ -1,7 +1,7 @@
 ---
 title: "Rust Pro Tips (collection)"
 date: 2023-04-08
-lastmod: 2023-09-14
+lastmod: 2023-11-23
 description: "Level up your Rust skills."
 author: Jacob Lindahl
 twitter: sudo_build
@@ -11,6 +11,33 @@ license:
 ---
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
+
+## 31. Use indirection in enums to save memory
+
+<!-- [Tweet]() [Toot]() -->
+
+All variants of an enum are the same size. This can become a problem when variants have drastically different memory requirements. Use indirection (`&`-reference, `Box`, etc.) to resolve.
+
+```rust
+enum WithoutIndirection {
+    Unit,
+    Kilobyte([u8; 1024]),
+}
+
+enum WithIndirection<'a> {
+    Unit,
+    Kilobyte(&'a [u8; 1024]),
+}
+
+println!("{}", std::mem::size_of_val(&WithoutIndirection::Unit));
+// => 1025
+
+println!("{}", std::mem::size_of_val(&WithIndirection::Unit));
+// => 8
+```
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=bee0edb5a4b888c8c9d3df0e473246cc) \
+[Docs](https://doc.rust-lang.org/reference/types/enum.html)
 
 ## 30. Create a slice from a reference without copying
 
