@@ -14,7 +14,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 31. Use indirection in enums to save memory
 
-<!-- [Tweet]() [Toot]() -->
+[Tweet](https://twitter.com/sudo_build/status/1727616005038641462) [Toot](https://infosec.exchange/@hatchet/111459094208915697)
 
 All variants of an enum are the same size. This can become a problem when variants have drastically different memory requirements. Use indirection (`&`-reference, `Box`, etc.) to resolve.
 
