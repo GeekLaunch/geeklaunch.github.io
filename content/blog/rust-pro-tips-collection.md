@@ -1,7 +1,7 @@
 ---
 title: "Rust Pro Tips (collection)"
 date: 2023-04-08
-lastmod: 2023-11-23
+lastmod: 2023-12-08
 description: "Level up your Rust skills."
 author: Jacob Lindahl
 twitter: sudo_build
@@ -11,6 +11,43 @@ license:
 ---
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
+
+## 32. Absolute import paths
+
+Use a leading double colon (`::path`) to indicate a path relative to the root of the compilation unit. This can help to avoid name collisions when writing macros.
+
+```rust
+#[cfg(ignore)] // Remove to cause a name collision.
+pub mod std {
+    pub mod cmp {
+        pub enum Ordering {
+            Equal,
+        }
+        
+        impl Ordering {
+            pub fn is_eq(self) -> bool {
+                panic!("Bamboozled!");
+            }
+        }
+    }
+}
+
+macro_rules! create_function {
+    () => {
+        // Try replacing the next line with the one below it.
+        fn print_is_equal(o: std::cmp::Ordering) {
+        // fn print_is_equal(o: ::std::cmp::Ordering) {
+            println!("is equal? {}", o.is_eq());
+        }
+    }
+}
+
+create_function!();
+print_is_equal(std::cmp::Ordering::Equal);
+```
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=28efee7fea89819e78f16b91b24e87e4) \
+[Docs](https://doc.rust-lang.org/book/appendix-02-operators.html#non-operator-symbols)
 
 ## 31. Use indirection in enums to save memory
 
