@@ -14,6 +14,8 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 32. Absolute import paths
 
+[Tweet](https://twitter.com/sudo_build/status/1733063054840262842) [Toot](https://infosec.exchange/@hatchet/111544198990772125)
+
 Use a leading double colon (`::path`) to indicate a path relative to the root of the compilation unit. This can help to avoid name collisions when writing macros.
 
 ```rust
