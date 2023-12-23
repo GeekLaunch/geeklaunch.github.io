@@ -51,7 +51,8 @@
         src='{{ (resources.GetRemote "https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.7.0/highlight.min.js").RelPermalink }}'></script>
     <script
         src='{{ (resources.GetRemote "https://cdn.jsdelivr.net/npm/highlightjs-solidity@2.0.5/dist/solidity.min.js").RelPermalink }}'></script>
-    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/languages/x86asm.min.js"></script>
+    <script
+        src='{{ (resources.GetRemote "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/languages/x86asm.min.js").RelPermalink }}'></script>
 
     <link
         href='{{ (resources.GetRemote "https://cdn.jsdelivr.net/npm/@master/normal.css@1.9.7/index.min.css").RelPermalink }}'
