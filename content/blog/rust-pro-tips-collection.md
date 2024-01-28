@@ -12,6 +12,26 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## 33. Use tuple struct initializers as function pointers
+
+<!-- [Tweet]() [Toot]() -->
+
+Tuple struct initializers can be cast to function pointers. This can help to avoid creating unnecessary lambda functions, e.g. when calling [`Iterator::map`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.map).
+
+```rust
+#[derive(Debug, PartialEq, Eq)]
+struct Point(i32, i32);
+
+fn zeroes<T>(f: fn(i32, i32) -> T) -> T {
+    f(0, 0)
+}
+
+assert_eq!(zeroes(Point), Point(0, 0));
+```
+
+[Docs](https://doc.rust-lang.org/reference/expressions/struct-expr.html#tuple-struct-expression) \
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7cb12bc6930a9ae03204a33eb50529ce)
+
 ## 32. Absolute import paths
 
 [Tweet](https://twitter.com/sudo_build/status/1733063054840262842) [Toot](https://infosec.exchange/@hatchet/111544198990772125)
@@ -25,7 +45,7 @@ pub mod std {
         pub enum Ordering {
             Equal,
         }
-        
+
         impl Ordering {
             pub fn is_eq(self) -> bool {
                 panic!("Bamboozled!");
