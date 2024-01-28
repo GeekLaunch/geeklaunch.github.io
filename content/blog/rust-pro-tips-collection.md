@@ -1,7 +1,7 @@
 ---
 title: "Rust Pro Tips (collection)"
 date: 2023-04-08
-lastmod: 2023-12-08
+lastmod: 2024-01-28
 description: "Level up your Rust skills."
 author: Jacob Lindahl
 twitter: sudo_build
