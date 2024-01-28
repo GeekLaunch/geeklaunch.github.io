@@ -14,7 +14,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 33. Use tuple struct initializers as function pointers
 
-<!-- [Tweet]() [Toot]() -->
+[Tweet](https://twitter.com/sudo_build/status/1751597656114446377) [Toot](https://infosec.exchange/@hatchet/111833792212244273)
 
 Tuple struct initializers can be cast to function pointers. This can help to avoid creating unnecessary lambda functions, e.g. when calling [`Iterator::map`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.map).
 
@@ -29,8 +29,8 @@ fn zeroes<T>(f: fn(i32, i32) -> T) -> T {
 assert_eq!(zeroes(Point), Point(0, 0));
 ```
 
-[Docs](https://doc.rust-lang.org/reference/expressions/struct-expr.html#tuple-struct-expression) \
-[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7cb12bc6930a9ae03204a33eb50529ce)
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7cb12bc6930a9ae03204a33eb50529ce) \
+[Docs](https://doc.rust-lang.org/reference/expressions/struct-expr.html#tuple-struct-expression)
 
 ## 32. Absolute import paths
 
