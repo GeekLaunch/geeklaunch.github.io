@@ -1,7 +1,7 @@
 ---
 title: "Rust Pro Tips (collection)"
 date: 2023-04-08
-lastmod: 2024-01-28
+lastmod: 2024-02-10
 description: "Level up your Rust skills."
 author: Jacob Lindahl
 twitter: sudo_build
@@ -11,6 +11,25 @@ license:
 ---
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
+
+## 34. Enable optional dependency features with a feature
+
+[Tweet](https://twitter.com/sudo_build/status/1756269920126726455) [Toot](https://infosec.exchange/@hatchet/111906804455534802)
+
+Use the `?` syntax in `Cargo.toml` to activate features on optional dependencies only when those dependencies are enabled.
+
+```toml
+[dependencies]
+backend-a = { version = "1", optional = true }
+backend-b = { version = "1", optional = true }
+
+[features]
+default = ["backend-a"]
+unstable = ["backend-a?/unstable", "backend-b?/unstable"]
+# Enabling the "unstable" feature won't implicitly enable either backend.
+```
+
+[Docs](https://doc.rust-lang.org/cargo/reference/features.html#dependency-features)
 
 ## 33. Use tuple struct initializers as function pointers
 
