@@ -74,7 +74,9 @@ Now that we have our group members, we need an operation to combine them. Ellipt
 
 Recall that the equation for an elliptic curve is a cubic curve (polynomial order 3), so a line (order 1) will intersect it at $3 \times 1 = 3$ points.[^columbia-ums] We use this fact to define the addition of two points along the curve.
 
-Let the two points we wish to add be $\mathcal{P}$ and $\mathcal{Q}$. We draw a line from $\mathcal{P}$ to $\mathcal{Q}$, and $\mathcal{R}$ is the third point that the line intersects. We set up the equation $\mathcal{P} + \mathcal{Q} + \mathcal{R} = \mathcal{O}$, where $\mathcal{O}$ is the point at infinity (and also happens to be the additive identity &ne; the origin). Solving for $\mathcal{P} + \mathcal{Q}$ gives us $\mathcal{P} + \mathcal{Q} = -\mathcal{R}$. "Negating" a point on the curve means flipping it across the x-axis. ([Here is an illustration](https://www.researchgate.net/figure/The-group-law-for-an-elliptic-curve-P-Q-R-The-points-P-and-Q-sum-to-the-point-R_fig1_23552588) of what this operation looks like in the affine plane.)
+Let the two points we wish to add be $\mathcal{P}$ and $\mathcal{Q}$. We draw a line from $\mathcal{P}$ to $\mathcal{Q}$, and $\mathcal{R}$ is the third point that the line intersects. We set up the equation $\mathcal{P} + \mathcal{Q} + \mathcal{R} = \mathcal{O}$, where $\mathcal{O}$ is the point at infinity (and also happens to be the additive identity &ne; the origin). Solving for $\mathcal{P} + \mathcal{Q}$ gives us $\mathcal{P} + \mathcal{Q} = -\mathcal{R}$. "Negating" a point on the curve means flipping it across the x-axis.[^negation-illustration]
+
+[^negation-illustration]: [Here is an illustration](https://www.researchgate.net/figure/The-group-law-for-an-elliptic-curve-P-Q-R-The-points-P-and-Q-sum-to-the-point-R_fig1_23552588) of what this operation looks like in the affine plane.
 
 [^columbia-ums]: Block, Adam. "Introduction to Elliptic Curves." Columbia Undergraduate Math Society, 2017. <https://www.math.columbia.edu/~ums/pdf/UMS%20Talk%203.pdf>.
 
@@ -86,27 +88,42 @@ When repeatedly _adding_ an elliptic curve point to itself, there is a problem a
 
 ## Pairings are bilinear maps
 
-A bilinear map is a function $e: \mathbf{G}_1 \times \mathbf{G}_2 \rightarrow \mathbf{G}_T$[^typenot] with the following properties:
+A bilinear map is a function $e: \mathbf{G}_1 \times \mathbf{G}_2 \rightarrow \mathbf{G}_T$[^typenot] that satisfies the following constraints:
 
 [^typenot]: This notation indicates the type of the function. In this case, it means: the function $e$ takes two arguments, the first an element from group $\mathbf{G}_1$, and the second an element from group $\mathbf{G}_2$, and returns an element from group $\mathbf{G}_T$.
 
 $$
+\begin{align*}
+X, X^\prime &\in \mathbf{G}_1 \\\\
+Y, Y^\prime &\in \mathbf{G}_2 \\\\
+a &\in \mathbb{Z}
+\end{align*}
+$$
+[^howtoread-vars]
+
+[^howtoread-vars]: This means: "The variables $X$ and $X^\prime$ are elements of group $\mathbf{G}_1$. The variables $Y$ and $Y^\prime$ are elements of group $\mathbf{G}_2$. The variable $a$ is any integer, including zero and negatives."
+
+$$
 \begin{align}
-e(x + a,y) &= e(x,y) \times e(a,y) \\\\
-e(x,y + a) &= e(x,y) \times e(x,a) \\\\
-e(ax,y) &= e(x,y)^a \\\\
-e(x,ay) &= e(x,y)^a \\\\
-e(x,y)^a \ne 1 &\leftrightarrow a \ne 0 \\\\
+e(X + X^\prime,Y) &= e(X,Y) \times e(X^\prime,Y) \\\\
+e(X,Y + Y^\prime) &= e(X,Y) \times e(X,Y^\prime) \\\\
+e(aX,Y) &= e(X,Y)^a \\\\
+e(X,aY) &= e(X,Y)^a \\\\
+e(X,Y)^a \ne 1 &\leftrightarrow a \ne 0
 \end{align}
-$$[^notation]
+$$[^notation] [^degenerate]
 
-[^notation]: Note that [some sources](https://ocw.mit.edu/courses/res-18-011-algebra-i-student-notes-fall-2021/mit18_701f21_lect24.pdf) may use a different set of operations: $+$ instead of $\times$, and $\times$ instead of $ \\^{\text{ }}$. This is merely a difference in notation. I have opted to use the notation that seems to be most common in existing practical cryptography materials pertaining to ECC pairings.
+[^notation]: Note that [some sources](https://ocw.mit.edu/courses/res-18-011-algebra-i-student-notes-fall-2021/mit18_701f21_lect24.pdf) may use a different set of operations: $+$ instead of $\times$, and $\times$ instead of $ \char`\^ $. This is merely a difference in notation. I have opted to use the notation that seems to be most common in existing practical cryptography materials pertaining to ECC pairings.
 
-As it turns out, lines (3) and (4) can be derived from lines (1) and (2), but it is helpful to state them outright. For our purposes, $\mathbf{G}_1 = \mathbf{G}_2$, so we'll just call the input group $\mathbf{G}$.
+[^degenerate]: Line (5) is a "non-degeneracy" requirement. Without it, $e(x,y) = 1$ would be a valid pairing. Since it's a useless one, we exclude it and others like it.
+
+Lines (3) and (4) are the most interesting for our purposes.[^derivable] Simply put, **we are allowed to freely swap scalar factors between the two parameters of $e$**.
+
+[^derivable]: As it turns out, lines (3) and (4) can be derived from lines (1) and (2), but it is helpful to state them outright.
 
 One common example of a simple bilinear map on the integers is the function $e(x,y)=2^{xy}$.
 
-An elliptic curve pairing is a bilinear map where $\mathbf{G}$ is an elliptic curve.[^pairing-def] Two such pairings are the Weil pairing and the Tate pairing.[^specific-pairings]
+For the remainder of this post, $\mathbf{G}_1 = \mathbf{G}_2$, so we'll just call the input group $\mathbf{G}$. An elliptic curve pairing is a bilinear map where $\mathbf{G}$ is an elliptic curve.[^pairing-def] Two such pairings are the Weil pairing and the Tate pairing.[^specific-pairings]
 
 [^pairing-def]: This statement is more of an introduction of terminology than a definition. It is _far_ from complete or rigorous.
 
@@ -118,17 +135,25 @@ The BLS signature scheme uses elliptic curve pairings[^bls-weil] to describe a s
 
 [^bls-weil]: The BLS paper uses the Weil pairing.
 
+A signature scheme is a means of proving that an actor is the originator (or creator, generator, approver, etc.) of a message. This involves the actor using a secret value (a "private key" or "secret key") to generate a "signature" to distribute with the message. The actor also distributes a "public key" (or "verification key") which others can use to verify that the signature was generated using the private key, which implies that the signature could only have been generated by the actor.
+
 ### Setup
+
+Usually predetermined as part of the protocol design.
 
 1. Choose elliptic curve $\mathbf{E}$ with generator $g$.
 2. Choose pairing function $e: \mathbf{E} \times \mathbf{E} \rightarrow \mathbf{G}_T$.
 
 ### Key generation
 
+Performed once by the actor who plans to generate signatures.
+
 1. Choose a private key, scalar $\alpha$.
 2. Calculate and distribute public key $p = \alpha g$.
 
 ### Signing
+
+Performed every time the actor signs a message.
 
 1. Choose message $m \in \mathbf{E}$.[^hashing]
 2. Calculate and distribute signature $\sigma = \alpha m$.
@@ -136,6 +161,8 @@ The BLS signature scheme uses elliptic curve pairings[^bls-weil] to describe a s
 [^hashing]: If your message is not already a point on the curve (it probably isn't) then you can use a hash function to convert it.
 
 ### Verification
+
+Performed by anyone wishing to verify the signature for a message.
 
 1. Check whether $e(p, m) = e(g, \sigma)$:
 
@@ -173,7 +200,13 @@ Threshold signatures (distribute $n$ keyshares, any $t < n$ of them can generate
 
 ### Articles
 
-- [Exploring Elliptic Curve Pairings (Vitalik Buterin)](https://medium.com/@VitalikButerin/exploring-elliptic-curve-pairings-c73c1864e627)
-- [What Are Elliptic Curve Pairings? (Zellic)](https://www.zellic.io/blog/what-are-elliptic-curve-pairings/)
+- [Exploring Elliptic Curve Pairings (Vitalik Buterin)](https://medium.com/@VitalikButerin/exploring-elliptic-curve-pairings-c73c1864e627) ([archive.org](https://web.archive.org/web/20240226035801/https://medium.com/@VitalikButerin/exploring-elliptic-curve-pairings-c73c1864e627))
+- [What Are Elliptic Curve Pairings? (Zellic)](https://www.zellic.io/blog/what-are-elliptic-curve-pairings/) ([archive.org](https://web.archive.org/web/20240207013708/https://www.zellic.io/blog/what-are-elliptic-curve-pairings/))
+
+### Books
+
+- [Pairings for beginners (Craig Costello)](https://static1.squarespace.com/static/5fdbb09f31d71c1227082339/t/5ff394720493bd28278889c6/1609798774687/PairingsForBeginners.pdf) ([archive.org](https://web.archive.org/web/20240119065123/https://static1.squarespace.com/static/5fdbb09f31d71c1227082339/t/5ff394720493bd28278889c6/1609798774687/PairingsForBeginners.pdf))[^thanks-porter]
+
+[^thanks-porter]: Thanks to [Porter Adams](https://www.linkedin.com/feed/update/urn:li:activity:7171725082224963584?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7171725082224963584%2C7171754572875517952%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287171754572875517952%2Curn%3Ali%3Aactivity%3A7171725082224963584%29) for this suggestion!
 
 {{%bio%}}
