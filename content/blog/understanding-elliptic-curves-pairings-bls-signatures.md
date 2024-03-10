@@ -1,6 +1,7 @@
 ---
 title: "Path to understanding: elliptic curves, pairings, and BLS signatures"
 date: 2024-03-07
+lastmod: 2024-03-10
 description: "The notoriously slippery mathematics behind modern cryptography."
 author: Jacob Lindahl
 twitter: sudo_build
