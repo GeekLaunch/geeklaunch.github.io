@@ -1,7 +1,7 @@
 ---
 title: "Rust Pro Tips (collection)"
 date: 2023-04-08
-lastmod: 2024-02-10
+lastmod: 2024-05-26
 description: "Level up your Rust skills."
 author: Jacob Lindahl
 twitter: sudo_build
@@ -728,6 +728,15 @@ assert_eq!(my_string, "2468");
 ```
 
 ## 11. Enforce Clippy lints in a workspace
+
+**Update**: As of Rust 1.74, [Clippy lints can now be configured in `Cargo.toml`](https://blog.rust-lang.org/2023/11/16/Rust-1.74.0.html#lint-configuration-through-cargo). While the method originally described in this tip is still available, `Cargo.toml` is likely a more convenient way to configure lints.
+
+```toml
+[lints.clippy]
+large_digit_groups = "warn"
+```
+
+---
 
 [Tweet](https://twitter.com/sudo_build/status/1567168431094468608)
 
