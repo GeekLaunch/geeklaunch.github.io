@@ -1,7 +1,7 @@
 ---
 title: "Make invalid states unrepresentable"
 date: 2023-07-17
-lastmod: 2023-07-21
+lastmod: 2024-04-27
 description: '"Type-driven development"'
 math: true
 author: Jacob Lindahl
@@ -67,13 +67,15 @@ The Rust compiler is _smart_, and in conjunction with the language's powerful ty
 
 Types tell the compiler in what manner data can be represented. These might be types from the standard library, types from third-party libraries, primitives from the language, or even types that you write yourself.
 
-Types delineate the set of _legally representable states_ $\mathbb{R}$ in your application.
+Types delineate the set of _legally representable states_ $\mathcal{R}$[^mathbb] in your application.
 
-Then, there's your business logic. Business logic leverages data that conform to the representable states defined by your types, manipulates those data, and delivers some output. The data that your business logic can handle comprises the set of valid states $\mathbb{V}$ (i.e. "handleable" states), and critically, _the set of valid states is not necessarily equal to the set of representable states_.
+[^mathbb]: Thanks to [oytis on HackerNews](https://news.ycombinator.com/item?id=40155946) for pointing out my prior egregious misuse of mathematical notation. I have updated the article throughout.
 
-$$|\mathbb{R}| \ge |\mathbb{V}|$$
+Then, there's your business logic. Business logic leverages data that conform to the representable states defined by your types, manipulates those data, and delivers some output. The data that your business logic can handle comprises the set of valid states $\mathcal{V}$ (i.e. "handleable" states), and critically, _the set of valid states is not necessarily equal to the set of representable states_.
 
-In fact, $|\mathbb{R}|$ is often _significantly_ larger than $|\mathbb{V}|$, i.e. the code can handle far fewer states than are actually representable.
+$$\mathcal{R} \supseteq \mathcal{V}$$
+
+In fact, $\mathcal{R}$ is often _significantly_ larger than $\mathcal{V}$, i.e. the code can handle far fewer states than are actually representable.
 
 The difference between these two sets is the set of invalid states: the data which a program can represent but does not know how to handle properly. This is where bugs occur.
 
@@ -133,7 +135,7 @@ accepts_color(Color::Rgb(0, 0, 0));
 accepts_color(Color::Rgba(255, 255, 255, 0));
 ```
 
-Turns out, all of the representable states are also valid states! This means that our sets $\mathbb{R}$ and $\mathbb{V}$ are equal, and no runtime error handling is necessary.
+Turns out, all of the representable states are also valid states! This means that our sets $\mathcal{R}$ and $\mathcal{V}$ are equal, and no runtime error handling is necessary.
 
 Before I continue, let's take a step back and evaluate how we can benefit from coding like this:
 
@@ -370,7 +372,7 @@ impl TryFrom<Vpn<Connecting>> for Vpn<Connected> {
 
 ---
 
-I do not hope to convince you that your set of types is only good if it cannot represent invalid states, i.e. $\mathbb{R} = \mathbb{V}$. However, I do hope to demonstrate that putting a little more thought into the design of your data structures _could_ help you to avoid _more_ bugs _earlier_ in development.
+I do not hope to convince you that your set of types is only good if it cannot represent invalid states, i.e. $\mathcal{R} = \mathcal{V}$. However, I do hope to demonstrate that putting a little more thought into the design of your data structures _could_ help you to avoid _more_ bugs _earlier_ in development.
 
 ---
 
