@@ -14,6 +14,8 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 35. Force compilation failure
 
+[Tweet](https://x.com/sudo_build/status/1791446158055018637) [Toot](https://infosec.exchange/@hatchet/112456435462770019)
+
 The `compile_error!(...)` macro forces compilation failure. This can be useful to indicate unsupported feature flag combinations or invalid macro arguments.
 
 ```rust
