@@ -1,7 +1,7 @@
 ---
 title: "Rust Pro Tips (collection)"
 date: 2023-04-08
-lastmod: 2024-04-26
+lastmod: 2024-05-17
 description: "Level up your Rust skills."
 author: Jacob Lindahl
 twitter: sudo_build
@@ -11,6 +11,47 @@ license:
 ---
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
+
+## 35. Force compilation failure
+
+The `compile_error!(...)` macro forces compilation failure. This can be useful to indicate unsupported feature flag combinations or invalid macro arguments.
+
+```rust
+compile_error!("Boo!");
+
+fn main() {
+    println!("Hello, world!");
+}
+```
+
+Compiler output:
+
+```txt
+   Compiling playground v0.0.1 (/playground)
+error: Boo!
+ --> src/main.rs:1:1
+  |
+1 | compile_error!("Boo!");
+  | ^^^^^^^^^^^^^^^^^^^^^^
+
+error: could not compile `playground` (bin "playground") due to 1 previous error
+```
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=0f32c3705ed84087f197e860087214cc) \
+[Docs](https://doc.rust-lang.org/std/macro.compile_error.html)
+
+---
+
+**Bonus tip #1**: Emit compiler _warnings_ using [`build.rs`](https://doc.rust-lang.org/cargo/reference/build-scripts.html):
+
+```rust
+fn main() {
+    #[cfg(feature = "funky-time")]
+    println!("cargo::warning=Funky mode is enabled!");
+}
+```
+
+**Bonus tip #2**: Emit structured diagnostics from proc macros using [the nightly `Diagnostic` API](https://doc.rust-lang.org/proc_macro/struct.Diagnostic.html). ([tracking issue #54140](https://github.com/rust-lang/rust/issues/54140))
 
 ## 34. Enable optional dependency features with a feature
 
