@@ -1,3 +1,3 @@
 {{
-    (resources.GetRemote (printf "https://raw.githubusercontent.com/simple-icons/simple-icons/master/icons/%s.svg" .icon)).Content | safeHTML
+    (resources.GetRemote (printf "https://unpkg.com/simple-icons@v12/icons/%s.svg" .icon)).Content | safeHTML
 }}
