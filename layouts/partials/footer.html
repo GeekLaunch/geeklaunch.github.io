@@ -5,6 +5,13 @@
     </p>
     {{ end }}
     <p>&copy; Copyright {{ now.Format "2006" }} {{ .Site.Copyright }}.</p>
+    {{ if isset .Site.Params "payment" }}
+    <p class="f:10 f:monospace">
+        {{ range .Site.Params.payment }}
+        {{ .name }} {{ .identifier }}<br>
+        {{ end }}
+    </p>
+    {{ end }}
     <p id="browserMessage" style="display:none">This site is designed for <a target="_blank" rel="noopener noreferrer"
             href="https://firefox.com/">Firefox</a>, a web
         browser that respects your privacy.</p>

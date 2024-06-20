@@ -21,6 +21,18 @@ name = "Jacob Lindahl"
 host = "plausible.c0d3r.dev"
 domain = "geeklaunch.io"
 
+[[params.payment]]
+name = "BTC"
+identifier = "bc1qepmfn0z26tfhc5uys49t3mthgh5q6hat4kp7hf"
+
+[[params.payment]]
+name = "ETH"
+identifier = "0xA65E766783C23A230A69281BE33B0Aa765008606"
+
+[[params.payment]]
+name = "XMR"
+identifier = "89LKw5TZx6qiBfDFMzp8nK1ZnmvRvQzGceHAwGSu1TAH6b88imhBZApJpBS85RYbxebhnMpCEVT6BA85gWZV5ZGo1FZhJoP"
+
 [markup.goldmark.renderer]
 unsafe = true
 
