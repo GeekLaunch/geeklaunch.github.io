@@ -14,9 +14,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 36. Specify the type of `self` in method signatures
 
-<!--
-[Tweet]() [Toot]()
--->
+[Tweet](https://x.com/sudo_build/status/1813491727174709278) [Toot](https://infosec.exchange/@hatchet/112800895144267784)
 
 While the three most common types of the `self` parameter have useful shorthands (`self`, `&self`, `&mut self`), the explicit syntax can also include standard library types that deref to `Self`, including `Box<T>`, `Rc<T>`, `Arc<T>`.
 
