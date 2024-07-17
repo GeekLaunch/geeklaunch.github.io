@@ -13,6 +13,7 @@ logo = "img/geeklaunch.png"
 mastodon = "geeklaunch@techhub.social"
 twitter = "Geek_Launch"
 youtube = "GeekLaunch"
+contact = "https://docs.google.com/forms/d/e/1FAIpQLSfL9-JbBMUk2m4D31KouzAHntMtMOb9LOi7uQNiXYX6XEQhiQ/viewform?usp=sf_link"
 
 [params.author]
 name = "Jacob Lindahl"
@@ -75,7 +76,7 @@ weight = 20
 [[menu.main]]
 identifier = "contact"
 name = "Contact"
-url = "https://weareindy.com/app/shared/forms/634577ccb25f8365f4aa7f42/zw1Icw3aBtCI90eLSzQVkpZiigUEBLHeaNKmJobnx4kTaPYMixQM3gDZMCFDsSHC/"
+url = "https://docs.google.com/forms/d/e/1FAIpQLSfL9-JbBMUk2m4D31KouzAHntMtMOb9LOi7uQNiXYX6XEQhiQ/viewform?usp=sf_link"
 weight = 30
 
 [privacy]
