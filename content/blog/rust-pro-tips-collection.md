@@ -12,6 +12,58 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## 36. Specify the type of `self` in method signatures
+
+<!--
+[Tweet]() [Toot]()
+-->
+
+While the three most common types of the `self` parameter have useful shorthands (`self`, `&self`, `&mut self`), the explicit syntax can also include standard library types that deref to `Self`, including `Box<T>`, `Rc<T>`, `Arc<T>`.
+
+```rust
+use std::sync::Arc;
+
+struct MyStruct;
+
+impl MyStruct {
+    fn only_when_wrapped(self: &Arc<Self>) {
+        println!("I'm in an Arc!");
+    }
+}
+
+let s = MyStruct;
+// let s = Arc::new(s); // Try uncommenting this line.
+s.only_when_wrapped(); // ERROR!
+```
+
+Without wrapping the value in an `Arc`, the Rust compiler produces this error:
+
+```text
+error[E0599]: no method named `only_when_wrapped` found for struct `MyStruct` in the current scope
+  --> src/main.rs:14:3
+   |
+4  | struct MyStruct;
+   | --------------- method `only_when_wrapped` not found for this struct
+...
+7  |     fn only_when_wrapped(self: &Arc<Self>) {
+   |        ----------------- the method is available for `Arc<MyStruct>` here
+...
+14 | s.only_when_wrapped();
+   |   ^^^^^^^^^^^^^^^^^ method not found in `MyStruct`
+   |
+help: consider wrapping the receiver expression with the appropriate type
+   |
+14 | Arc::new(s).only_when_wrapped();
+   | +++++++++ +
+```
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=3c62ee66a4590666ca3aa85070829687) \
+[Docs](https://doc.rust-lang.org/reference/items/associated-items.html#methods)
+
+---
+
+The [`arbitrary_self_types` feature](https://github.com/rust-lang/rfcs/blob/master/text/3519-arbitrary-self-types-v2.md) allows types to implement a new trait `std::ops::Receiver` and appear in the type declaration of `self`. ([tracking issue #44874](https://github.com/rust-lang/rust/issues/44874))
+
 ## 35. Force compilation failure
 
 [Tweet](https://x.com/sudo_build/status/1791446158055018637) [Toot](https://infosec.exchange/@hatchet/112456435462770019)
