@@ -375,5 +375,3 @@ This derive macro creates an implementation of `Display` on the targeted enum. I
 - [The Little Book of Rust Macros](https://veykril.github.io/tlborm/)
 - [dtolnay's procedural macros workshop](https://github.com/dtolnay/proc-macro-workshop)
 - [Rust AST Explorer](https://carlkcarlk.github.io/rust-ast-explorer/) (credit: [matklad](https://matklad.github.io/))
-
-{{% bio %}}

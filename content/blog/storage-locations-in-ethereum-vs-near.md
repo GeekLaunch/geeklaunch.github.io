@@ -126,5 +126,3 @@ When I first encountered the NEAR ecosystem, I was stunned at how developer-frie
 You can find a comprehensive suite of NEAR smart contracts on the [Learn NEAR GitHub organization](https://github.com/Learn-NEAR), as well as a bevy of tutorials and examples on the [NEAR Examples GitHub origanization](https://github.com/near-examples).
 
 Good luck!
-
-{{% bio %}}

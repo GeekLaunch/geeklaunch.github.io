@@ -47,5 +47,3 @@ It really is just a number.
 ---
 
 Thanks to [Don Dall](https://github.com/dndll/) for his advice in constructing this rant.
-
-{{% bio %}}

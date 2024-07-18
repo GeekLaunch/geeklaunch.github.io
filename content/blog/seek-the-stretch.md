@@ -60,5 +60,3 @@ He nods. "It's like&hellip; I should put myself out there and not be afraid to g
 "Exactly! Do hard things. Seek the stretch."
 
 "*Seek the stretch*. I like that."
-
-{{% bio %}}

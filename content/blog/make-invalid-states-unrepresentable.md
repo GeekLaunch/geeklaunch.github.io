@@ -386,5 +386,3 @@ I would be remiss if I failed to mention the body of work preceding me on this t
 - [CppCon 2016: Ben Deane “Using Types Effectively" (CppCon on youtube.com)](https://www.youtube.com/watch?v=ojZbFIQSdl8)
 
 [^minsky]: The author, Yaron Minsky, actually [coined the phrase "make illegal states unrepresentable."](https://twitter.com/yminsky/status/1034947939364425731) Thanks to [u/dist1ll on Reddit](https://www.reddit.com/r/rust/comments/155b6qc/comment/jsup7ju/?utm_source=share&utm_medium=web2x&context=3) for pointing this out.
-
-{{% bio %}}

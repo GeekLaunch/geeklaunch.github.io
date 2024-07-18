@@ -135,5 +135,3 @@ Try it for yourself:
 - [Modeling graphs in Rust using vector indices](https://smallcultfollowing.com/babysteps/blog/2015/04/06/modeling-graphs-in-rust-using-vector-indices/)
 - [Creating an Iterator in Rust](https://aloso.github.io/2021/03/09/creating-an-iterator)
 - [Five Clique](https://gitlab.com/bpaassen/five_clique/-/tree/main/)
-
-{{% bio %}}

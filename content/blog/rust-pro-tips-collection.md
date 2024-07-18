@@ -1023,5 +1023,3 @@ vs.
 ```rust
 my_function(dbg!(&value));
 ```
-
-{{% bio %}}

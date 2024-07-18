@@ -175,5 +175,3 @@ Solidity contracts absolutely. There are quite a few respectable auditing firms 
 This is a lot, and one of the longer blogs I've written, but with good reason: security is ever-increasing in its importance in this industry, and it's all-too-often ignored. I've barely scratched the surface here, but I hope it was a good jumping-off point.
 
 Don't be the next multi-billion dollar victim.
-
-{{% bio %}}

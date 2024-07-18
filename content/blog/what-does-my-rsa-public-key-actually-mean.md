@@ -163,5 +163,3 @@ On top of all the different sites I linked in this post, I'd like to credit the 
 - [What are x509 certificates? RFC? ASN.1? DER?](https://cryptologie.net/article/262/what-are-x509-certificates-rfc-asn1-der/)
 - [How to store/retrieve RSA public/private key](https://stackoverflow.com/questions/1193529/how-to-store-retrieve-rsa-public-private-key/13104466#13104466)
 - [node-rsa/src/formats/pkcs8.js](https://github.com/rzcoder/node-rsa/blob/master/src/formats/pkcs8.js)
-
-{{% bio %}}

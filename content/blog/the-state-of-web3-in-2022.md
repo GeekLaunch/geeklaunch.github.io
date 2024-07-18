@@ -103,5 +103,3 @@ I encountered two interesting projects for the first time over the past week. (N
 ## Does [insert protocol here] have a chance to take over as the de-facto dapp platform?
 
 Not really.
-
-{{% bio %}}

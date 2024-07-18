@@ -100,5 +100,3 @@ This means that as long as the client and the server have their clocks synchroni
 ## Sample implementation
 
 A simple example implementation of HOTP and TOTP in Rust can be found [here](https://github.com/GeekLaunch/totp/blob/main/src/lib.rs).
-
-{{%bio%}}

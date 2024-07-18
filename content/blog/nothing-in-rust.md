@@ -185,5 +185,3 @@ impl FailureLogProvider for Partner {
 ```
 
 The function implementation in the example always succeeds, but the trait allows for implementations to fail. To indicate this, the associated `Error` type is the never type.
-
-{{%bio%}}

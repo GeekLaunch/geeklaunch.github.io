@@ -209,5 +209,3 @@ Threshold signatures (distribute $n$ keyshares, any $t < n$ of them can generate
 - [Pairings for beginners (Craig Costello)](https://static1.squarespace.com/static/5fdbb09f31d71c1227082339/t/5ff394720493bd28278889c6/1609798774687/PairingsForBeginners.pdf) ([archive.org](https://web.archive.org/web/20240119065123/https://static1.squarespace.com/static/5fdbb09f31d71c1227082339/t/5ff394720493bd28278889c6/1609798774687/PairingsForBeginners.pdf))[^thanks-porter]
 
 [^thanks-porter]: Thanks to [Porter Adams](https://www.linkedin.com/feed/update/urn:li:activity:7171725082224963584?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7171725082224963584%2C7171754572875517952%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287171754572875517952%2Curn%3Ali%3Aactivity%3A7171725082224963584%29) for this suggestion!
-
-{{%bio%}}

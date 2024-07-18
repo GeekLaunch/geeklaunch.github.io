@@ -62,6 +62,17 @@
     </aside>
     {{ end }}
 
-    {{- partial "prose.html" . -}}
+    {{- $content := .Content -}}
+
+    {{- if and
+        (eq .Kind "page")
+        (ne (index site.Params.Author .Params.Author) nil)
+        (isset (index site.Params.Author .Params.Author) "bio")
+    -}}
+        {{- $bio := index (index site.Params.Author .Params.Author) "bio" | markdownify -}}
+        {{- $content = print $content "<hr>" $bio | safeHTML -}}
+    {{- end -}}
+
+    {{- partial "prose.html" (dict "Content" $content) -}}
 </article>
 {{ end }}

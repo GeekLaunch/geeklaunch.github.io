@@ -894,5 +894,3 @@ Note: Lifetimes is a somewhat stubborn topic that can take a little bit of work 
 - [Rust Playground](https://play.rust-lang.org/) is not actually a source of exercises, but it is a good place to try out some code without having to spin up an editor and new project.
 - [Rustlings](https://github.com/rust-lang/rustlings) is a repository of all sorts of exercises to help you get comfortable using Rust.
 - [Exercism](https://exercism.org/tracks/rust) provides a variety of online exercises and other resources.
-
-{{% bio %}}

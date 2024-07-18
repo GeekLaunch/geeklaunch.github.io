@@ -374,5 +374,3 @@ This is also a highly-parallelizable task&mdash;so long as we split up the text 
 Until then, this was a really fun project, and I'm planning to continue working on it in my spare time going forward.
 
 If you haven't already, I'd appreciate it if you'd [check out the project](https://github.com/encody/autoruby), maybe try it out, and give it a star?
-
-{{% bio %}}
