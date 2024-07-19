@@ -1,5 +1,5 @@
 ---
-title: "NEAR Smart Contract Security"
+title: "Smart contract security: NEAR"
 date: 2024-07-18T00:00:00+09:00
 draft: true
 # lastmod: 2024-07-17
@@ -36,9 +36,13 @@ When writing smart contracts on NEAR, many of the same general principles apply 
 
 [^cei]: This is a generalization of the concept Solidity developers know as a "reentrancy" vulnerability, usually addressed by the [_Checks-Effects-Interactions_ order of operations](https://docs.soliditylang.org/en/latest/security-considerations.html#reentrancy).
 
-Therefore, rather than regurgitate tired principles well-visited elsewhere, I shall provide practical advice from my own experience in the effective development of NEAR smart contracts.
+Therefore, rather than regurgitate tired principles well-visited elsewhere, I shall provide specific, practical advice from my own experience in the effective development of NEAR smart contracts.
 
 ## Security
+
+### Asynchronous cross-contract calls
+
+### Account model
 
 ### Numbers
 
@@ -50,7 +54,7 @@ Therefore, rather than regurgitate tired principles well-visited elsewhere, I sh
 - Gas
 - Argument serialization in callbacks
 - Callback protection
-- Writing ext_\* traits to be maximally flexible
+- Writing `#[ext_contract(...)]` traits to be maximally flexible
 
 ### Serialization
 
@@ -64,6 +68,7 @@ Therefore, rather than regurgitate tired principles well-visited elsewhere, I sh
 
 - SDK collections
 - Prefixing & storage keys
+- Default struct storage key "STATE"
 - Deleting collections
 - Avoiding soft-locking
 
@@ -85,6 +90,8 @@ Therefore, rather than regurgitate tired principles well-visited elsewhere, I sh
 ### ABI
 
 ### Source code verification
+
+### Upgrading & state migration
 
 ## Optimization
 
