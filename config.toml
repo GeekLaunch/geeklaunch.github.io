@@ -22,7 +22,7 @@ name = "Jacob Lindahl"
 # Specific article authors
 [params.author."Jacob Lindahl"]
 bio = """
-Jacob Lindahl is a graduate student at the [Tokyo Institute of Technology](https://www.titech.ac.jp/).
+Jacob Lindahl is a graduate student at the [Tokyo Institute of Technology](https://www.titech.ac.jp/) and senior partner engineer at [Matter Labs](https://matter-labs.io/).
 
 Connect with Jacob on [Twitter](https://twitter.com/sudo_build), [Mastodon](https://infosec.exchange/@hatchet), and [Farcaster](https://warpcast.com/hatchet).
 """
