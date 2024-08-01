@@ -105,7 +105,15 @@ The return value of `frobnicate` is `PromiseOrValue<bool>`. This is purely up to
 
 #### Callee and callback gas
 
-When attaching gas to cross-contract calls, there are two values to play with: _static gas_ and _gas weight_. Static gas is the guaranteed minimum amount of gas that will be made available to the receipt. If that much gas is not available to the caller, the current receipt will reject. If, after distributing the static gas to all produced receipts, there is still gas remaining, it will be distributed to the receipts proportionally based on their gas weight. All produced receipts have a default gas weight of `1`, meaning they will all receive the same share of leftover gas. However, if the gas weight is set to `0`, the receipt will not receive any leftover gas. I recommend testing the functions you plan to call to discover the minimum amount of gas necessary to complete the calls. Gas consumption is a bit difficult to predict, so practical testing is probably the safest bet.
+When attaching gas to cross-contract calls (promises), there are two values to play with: _static gas_ and _gas weight_. Static gas is the guaranteed minimum amount of gas that will be made available to the promise. If that much gas is not available to the caller, the current call will reject. If, after distributing the static gas to all produced promises, there is still gas remaining, it will be distributed to the promises proportionally based on their gas weight. All promises have a default gas weight of `1`, meaning they will all receive the same share of leftover gas. However, if the gas weight is set to `0`, the promise will not receive any leftover gas. I recommend testing the functions you plan to call to discover the minimum amount of gas necessary to complete the calls. Gas consumption is a bit difficult to predict, so I recommend practical testing.
+
+At the same time, gas limits are not a substitute for proper security practices, and can even be a source of problems if gas conditions unexpectedly change:
+
+- The protocol could update the cost of different VM actions.
+- Third-party contracts could get updated.
+- Workloads could be unexpectedly large or small.
+
+Of course, running out of gas causes issues for users or callers. On the other hand, if gas limits are the primary security factor in a cross-contract call, unforeseen drops in gas usage would invalidate those assumptions.
 
 #### Callback naming
 
@@ -124,6 +132,8 @@ The callback function deserializes its arguments as Borsh. This is context- and 
 #### Handling callback results
 
 The promise result is accepted as an argument to the callback using `#[callback_result]`. Another decorator&mdash;`#[callback_unwrap]`&mdash;also exists, but it does not give the developer as much control over how failure cases are handled. Again, a context-dependent decision.
+
+#### Race conditions
 
 ### Account keys
 
