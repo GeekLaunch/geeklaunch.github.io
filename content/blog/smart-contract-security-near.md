@@ -99,13 +99,17 @@ impl MyContract {
 }
 ```
 
+#### Describing foreign contract interfaces
+
+Using the NEAR SDK, cross-contract calls are primarily constructed in one of two ways: using ad-hoc promise construction via [`Promise::function_call`](https://docs.rs/near-sdk/latest/near_sdk/struct.Promise.html#method.function_call) or using a trait decorated with [`#[ext_contract]`](https://docs.rs/near-sdk/latest/near_sdk/attr.ext_contract.html) (in the listing above). I typically recommend the latter approach, as it is more type-safe. However, traits that are easy-to-use when decorated with `#[ext_contract]` can be cumbersome to use in implementations, and vice-versa, particularly when it comes to returning `Promise`s.
+
 #### Caller signature
 
-The return value of `frobnicate` is `PromiseOrValue<bool>`. This is purely up to taste, but I find it useful as a hint of the type that the receipt chain eventually resolves with, even if the function always returns a promise.
+The return value of `frobnicate` is `PromiseOrValue<bool>`. This is purely up to taste, but I find it can be useful as a hint of the type to which the promise chain eventually resolves, even if the function always returns a promise.
 
 #### Callee and callback gas
 
-When attaching gas to cross-contract calls (promises), there are two values to play with: _static gas_ and _gas weight_. Static gas is the guaranteed minimum amount of gas that will be made available to the promise. If that much gas is not available to the caller, the current call will reject. If, after distributing the static gas to all produced promises, there is still gas remaining, it will be distributed to the promises proportionally based on their gas weight. All promises have a default gas weight of `1`, meaning they will all receive the same share of leftover gas. However, if the gas weight is set to `0`, the promise will not receive any leftover gas. I recommend testing the functions you plan to call to discover the minimum amount of gas necessary to complete the calls. Gas consumption is a bit difficult to predict, so I recommend practical testing.
+When attaching gas to cross-contract calls, there are two values to play with: _static gas_ and _gas weight_. Static gas is the guaranteed minimum amount of gas that will be made available to the promise. If that much gas is not available to the caller, the current call will reject. If, after distributing the static gas to all produced promises, there is still gas remaining, it will be distributed to the promises proportionally based on their gas weight. All promises have a default gas weight of `1`, meaning they will all receive the same share of leftover gas. However, if the gas weight is set to `0`, the promise will not receive any leftover gas. I recommend testing the functions you plan to call to discover the minimum amount of gas necessary to complete the calls. Gas consumption is a bit difficult to predict, so I recommend practical testing.
 
 At the same time, gas limits are not a substitute for proper security practices, and can even be a source of problems if gas conditions unexpectedly change:
 
@@ -117,9 +121,9 @@ Of course, running out of gas causes issues for users or callers. On the other h
 
 #### Callback naming
 
-The foreign call is encapsulated by the call to `frobnicate` before and `frobnicate_callback` after. I recommend the `[name]`/`[name]_callback` naming scheme for entry/callback function pairs. For longer interaction chains, consider indexing and labeling the callbacks (e.g. `mint_callback_2_receive_oracle`). For more complex interaction chains, consider referencing the logic branch in the callback if an index doesn't make sense (e.g. `mint_callback_no_nft_receive_oracle`).
+The foreign call is encapsulated by the call to `frobnicate` before and `frobnicate_callback` after. I recommend the `[name]`/`[name]_callback` naming scheme for entry/callback function pairs. For longer interaction chains, consider indexing and labeling the callbacks (e.g. `mint_callback_2_receive_oracle`) for ease of debugging. For more complex interaction chains, consider referencing the logic branch in the callback if an index doesn't make sense (e.g. `mint_callback_no_nft_receive_oracle`).[^max_length_method_name]
 
-TODO: check max method name length
+[^max_length_method_name]: The maximum method name length on mainnet is [256](https://hopp.sh/r/AaSe3ssRWfPo).
 
 #### Protecting callbacks
 
@@ -127,7 +131,7 @@ Callback functions should never be entry points, so they should always be labele
 
 #### Callback arguments
 
-The callback function deserializes its arguments as Borsh. This is context- and developer-dependent, but it is potentially a cost-saving technique at the expense of human readability of receipts. Additionally, since callbacks may end up accepting a variety of arguments, I recommend packing them into a struct (`FrobnicateCallbackContext`) to avoid mistaking argument ordering.
+The callback function deserializes its arguments as [Borsh](https://borsh.io/). This is context- and developer-dependent, but it is potentially a cost-saving technique at the expense of human readability of receipts. Additionally, since callbacks may end up accepting a variety of arguments, I recommend packing them into a struct (`FrobnicateCallbackContext`) to avoid mistaking argument ordering.
 
 #### Handling callback results
 
@@ -135,11 +139,15 @@ The promise result is accepted as an argument to the callback using `#[callback_
 
 #### Race conditions
 
+While reentrancy is less of an issue on NEAR (or, arguably, even impossible) because of the asynchronous execution model, it exchanges one problem for another: asynchronous transactions have to deal with race conditions.
+
+Imagine an NFT-gated contract. One way to implement this restriction would be for the contract to check the owner of the NFT before executing an action. However, this check alone is insufficient, because it is possible for the NFT to be transferred away from the user in between the ownership check and the execution of the action. So, it might be better to implement NFT-gating via locking, escrow, or temporary transfers.
+
 ### Account keys
 
-Zero or more access keys may be attached to a NEAR account, in addition to zero or one smart contract. Access keys are either _full-access_ or _function call_ keys. Full access keys may sign transactions containing any of the 9 (TODO: check number) NEAR operations[^nearops] acting upon the associated NEAR account. Function call keys may only sign transactions containing the `FunctionCall` action.
+Zero or more access keys may be attached to a NEAR account, in addition to zero or one smart contract. Access keys are either _full-access_ or _function call_ keys. Full access keys may sign transactions containing any of the 9 NEAR operations[^nearops] acting upon the associated NEAR account. Function call keys may only sign transactions containing the `FunctionCall` action.
 
-[^nearops]: `AddKey`, `DeleteKey`, `CreateAccount`, `DeleteAccount`, `Transfer`, `Deploy`, `FunctionCall`, `Stake`, `DelegateCall` TODO: check
+[^nearops]: `CreateAccount`, `DeleteAccount`, `AddKey`, `DeleteKey`, `Transfer`, `DeployContract`, `FunctionCall`, `Stake`, `DelegateActions`. See [documentation](https://docs.near.org/concepts/protocol/transaction-anatomy#actions).
 
 Function call keys are additionally parameterized:
 
