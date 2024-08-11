@@ -50,12 +50,9 @@ Therefore, while a "reentrancy attack" does not have a perfect equivalent in the
 
 When writing a cross-contract interaction, I recommend following this pattern:
 
-TODO: check compilation
-
 ```rust
 use near_sdk::{
-    PromiseError, PromiseOrValue,
-    env, ext_contract, near,
+    env, ext_contract, near, AccountId, Gas, PromiseError, PromiseOrValue,
 };
 
 #[ext_contract(ext_transmogrifier)]
@@ -64,8 +61,13 @@ trait Transmogrifier {
 }
 
 #[near]
-struct FrobnicateCallbackContext {
+pub struct FrobnicateCallbackContext {
     value: u32,
+}
+
+#[near(contract_state)]
+pub struct MyContract {
+    transmogrifier_account_id: AccountId,
 }
 
 #[near]
@@ -75,17 +77,19 @@ impl MyContract {
 
         PromiseOrValue::Promise(
             ext_transmogrifier::ext(self.transmogrifier_account_id.clone())
-                .with_static_gas(/* minimum gas */)
+                .with_static_gas(todo!(/* minimum gas */))
                 .transmogrify(42)
                 .then(
                     Self::ext(env::current_account_id())
-                        .with_static_gas(/* minimum gas */)
+                        .with_static_gas(Self::FROBNICATE_CALLBACK_GAS)
                         .frobnicate_callback(FrobnicateCallbackContext {
                             value: 42,
-                        })
-                )
+                        }),
+                ),
         )
     }
+
+    const FROBNICATE_CALLBACK_GAS: Gas = Gas::from_tgas(5);
 
     #[private]
     pub fn frobnicate_callback(
@@ -101,13 +105,17 @@ impl MyContract {
 
 #### Describing foreign contract interfaces
 
-Using the NEAR SDK, cross-contract calls are primarily constructed in one of two ways: using ad-hoc promise construction via [`Promise::function_call`](https://docs.rs/near-sdk/latest/near_sdk/struct.Promise.html#method.function_call) or using a trait decorated with [`#[ext_contract]`](https://docs.rs/near-sdk/latest/near_sdk/attr.ext_contract.html) (in the listing above). I typically recommend the latter approach, as it is more type-safe. However, traits that are easy-to-use when decorated with `#[ext_contract]` can be cumbersome to use in implementations, and vice-versa, particularly when it comes to returning `Promise`s.
+Using the NEAR SDK, cross-contract calls are primarily constructed in one of two ways: using ad-hoc promise construction via [`Promise::function_call`](https://docs.rs/near-sdk/latest/near_sdk/struct.Promise.html#method.function_call) or using a trait decorated with [`#[ext_contract]`](https://docs.rs/near-sdk/latest/near_sdk/attr.ext_contract.html) (in the listing above). I typically recommend the latter approach, as it is more type-safe. However, traits that are easy-to-use to construct `Promise`s when decorated with `#[ext_contract]` can be cumbersome to target in `impl` blocks, and vice-versa, particularly when it comes to returning `Promise`s. Therefore, it may be preferable to split an interface into an "implementable" trait and "callable" trait pair.
 
 #### Caller signature
 
 The return value of `frobnicate` is `PromiseOrValue<bool>`. This is purely up to taste, but I find it can be useful as a hint of the type to which the promise chain eventually resolves, even if the function always returns a promise.
 
 #### Callee and callback gas
+
+{{%collapse title="Reference"%}}
+- ["Gas (Execution Fees)" on docs.near.org](https://docs.near.org/concepts/protocol/gas)
+{{%/collapse%}}
 
 When attaching gas to cross-contract calls, there are two values to play with: _static gas_ and _gas weight_. Static gas is the guaranteed minimum amount of gas that will be made available to the promise. If that much gas is not available to the caller, the current call will reject. If, after distributing the static gas to all produced promises, there is still gas remaining, it will be distributed to the promises proportionally based on their gas weight. All promises have a default gas weight of `1`, meaning they will all receive the same share of leftover gas. However, if the gas weight is set to `0`, the promise will not receive any leftover gas. I recommend testing the functions you plan to call to discover the minimum amount of gas necessary to complete the calls. Gas consumption is a bit difficult to predict, so I recommend practical testing.
 
@@ -137,6 +145,12 @@ The callback function deserializes its arguments as [Borsh](https://borsh.io/). 
 
 The promise result is accepted as an argument to the callback using `#[callback_result]`. Another decorator&mdash;`#[callback_unwrap]`&mdash;also exists, but it does not give the developer as much control over how failure cases are handled. Again, a context-dependent decision.
 
+#### Trusting implementations
+
+Just because a contract is deployed on chain doesn't mean that it is implemented properly or that it is guaranteed to follow any sort of standard. In fact, many contracts may _look_ like they implement a certain standard, only for the implementation to have unexpected quirks or be flat-out wrong. This can be accidental or intentional&mdash;even malicious!
+
+Don't assume that a contract implements a standard correctly simply by virtue of its appearance.
+
 #### Race conditions
 
 While reentrancy is less of an issue on NEAR (or, arguably, even impossible) because of the asynchronous execution model, it exchanges one problem for another: asynchronous transactions have to deal with race conditions.
@@ -145,15 +159,29 @@ Imagine an NFT-gated contract. One way to implement this restriction would be fo
 
 ### Account keys
 
+{{%collapse title="Reference"%}}
+- ["Access Keys" on docs.near.org](https://docs.near.org/concepts/protocol/access-keys)
+- ["Anatomy of a Transaction" &rarr; "Actions" on docs.near.org](https://docs.near.org/concepts/protocol/transaction-anatomy#actions)
+{{%/collapse%}}
+
 Zero or more access keys may be attached to a NEAR account, in addition to zero or one smart contract. Access keys are either _full-access_ or _function call_ keys. Full access keys may sign transactions containing any of the 9 NEAR operations[^nearops] acting upon the associated NEAR account. Function call keys may only sign transactions containing the `FunctionCall` action.
 
-[^nearops]: `CreateAccount`, `DeleteAccount`, `AddKey`, `DeleteKey`, `Transfer`, `DeployContract`, `FunctionCall`, `Stake`, `DelegateActions`. See [documentation](https://docs.near.org/concepts/protocol/transaction-anatomy#actions).
+[^nearops]:
+    1. `CreateAccount`
+    2. `DeleteAccount`
+    3. `AddKey`
+    4. `DeleteKey`
+    5. `Transfer`
+    6. `DeployContract`
+    7. `FunctionCall`
+    8. `Stake`
+    9. `DelegateActions`
 
 Function call keys are additionally parameterized:
 
-- With a target account ID. The key may only sign interactions where the receiver is this account. A target account ID is required (TODO: check).
-- With a list of method names. The key may only sign interactions where the invoked function matches one of these names. This restriction is optional.
-- With a gas limit. The total amount of gas consumed by all transactions signed by the key must remain below this limit. This restriction is optional.
+- With a target account ID (`receiver_id`). The key may only sign interactions where the receiver is this account. A target account ID is required.
+- With a list of method names (`method_names`). The key may only sign interactions where the invoked function matches one of these names. This restriction is optional.
+- With a gas limit (`allowance`). The total amount of gas consumed by all transactions signed by the key must remain below this limit. This restriction is optional.
 
 Note that an account may have keys _and_ a contract deployed simultaneously. As of the time of writing, smart contracts cannot inspect the access keys deployed to an account. The best that you can do is `env::signer_account_pk()` to retrieve the public key used by the signer of the transaction. However, this does not reveal whether the key used was a full-access or function call key.
 
@@ -163,19 +191,57 @@ Function call keys allow a user to give dapps _private_ keys that have extremely
 
 ### Numbers
 
-- Arithmetic overflow
-- Large integer serialization
+#### Integer overflow
 
-### Cross-contract calls
+Rust's primitive integer data types use a set number of bits to store information. These types define a range of values (e.g. `0..256` for `u8`) that the type can represent. Any values outside of this range cannot be represented. If a calculation would result in a value outside of the representable range, "overflow" will occur, wherein the information that requires additional bits to represent is lost.
 
-- Gas
-- Argument serialization in callbacks
-- Callback protection
-- Writing `#[ext_contract(...)]` traits to be maximally flexible
+Overflow is of great concern to smart contracts, since it is usually perceived as an edge case that probably won't ever happen. This means that if it _does_ happen, the result is usually disastrous.
+
+Rust can be configured to panic (reject the transaction) if an overflow is encountered by including the following in `Cargo.toml`:
+
+```toml
+[profile.release]
+overflow-checks = true
+```
+
+It may not always be desired for the contract to immediately panic and exit upon encountering an overflow, rather for it to be handled a bit more gracefully. In such cases, use [`<integer>::checked_add`](https://doc.rust-lang.org/std/primitive.i8.html#method.checked_add), [`<integer>::saturating_add`](https://doc.rust-lang.org/std/primitive.i8.html#method.saturating_add), and the corresponding functions for other arithmetic operations (`sub`, `mul`, `div`).
+
+#### Large integer serialization
+
+The conventional serialization format for function call arguments is JSON. However, JavaScript doesn't support integers beyond 53 bits, and since JavaScript is an extremely common language for interfacing with NEAR, Rust smart contracts that need to interface with JavaScript should serialize 64-bit and 128-bit integers differently.
+
+The NEAR SDK provides [the `json_types` module](https://docs.rs/near-sdk/latest/near_sdk/json_types/index.html) containing, among other items, wrapper types that cleanly implement string serialization for 64-bit and 128-bit signed and unsigned integers (`I64`, `U64`, `I128`, `U128`).
 
 ### Serialization
 
-- Newtypes & wrappers
+Speaking of serialization, smart contracts deal with many different forms of data, not all of which might be easily serializable into JSON (via `serde`) or Borsh. Particularly when using data types from a third-party crate, this can be an issue.
+
+[Rust disallows implementations of foreign traits on foreign types](https://doc.rust-lang.org/book/ch10-02-traits.html#implementing-a-trait-on-a-type). Thus, we create a new wrapper type around the type we wish to serialize, for example:
+
+```rust
+pub struct MyWrapper(pub Inner);
+
+impl near_sdk::serde::Serialize for MyWrapper {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: near_sdk::serde::Serializer,
+    {
+        serializer.serialize_str(&self.0.to_string())
+    }
+}
+
+impl<'de> near_sdk::serde::Deserialize<'de> for MyWrapper {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: near_sdk::serde::Deserializer<'de>,
+    {
+        let s = <String as near_sdk::serde::Deserialize>::deserialize(
+            deserializer,
+        )?;
+        Self::from_str(&s).map_err(near_sdk::serde::de::Error::custom)
+    }
+}
+```
 
 ### Working with NEP standards
 
