@@ -161,7 +161,7 @@ Imagine an NFT-gated contract. One way to implement this restriction would be fo
 
 {{%collapse title="Reference"%}}
 - ["Access Keys" on docs.near.org](https://docs.near.org/concepts/protocol/access-keys)
-- ["Anatomy of a Transaction" &rarr; "Actions" on docs.near.org](https://docs.near.org/concepts/protocol/transaction-anatomy#actions)
+- ["Anatomy of a Transaction &#x2023; Actions" on docs.near.org](https://docs.near.org/concepts/protocol/transaction-anatomy#actions)
 {{%/collapse%}}
 
 Zero or more access keys may be attached to a NEAR account, in addition to zero or one smart contract. Access keys are either _full-access_ or _function call_ keys. Full access keys may sign transactions containing any of the 9 NEAR operations[^nearops] acting upon the associated NEAR account. Function call keys may only sign transactions containing the `FunctionCall` action.
@@ -216,7 +216,7 @@ The NEAR SDK provides [the `json_types` module](https://docs.rs/near-sdk/latest/
 
 Speaking of serialization, smart contracts deal with many different forms of data, not all of which might be easily serializable into JSON (via `serde`) or Borsh. Particularly when using data types from a third-party crate, this can be an issue.
 
-[Rust disallows implementations of foreign traits on foreign types](https://doc.rust-lang.org/book/ch10-02-traits.html#implementing-a-trait-on-a-type). Thus, we create a new wrapper type around the type we wish to serialize, for example:
+[Rust disallows implementations of foreign traits on foreign types](https://doc.rust-lang.org/book/ch10-02-traits.html#implementing-a-trait-on-a-type). Thus, we create a new wrapper type around the type we wish to serialize, for instance:
 
 ```rust
 pub struct MyWrapper(pub Inner);
@@ -244,6 +244,41 @@ impl<'de> near_sdk::serde::Deserialize<'de> for MyWrapper {
 ```
 
 ### Working with NEP standards
+
+We won't go through every single different contract standard here, just a few common ones. Many standards share design considerations, so some things said here may apply elsewhere.
+
+#### Storage Management
+
+{{%collapse title="Reference"%}}
+- ["Storage Management" on nomicon.io](https://nomicon.io/Standards/Tokens/FungibleToken/Core)
+- [NEP-145 text on github.com][nep145]
+{{%/collapse%}}
+
+When coming from a platform like Ethereum or Sui, NEAR's storage fees are possibly the third-most likely aspect of the protocol to trip up a new developer, after the account model and async execution.
+
+Simply put, NEAR _locks_ (prevents from being used or transferred) a portion of an account's NEAR balance in proportion with the amount of storage the account consumes. There are some exceptions that arise, particularly with the introduction of [NEP-448 Zero-balance Accounts](https://github.com/near/NEPs/blob/master/neps/nep-0448.md), but this is essentially how the system works.
+
+This introduces the subtle possibility for a contract to become soft-locked, wherein it attempts to consume more storage than it can afford, given its current balance, and thus interactions with the contract fail. An attacker can easily leverage this to brick an unprotected contract if there is a way to quickly increase the storage usage of the contract. A simple example would be a guest book contract which allows users to store arbitrary amounts of text in the contract's storage. If users are not proactively charged for the amount of storage they consume on the contract, it could quickly become soft-locked. Of course, the problem is trivially and temporarily solved simply by sending the contract account more NEAR, but an attacker might then simply continue their attack.
+
+[NEP-145][nep145] is a standardized solution to this problem. It introduces a storage credit system which a user can first credit and later debit when performing functions on the contract that consume storage. The key point to acknowledge about this system is that it places the responsibility for managing storage fees squarely upon the shoulders of the smart contract developer. There are a few implementations ([near-contract-standards](https://docs.rs/near-contract-standards/latest/near_contract_standards/storage_management/index.html), [near-sdk-contract-tools](https://docs.rs/near-sdk-contract-tools/latest/near_sdk_contract_tools/standard/nep145/index.html)) that developers may find useful to use or reference in their own implementations.
+
+[nep145]: https://github.com/near/NEPs/blob/master/neps/nep-0145.md
+
+Particularly sticky can be correctly implementing storage fees during cross-contract calls. I would caution against recording the storage consumption of the contract at the beginning of a call chain and charging the user for the difference at the end, since asynchronous execution would allow other writes to the contract in the middle of the chain&mdash;a textbook race condition. Rather, I would recommend making minimal writes anywhere other than the final callback of the chain. These minimal writes are ideally both reversible (and reversed in the final callback if there is a failure) and primarily account for in-flight locks (of assets or other values). Then, during the final callback, large, space-consuming writes may occur, making accounting trivial.
+
+There is also the option of attempting to charge the storage fee up-front by calculating the amount of storage that _will be_ consumed. However, this can be even more difficult to get right than the process described above. The NEAR SDK collections serialize values with Borsh, which may include metadata such as sequence lengths. Additionally, the collections usually need to store a small amount of indexing data (such as key locations for iterable maps). Therefore, I recommend performing storage accounting at the _end_ of promise chains in all but the most exceptional cases.
+
+#### Fungible tokens
+
+{{%collapse title="Reference"%}}
+- ["Fungible Token" on nomicon.io](https://nomicon.io/Standards/Tokens/FungibleToken/Core)
+- [NEP-141 text on github.com](https://github.com/near/NEPs/blob/master/neps/nep-0141.md)
+{{%/collapse%}}
+
+#### Non-fungible Tokens
+
+{{%collapse title="Reference"%}}
+{{%/collapse%}}
 
 ### Constructors
 
