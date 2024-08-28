@@ -14,7 +14,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 37. Block labels
 
-<!-- [Tweet]() [Toot]() -->
+[Tweet](https://twitter.com/sudo_build/status/1828719139797758422) [Toot](https://infosec.exchange/@hatchet/113038819765870560)
 
 Implicit returns from blocks aren't always flexible enough to describe the desired logic. Separate functions aside, the problem can be resolved inline by introducing a block label.
 
