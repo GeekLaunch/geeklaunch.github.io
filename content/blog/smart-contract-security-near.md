@@ -271,13 +271,60 @@ There is also the option of attempting to charge the storage fee up-front by cal
 #### Fungible tokens
 
 {{%collapse title="Reference"%}}
-- ["Fungible Token" on nomicon.io](https://nomicon.io/Standards/Tokens/FungibleToken/Core)
+- [NEP-141 guide on nomicon.io](https://nomicon.io/Standards/Tokens/FungibleToken/Core)
 - [NEP-141 text on github.com](https://github.com/near/NEPs/blob/master/neps/nep-0141.md)
 {{%/collapse%}}
 
-#### Non-fungible Tokens
+Fungible token contracts on NEAR are typically composed of a few different standards, including the storage management standard [described previously](#storage-management):
+
+- NEP-141 for core functionality: balance sheet, events, and transferability.
+- NEP-148 for token metadata: provides a single function to retrieve metadata such as name, symbol, decimals, icon, etc.
+
+It is exceedingly rare to encounter a smart contract that implements either one of NEP-141 or NEP-148 without the other.
+
+First, and as always, when interacting with a foreign smart contract (essentially, any contract other than the one you're currently writing), _do not assume_ that the contract is implemented: correctly, as it appears on GitHub, or as it was last week. Your contract must only accept strictly _valid_ inputs, and not rely on other entities to perform input validation.
+
+So, as well as you understand, for example, the fungible token set of standards, you cannot rely on other contracts' authors to follow them, either out of ignorance or malice.
+
+As [slime](https://twitter.com/slimedrgn) put it:
+
+> If you're working with third-party tokens, especially without a token whitelist, you should keep in mind that the token owner can just send `ft_on_transfer` with 1000000000 tokens, change `ft_balance_of` to always return `1000`, `0`, `-1`, `"slime"`, panic, or do other random stuff, so 1 malicious or weird-behaving token shouldn't affect the whole contract.
+
+This is especially salient for token standards. It's one thing if your UI fails to parse metadata and can't load the token icon. It's another if your AMM accidentally refunds a deposit.
+
+Things can get prickly when working with `ft_transfer_call`. Whereas in EVM ecosystems, tokens are transferred between contracts by having the owner first approve the contract as a transfer agent, and then the contract can perform the transfer itself, NEP-141 allows contracts to directly attach tokens to function calls. The function call can be additionally parameterized via the `msg` argument of `ft_transfer_call`. Typically, this takes the form of a simple command word or a JSON string.
+
+`ft_transfer_call` calls `ft_on_transfer` on the receiving account, forwarding the `msg` parameter. The receiving contract can perform arbitrary operations (including additional cross-contract calls) before returning a stringified integer to the calling token contract. This integer represents the number of tokens that the receiving contract is refunding to the sender. I think this is the biggest design flaw in the standard, for two reasons:
+
+1. It introduces a race condition wherein the sending account is deleted between the time when the tokens were sent and when they were refunded (since they occur in different receipts). Handling this race condition increases the complexity of implementing the standard.
+2. It makes it very difficult for the receiver to provide feedback to the sender. While the sender can easily send additional information to the receiver via the `msg` parameter, the receiver has no such easy way to communicate with the sender.
+
+Although, it is entirely without merit, in that the receiver does not have to initiate yet another cross-contract call to return excess tokens, saving some gas.
+
+My last point on fungible token contracts is good practice for all cross-contract interactions: check the predecessor. Too often I have audited contracts which expect to only be interacting with one other contract, and they don't check the predecessor. For example, an escrow contract that only operates on USDC, but the `ft_on_transfer` function looks like this:
+
+```rust
+pub fn ft_on_transfer(
+    &mut self,
+    sender_id: AccountId,
+    amount: U128,
+    msg: String,
+) -> U128 {
+    let current_deposit: u128 = self.deposits.get(&sender_id).unwrap_or(0);
+    // Who cares about overflow; USDC is implemented correctly!
+    self.deposits.insert(sender_id, current_deposit + amount.0);
+
+    U128(0)
+}
+```
+
+Of course, this means that anyone can call this function&mdash;and not just NEP-141 contracts either&mdash;_anyone_!
+
+#### Non-fungible tokens
 
 {{%collapse title="Reference"%}}
+- [NEP-171 guide on nomicon.io](https://nomicon.io/Standards/Tokens/NonFungibleToken/Core)
+- [NEP-171 text on github.com](https://github.com/near/NEPs/blob/master/neps/nep-0171.md)
 {{%/collapse%}}
 
 ### Constructors
