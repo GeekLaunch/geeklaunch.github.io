@@ -12,6 +12,33 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## 37. Block labels
+
+[Tweet](https://twitter.com/sudo_build/status/1828719139797758422) [Toot](https://infosec.exchange/@hatchet/113038819765870560)
+
+Implicit returns from blocks aren't always flexible enough to describe the desired logic. Separate functions aside, the problem can be resolved inline by introducing a block label.
+
+```rust
+let my_nonzero_u24: Option<u32> = 'extract: {
+    if buf.len() < 3 {
+        break 'extract None;
+    }
+    let mut bytes = [0u8; 4];
+    bytes[1..].copy_from_slice(&buf[..3]);
+    let value = u32::from_be_bytes(bytes);
+    if value == 0 {
+        None
+    } else {
+        Some(value)
+    }
+};
+```
+
+Note: [Loops can also be annotated with labels](https://doc.rust-lang.org/rust-by-example/flow_control/loop/nested.html).
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=bf444f24278e7801f1b845709065dbdf) \
+[RFC #2046](https://rust-lang.github.io/rfcs/2046-label-break-value.html)
+
 ## 36. Specify the type of `self` in method signatures
 
 [Tweet](https://x.com/sudo_build/status/1813491727174709278) [Toot](https://infosec.exchange/@hatchet/112800895144267784)
