@@ -114,6 +114,7 @@ The return value of `frobnicate` is `PromiseOrValue<bool>`. This is purely up to
 #### Callee and callback gas
 
 {{%collapse title="Reference"%}}
+
 - ["Gas (Execution Fees)" on docs.near.org](https://docs.near.org/concepts/protocol/gas)
 {{%/collapse%}}
 
@@ -160,6 +161,7 @@ Imagine an NFT-gated contract. One way to implement this restriction would be fo
 ### Account keys
 
 {{%collapse title="Reference"%}}
+
 - ["Access Keys" on docs.near.org](https://docs.near.org/concepts/protocol/access-keys)
 - ["Anatomy of a Transaction &#x2023; Actions" on docs.near.org](https://docs.near.org/concepts/protocol/transaction-anatomy#actions)
 {{%/collapse%}}
@@ -167,6 +169,7 @@ Imagine an NFT-gated contract. One way to implement this restriction would be fo
 Zero or more access keys may be attached to a NEAR account, in addition to zero or one smart contract. Access keys are either _full-access_ or _function call_ keys. Full access keys may sign transactions containing any of the 9 NEAR operations[^nearops] acting upon the associated NEAR account. Function call keys may only sign transactions containing the `FunctionCall` action.
 
 [^nearops]:
+
     1. `CreateAccount`
     2. `DeleteAccount`
     3. `AddKey`
@@ -250,11 +253,12 @@ We won't go through every single different contract standard here, just a few co
 #### Storage Management
 
 {{%collapse title="Reference"%}}
+
 - ["Storage Management" on nomicon.io](https://nomicon.io/Standards/Tokens/FungibleToken/Core)
 - [NEP-145 text on github.com][nep145]
 {{%/collapse%}}
 
-When coming from a platform like Ethereum or Sui, NEAR's storage fees are possibly the third-most likely aspect of the protocol to trip up a new developer, after the account model and async execution.
+When coming from a platform like Ethereum, NEAR's storage fees are possibly the third-most likely aspect of the protocol to trip up a new developer, after the account model and async execution.
 
 Simply put, NEAR _locks_ (prevents from being used or transferred) a portion of an account's NEAR balance in proportion with the amount of storage the account consumes. There are some exceptions that arise, particularly with the introduction of [NEP-448 Zero-balance Accounts](https://github.com/near/NEPs/blob/master/neps/nep-0448.md), but this is essentially how the system works.
 
@@ -271,6 +275,7 @@ There is also the option of attempting to charge the storage fee up-front by cal
 #### Fungible tokens
 
 {{%collapse title="Reference"%}}
+
 - [NEP-141 guide on nomicon.io](https://nomicon.io/Standards/Tokens/FungibleToken/Core)
 - [NEP-141 text on github.com](https://github.com/near/NEPs/blob/master/neps/nep-0141.md)
 {{%/collapse%}}
@@ -323,6 +328,7 @@ Of course, this means that anyone can call this function&mdash;and not just NEP-
 #### Non-fungible tokens
 
 {{%collapse title="Reference"%}}
+
 - [NEP-171 guide on nomicon.io](https://nomicon.io/Standards/Tokens/NonFungibleToken/Core)
 - [NEP-171 text on github.com](https://github.com/near/NEPs/blob/master/neps/nep-0171.md)
 {{%/collapse%}}
