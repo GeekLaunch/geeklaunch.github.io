@@ -302,9 +302,9 @@ Things can get prickly when working with `ft_transfer_call`. Whereas in EVM ecos
 `ft_transfer_call` calls `ft_on_transfer` on the receiving account, forwarding the `msg` parameter. The receiving contract can perform arbitrary operations (including additional cross-contract calls) before returning a stringified integer to the calling token contract. This integer represents the number of tokens that the receiving contract is refunding to the sender. I think this is the biggest design flaw in the standard, for two reasons:
 
 1. It introduces a race condition wherein the sending account is deleted between the time when the tokens were sent and when they were refunded (since they occur in different receipts). Handling this race condition increases the complexity of implementing the standard.
-2. It makes it very difficult for the receiver to provide feedback to the sender. While the sender can easily send additional information to the receiver via the `msg` parameter, the receiver has no such easy way to communicate with the sender.
+2. It makes it difficult for the receiver to provide feedback to the sender. While the sender can easily send additional information to the receiver via the `msg` parameter, the receiver does not have a similarly easy way to communicate a return value to the sender.
 
-Although, it is entirely without merit, in that the receiver does not have to initiate yet another cross-contract call to return excess tokens, saving some gas.
+This construct is not entirely without merit, since the receiver does not have to initiate an additional cross-contract call to return excess tokens, saving some gas.
 
 My last point on fungible token contracts is good practice for all cross-contract interactions: check the predecessor. Too often I have audited contracts which expect to only be interacting with one other contract, and they don't check the predecessor. For example, an escrow contract that only operates on USDC, but the `ft_on_transfer` function looks like this:
 
@@ -333,7 +333,36 @@ Of course, this means that anyone can call this function&mdash;and not just NEP-
 - [NEP-171 text on github.com](https://github.com/near/NEPs/blob/master/neps/nep-0171.md)
 {{%/collapse%}}
 
+The non-fungible token standard (core functionality implemented in NEP-171) in many ways continues in the same vein as the fungible token standard, including an `nft_transfer_call` function that operates similarly to its `ft_`-prefixed cousin, where a receiving contract's `nft_on_transfer` function returns a boolean `true` to indicate that the NFT should be returned to sender. This, of course, entails the same pair of disadvantages described in the previous section.
+
+[The extension NEP-178](https://github.com/near/NEPs/blob/master/neps/nep-0178.md) also adds support for approvals, a concept familiar to ERC-721 users. However, they are implemented a bit differently. NEP-178 introduces the concept of _approval IDs_, identifiers linking a token ID and the approved address, which must be included with transfer operations initiated by the approved account. All approval IDs associated with a token ID are revoked when the token is transferred, and cannot be reused&mdash;if the same account is approved for the same token (even for the same owner, if, for example, the token were returned to a previous holder) an old approval ID will not be reused.
+
 ### Constructors
+
+When using the Rust NEAR SDK, constructors come in two flavors: `#[init]` and `#[init(ignore_state)]`. To better understand the inner workings, let's first take a step back.
+
+When a Rust contract is invoked, the SDK deserializes the "default struct" from storage. Typically, this default struct is the one annotated with `#[near(contract_state)]` (or, in older versions of the SDK, `#[near_bindgen]`):
+
+```rust
+#[near(contract_state)]
+struct MyContract {
+    owner_id: AccountId,
+    // ...
+}
+
+#[near]
+impl MyContract {
+    pub fn owner_says_hello(&self) {
+        log!("{} says hello", self.owner_id);
+    }
+}
+```
+
+The SDK stores the serialization of the default struct in normal contract storage, under the `"STATE"` key. The first time that the contract is called, nothing is stored under that key. However, the SDK still needs _something_ to populate the `&self` parameter, so it uses the struct's implementation of `Default::default()`. Since the example contract above doesn't implement `Default`, it is actually underspecified and will not compile. For many contracts, this is undesirable behavior, so [the convenience macro `PanicOnDefault`](https://docs.rs/near-sdk/latest/near_sdk/derive.PanicOnDefault.html) is provided to prevent normal function calls to uninitialized contracts.
+
+Contract constructors annotated with `#[init]` are exempt from the `Default::default()` deserialization behavior. They cannot take `self`-flavored parameters, and instead of a deserialization step, check for the existence of the `"STATE"` storage key. If it already exists, the call reverts. The value returned from the constructor is serialized and stored in the `"STATE"` key. This effectively makes such methods the only methods which can be called on a freshly-deployed contract, albeit only once.
+
+Constructors annotated with `#[init(ignore_state)]` are identical to `#[init]`, but do not revert if `"STATE"` already exists in storage.
 
 ### Storage
 
