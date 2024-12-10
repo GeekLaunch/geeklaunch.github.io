@@ -341,7 +341,7 @@ The non-fungible token standard (core functionality implemented in NEP-171) in m
 
 When using the Rust NEAR SDK, constructors come in two flavors: `#[init]` and `#[init(ignore_state)]`. To better understand the inner workings, let's first take a step back.
 
-When a Rust contract is invoked, the SDK deserializes the "default struct" from storage. Typically, this default struct is the one annotated with `#[near(contract_state)]` (or, in older versions of the SDK, `#[near_bindgen]`):
+When a Rust contract is invoked, the SDK deserializes the "default struct" from storage. Typically, this default struct is the one annotated with `#[near(contract_state)]`, or, in older versions of the SDK, `#[near_bindgen]`.
 
 ```rust
 #[near(contract_state)]
@@ -360,11 +360,49 @@ impl MyContract {
 
 The SDK stores the serialization of the default struct in normal contract storage, under the `"STATE"` key. The first time that the contract is called, nothing is stored under that key. However, the SDK still needs _something_ to populate the `&self` parameter, so it uses the struct's implementation of `Default::default()`. Since the example contract above doesn't implement `Default`, it is actually underspecified and will not compile. For many contracts, this is undesirable behavior, so [the convenience macro `PanicOnDefault`](https://docs.rs/near-sdk/latest/near_sdk/derive.PanicOnDefault.html) is provided to prevent normal function calls to uninitialized contracts.
 
-Contract constructors annotated with `#[init]` are exempt from the `Default::default()` deserialization behavior. They cannot take `self`-flavored parameters, and instead of a deserialization step, check for the existence of the `"STATE"` storage key. If it already exists, the call reverts. The value returned from the constructor is serialized and stored in the `"STATE"` key. This effectively makes such methods the only methods which can be called on a freshly-deployed contract, albeit only once.
+Contract constructors annotated with `#[init]` are exempt from the `Default` deserialization behavior. They cannot take `self`-flavored parameters, and instead of a deserialization step, check for the existence of the `"STATE"` storage key. If it already exists, the call reverts. The value returned from the constructor is serialized and stored in the `"STATE"` key. This effectively makes such methods the only methods which can be called on a freshly-deployed contract, albeit only once.
 
-Constructors annotated with `#[init(ignore_state)]` are identical to `#[init]`, but do not revert if `"STATE"` already exists in storage.
+Constructors annotated with `#[init(ignore_state)]` are identical to `#[init]`, but do not revert if `"STATE"` already exists in storage, allowing for an "initialization-or-*re*initialization" method.
 
 ### Storage
+
+The NEAR VM provides smart contracts with a key-value storage system. Keys can be up to _\[bytes\]_ bytes long, with values up to _\[bytes\]_ bytes. (TODO: find exact values)
+
+#### SDK collections
+
+The NEAR SDK provides commonly-used collections in two modules:
+
+##### The `collections` module
+
+{{%collapse title="Reference"%}}
+
+- [`near_sdk::collections` documentation on docs.rs](https://docs.rs/near-sdk/latest/near_sdk/collections/index.html)
+{{%/collapse%}}
+
+The first module to provide collections, `collections`'s members are implemented with minimal magic, and typically require explicit overwriting of keys to perform an update, so you'll encounter a dance of:
+
+```rust
+let mut value = my_map.get(&key);
+do_something_to_mutate(&mut value);
+my_map.insert(&key, &value);
+```
+
+Because they are somewhat bare-bones, this may lead to a slight overuse of gas, since multiple reads from the same key will not be cached, and multiple writes to the same key will each be eagerly dispatched.
+
+##### The `store` module
+
+{{%collapse title="Reference"%}}
+
+- [`near_sdk::store` documentation on docs.rs](https://docs.rs/near-sdk/latest/near_sdk/store/index.html)
+{{%/collapse%}}
+
+On the other hand, the collections within the newer `store` module attempt to do things a bit more cleverly. While many of the modifications make the data structures more ergonomic and efficient (e.g. handing out `&mut`s that cache reads and writes; only pushing writes on collection drop&hellip;), I have found these collections to be overall more difficult to use. While gas savings are always nice, gas fees are not so high on NEAR that it should tip the scales between `collections` and `store`.[^gas_saving_collections]
+
+[^gas_saving_collections]: If gas optimization is a serious issue for your particular contract, I would actually recommend ditching most of the `near_sdk` framework and building structures that are specifically optimized to your use-case.
+
+Some of the (now-deprecated) structures within `store` have experienced [performance issues](https://github.com/near/near-sdk-rs/issues/1134) which should be noted, since they could cause soft-locking at scale.
+
+#### Storage keys
 
 - SDK collections
 - Prefixing & storage keys
