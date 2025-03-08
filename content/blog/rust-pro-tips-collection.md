@@ -12,6 +12,33 @@ license:
 
 This is a collection of Rust "pro tips" that I've collected, most of which have been [posted on Twitter](https://twitter.com/search?q=%23RustProTip%20%40sudo_build&src=typed_query&f=top). I'll keep updating this post as I write more. Tips are ordered in reverse chronological order, with the most recent ones at the top.
 
+## 38. The `debug_assert!` macro
+
+<!-- [Tweet]() [Toot]() -->
+
+The `debug_assert!` macro creates an assertion only in debug builds. It is useful for confirming assumptions during development without risking performance degradation in the release build.
+
+```rust
+impl Rectangle {
+    pub fn new(width: u32, height: u32) -> Self {
+        debug_assert!(
+            u32::MAX / width >= height,
+            "area calculation will overflow",
+        );
+
+        Self { width, height }
+    }
+
+    pub fn area(&self) -> u32 {
+        self.width * self.height
+    }
+}
+```
+
+[Playground](https://play.rust-lang.org/?version=stable&mode=release&edition=2024&gist=c07b46949bdedf702cb4649b3504776c) <small>_Note: You can change the build mode using the dropdown next to the "Run" button._</small> \
+[Docs](https://doc.rust-lang.org/std/macro.debug_assert.html) \
+["Rust's Two Kinds of 'Assert' Make for Better Code"](https://tratt.net/laurie/blog/2023/rusts_two_kinds_of_assert_make_for_better_code.html) &mdash; Laurence Tratt
+
 ## 37. Block labels
 
 [Tweet](https://twitter.com/sudo_build/status/1828719139797758422) [Toot](https://infosec.exchange/@hatchet/113038819765870560)
