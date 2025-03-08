@@ -14,7 +14,7 @@ This is a collection of Rust "pro tips" that I've collected, most of which have 
 
 ## 38. The `debug_assert!` macro
 
-<!-- [Tweet]() [Toot]() -->
+[Tweet](https://x.com/sudo_build/status/1898327218050535607) [Toot](https://infosec.exchange/@hatchet/114126448332436835)
 
 The `debug_assert!` macro creates an assertion only in debug builds. It is useful for confirming assumptions during development without risking performance degradation in the release build.
 
