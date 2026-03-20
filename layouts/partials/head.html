@@ -31,10 +31,7 @@
     <meta name="author" content="{{ site.Author.name }}" />
     {{ end }}
 
-    {{ if isset site.Params "plausible" }}
-    <script defer data-domain="{{ site.Params.plausible.domain }}"
-        src="https://{{ site.Params.plausible.host }}/js/script.js"></script>
-    {{ end }}
+    {{ partial "analytics.html" . }}
 
     {{ range .AlternativeOutputFormats -}}
     {{ printf `
