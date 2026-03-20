@@ -31,7 +31,9 @@
     <meta name="author" content="{{ site.Author.name }}" />
     {{ end }}
 
-    {{ partial "analytics.html" . }}
+    {{ if not .Site.IsServer }}
+        {{ partial "analytics.html" . }}
+    {{ end }}
 
     {{ range .AlternativeOutputFormats -}}
     {{ printf `
